@@ -41,8 +41,6 @@ private:
 	//制限
 	void limitMoving();
 
-
-
 	//変数
 	int Heat;	//射撃クールダウン
 	Vec2 Position;
