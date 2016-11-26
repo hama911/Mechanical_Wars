@@ -12,16 +12,20 @@ void Bullet::update()
 	{
 		--Count;
 		Position.moveBy(Angle*SpeedPerformance);
-		if (Count+60 <= Random(60))
+		if (Count<0)
 		{
 			Enabled = false;
 			motions.push_back(Motion(this));
+			//if (Type == 1) SoundAsset(L"explosive2").playMulti(0.03*getZoom());
+			//else SoundAsset(L"explosive1").playMulti(0.01*getZoom());
 		}
 
 		if (hitCheck())
 		{
 			Enabled = false;
 			motions.push_back(Motion(this));
+			//if (Type == 1) SoundAsset(L"explosive2").playMulti(0.03*getZoom());
+			//else SoundAsset(L"explosive1").playMulti(0.01*getZoom());
 		}
 
 	}
@@ -38,10 +42,13 @@ Unit* Bullet::hitCheck()
 			switch (Type)
 			{
 			case 0:
-				unit.addDamege(0.2);
+				unit.addDamege(0.5);
 				break;
 			case 1:
 				unit.addDamege(10.0);
+				break;
+			case 2:
+				unit.addDamege(0.5);
 				break;
 			default:
 				break;

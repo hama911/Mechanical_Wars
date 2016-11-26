@@ -398,9 +398,6 @@
     <Media Include="Example\風の丘.mp3">
       <Filter>リソース ファイル\Example</Filter>
     </Media>
-    <Media Include="soundcannon2.mp3">
-      <Filter>リソース ファイル</Filter>
-    </Media>
     <Media Include="sound_explosive1.mp3">
       <Filter>リソース ファイル</Filter>
     </Media>
@@ -408,6 +405,9 @@
       <Filter>リソース ファイル</Filter>
     </Media>
     <Media Include="sound_cannon1.mp3">
+      <Filter>リソース ファイル</Filter>
+    </Media>
+    <Media Include="sound_cannon2.mp3">
       <Filter>リソース ファイル</Filter>
     </Media>
   </ItemGroup>

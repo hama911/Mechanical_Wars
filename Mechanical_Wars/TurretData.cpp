@@ -19,12 +19,12 @@ void Turret::setTurretData()
 		Range = 500.0;
 		ReloadTime = 180;
 		TurningPerformance = 0.02;
-		BulletSpeed = 1.0;
+		BulletSpeed = 3.0;
 		break;
 	case 2:
 		//120mm çÇë¨ìOçbíe
 		Range = 200.0;
-		ReloadTime = 10;
+		ReloadTime = 60;
 		TurningPerformance = 0.04;
 		BulletSpeed = 3.0;
 		break;

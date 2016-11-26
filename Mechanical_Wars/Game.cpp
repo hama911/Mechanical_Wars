@@ -23,6 +23,7 @@ void Game::update()
 		motion.update();
 	drawUpdate();
 
+
 }
 
 void Game::draw() const
@@ -36,6 +37,7 @@ void Game::draw() const
 		motion.draw();
 
 	Rect(ConvertVec2ToPoint(Vec2(0,0)),Point(1024*getZoom(),1024*getZoom())).drawFrame(10 * getZoom(), 0, Palette::White);
+
 }
 
 
