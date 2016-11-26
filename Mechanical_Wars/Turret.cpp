@@ -72,7 +72,7 @@ Unit* Turret::getBaseUnit() const
 
 Vec2 Turret::getRealPosition() const
 {
-	return BaseUnit->getPosition() + LocalPosition.rotated(Circular3(BaseUnit->getAngle()).theta);
+	return BaseUnit->getPosition() + LocalPosition.rotated(Vec2ToRadian(BaseUnit->getAngle()));
 }
 
 void Turret::setBaseUnit(Unit *unit)

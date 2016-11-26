@@ -275,6 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Calculation.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Main.h" />
@@ -284,6 +285,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Calculation.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphcis.cpp" />
     <ClCompile Include="Main.cpp" />

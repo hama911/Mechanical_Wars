@@ -6,7 +6,7 @@
 #define MAX_TURRET 10
 
 
-class Unit
+class Unit : public Calculation
 {
 public:
 	Unit(int IFF_p,int type);

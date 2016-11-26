@@ -38,11 +38,11 @@ void Unit::draw() const
 		switch (Type)
 		{
 		case 0:
-			Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF));
+			Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Vec2ToRadian(Angle)).draw(HSV(IFF));
 			break;
 		case 1:
-			Rect(ConvertVec2ToPoint(Position - Vec2(30.0, 15)), Point(60 * getZoom(), 30 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF, 1, 0.9));
-			Rect(ConvertVec2ToPoint(Position - Vec2(20.0, 10)), Point(40 * getZoom(), 20 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF));
+			Rect(ConvertVec2ToPoint(Position - Vec2(30.0, 15)), Point(60 * getZoom(), 30 * getZoom())).rotated(Vec2ToRadian(Angle)).draw(HSV(IFF, 1, 0.9));
+			Rect(ConvertVec2ToPoint(Position - Vec2(20.0, 10)), Point(40 * getZoom(), 20 * getZoom())).rotated(Vec2ToRadian(Angle)).draw(HSV(IFF));
 			break;
 		default:
 			break;

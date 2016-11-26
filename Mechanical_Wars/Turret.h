@@ -1,10 +1,11 @@
 #pragma once
 
 #include<Siv3D.hpp>
+#include"Calculation.h"
 
 class Unit;
 
-class Turret
+class Turret : public Calculation
 {
 public:
 
