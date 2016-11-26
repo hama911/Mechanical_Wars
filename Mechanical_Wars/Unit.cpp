@@ -38,7 +38,7 @@ void Unit::draw() const
 		switch (Type)
 		{
 		case 0:
-			Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF));
+			Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF));
 			break;
 		case 1:
 			Rect(ConvertVec2ToPoint(Position - Vec2(30.0, 15)), Point(60 * getZoom(), 30 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF, 1, 0.9));
