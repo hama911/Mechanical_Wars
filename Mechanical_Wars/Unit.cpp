@@ -7,6 +7,9 @@ extern Array<Unit> units;
 
 bool Unit::update()
 {
+	for (auto& turret : turrets)
+		turret.setBaseUnit(this);
+
 	bool flag = false;
 	moveForward(SpeedPerformance);
 
@@ -20,7 +23,7 @@ bool Unit::update()
 
 	//ターレット制御
 	for (auto& turret : turrets)
-		turret.update(Position, Angle);
+		turret.update();
 
 	return flag;
 }
@@ -37,8 +40,9 @@ void Unit::draw() const
 		Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF));
 		break;
 	case 1:
-		Rect(ConvertVec2ToPoint(Position - Vec2(30.0, 15)), Point(60 * getZoom(), 30 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF,1,0.9));
-		Rect(ConvertVec2ToPoint(Position - Vec2(20.0, 10)), Point(40 * getZoom(), 20 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF));
+		
+		Rect(ConvertVec2ToPoint(Position - Vec2(30.0, 15)), Point(60 * getZoom(), 30 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF,1,0.9));
+		Rect(ConvertVec2ToPoint(Position - Vec2(20.0, 10)), Point(40 * getZoom(), 20 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF));
 		break;
 	default:
 		break;
@@ -49,7 +53,7 @@ void Unit::draw() const
 
 	//ターレット描画
 	for (auto& turret : turrets)
-		turret.draw(Position, Angle);
+		turret.draw();
 }
 
 void Unit::addDamege(double value)
@@ -57,22 +61,22 @@ void Unit::addDamege(double value)
 	Health -= value;
 }
 
-Vec2 Unit::getPosition()
+Vec2 Unit::getPosition() const
 {
 	return Position;
 }
 
-Vec2 Unit::getAngle()
+Vec2 Unit::getAngle() const
 {
 	return Angle;
 }
 
-int Unit::getIFF()
+int Unit::getIFF() const
 {
 	return IFF;
 }
 
-double Unit::getSpeedPerformance()
+double Unit::getSpeedPerformance() const
 {
 	return SpeedPerformance;
 }
@@ -115,6 +119,7 @@ void Unit::turnUpdate()
 void Unit::shot()
 {
 }
+
 Unit::Unit(int IFF_p, int type)	//ランダムに位置を設定
 {
 	IFF = IFF_p;
@@ -127,6 +132,7 @@ Unit::Unit(int IFF_p, int type)	//ランダムに位置を設定
 	Health = 20.0;
 	Type = type;
 
+
 	switch (type)
 	{
 	case 0:
@@ -134,7 +140,6 @@ Unit::Unit(int IFF_p, int type)	//ランダムに位置を設定
 		TurningPerformance = 0.03;
 		//砲塔設定
 		turrets[0].setEnable(true);
-		turrets[0].setIFF(IFF);
 		turrets[0].setAngle(Angle);
 		break;
 	case 1:
@@ -142,24 +147,19 @@ Unit::Unit(int IFF_p, int type)	//ランダムに位置を設定
 		TurningPerformance = 0.01;
 		//砲塔設定
 		turrets[0].setEnable(true);
-		turrets[0].setIFF(IFF);
 		turrets[0].setAngle(Angle);
 		turrets[0].setLocalPosition(Vec2(0, 0));
 		turrets[0].setType(1);
 		turrets[1].setEnable(true);
-		turrets[1].setIFF(IFF);
 		turrets[1].setAngle(Angle);
 		turrets[1].setLocalPosition(Vec2(16, 8));
 		turrets[2].setEnable(true);
-		turrets[2].setIFF(IFF);
 		turrets[2].setAngle(Angle);
 		turrets[2].setLocalPosition(Vec2(-16,-8));
 		turrets[3].setEnable(true);
-		turrets[3].setIFF(IFF);
 		turrets[3].setAngle(Angle);
 		turrets[3].setLocalPosition(Vec2(-16,8));
 		turrets[4].setEnable(true);
-		turrets[4].setIFF(IFF);
 		turrets[4].setAngle(Angle);
 		turrets[4].setLocalPosition(Vec2(16,-8));
 		break;

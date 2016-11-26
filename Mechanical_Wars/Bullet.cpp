@@ -71,7 +71,7 @@ Bullet::Bullet(Turret* turret)
 {
 	Count = 0;
 
-	IFF = turret->getIFF();
+	IFF = turret->getBaseUnit()->getIFF();
 	Position = turret->getRealPosition();
 	Angle = turret->getTargetAngle();
 	Type = turret->getType();

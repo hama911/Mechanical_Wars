@@ -8,20 +8,20 @@ class Turret
 {
 public:
 
-	void update(Vec2 position, Vec2 angle);
-	void draw(Vec2 position, Vec2 angle) const;
+	void update();
+	void draw() const;
 
 	Turret();
 	~Turret();
 
 	//内部データにアクセス
-	Vec2 getGlobalPosition();
-	Vec2 getTargetAngle();
-	int getIFF();
-	int getType();
-	Vec2 getRealPosition();
+	Vec2 getGlobalPosition() const;
+	Vec2 getTargetAngle() const;
+	int getType() const;
+	Unit* getBaseUnit() const;
+	Vec2 getRealPosition() const;
 
-	void setIFF(int value);
+	void setBaseUnit(Unit *unit);
 	void setRange(double range);
 	void setAngle(Vec2 angle);
 	void setEnable(bool flag);
@@ -37,8 +37,6 @@ private:
 
 	bool Enabled;
 	Vec2 LocalPosition;
-	Vec2 GlobalPosition;
-	Vec2 BodyAngle;
 	Vec2 GlobalAngle;
 	Vec2 TargetAngle;
 	int ReloadCount;
@@ -47,6 +45,6 @@ private:
 	double TurningPerformance;
 	double Range;
 	int ReloadTime;
-	int IFF;
+	Unit* BaseUnit;
 	int Type;
 };

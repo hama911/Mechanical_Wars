@@ -23,8 +23,8 @@ void drawUpdate()
 
 Vec2 ConvertVec2ToVec2(Vec2 pos)
 {
-	pos = (pos*targetZoom - drawPos + Mouse::Pos());
-	return pos;
+	return (pos*targetZoom - drawPos + Mouse::Pos());
+	
 }
 
 Point ConvertVec2ToPoint(Vec2 pos)

@@ -6,10 +6,8 @@
 extern Array<Unit> units;
 extern Array<Bullet> bullets;
 
-void Turret::update(Vec2 position, Vec2 angle)
+void Turret::update()
 {
-	GlobalPosition = position;
-	BodyAngle = angle;
 	if (Enabled)
 	{
 		if(Status==1)
@@ -18,22 +16,22 @@ void Turret::update(Vec2 position, Vec2 angle)
 	}
 }
 
-void Turret::draw(Vec2 position, Vec2 angle) const
+void Turret::draw() const
 {
 
 	if (Enabled)
 	{
-		Vec2 pos = ConvertVec2ToVec2(position + LocalPosition.rotated(Atan2(angle.y, angle.x)));
+		Vec2 pos = ConvertVec2ToVec2(getRealPosition());
 
 		switch (Type)
 		{
 		case 0:
-			Circle(pos, 5 * getZoom()).draw(HSV(IFF, 1, 0.5));
-			Line(pos, pos + GlobalAngle * 10 * getZoom()).draw(2 * getZoom(), HSV(IFF, 1, 0.5));
+			Circle(pos, 5 * getZoom()).draw(HSV(BaseUnit->getIFF(), 1, 0.5));
+			Line(pos, pos + GlobalAngle * 10 * getZoom()).draw(2 * getZoom(), HSV(BaseUnit->getIFF(), 1, 0.5));
 			break;
 		case 1:
-			Circle(pos, 10 * getZoom()).draw(HSV(IFF, 1, 0.5));
-			Line(pos, pos + GlobalAngle * 20 * getZoom()).draw(5 * getZoom(), HSV(IFF, 1, 0.5));
+			Circle(pos, 10 * getZoom()).draw(HSV(BaseUnit->getIFF(), 1, 0.5));
+			Line(pos, pos + GlobalAngle * 20 * getZoom()).draw(5 * getZoom(), HSV(BaseUnit->getIFF(), 1, 0.5));
 			break;
 		default:
 			break;
@@ -44,15 +42,13 @@ Turret::Turret()
 {
 	Enabled = false;
 	LocalPosition = Vec2(0, 0);
-	GlobalPosition = Vec2(0, 0);
-	BodyAngle = Vec2(1, 0);
 	GlobalAngle = Vec2(1, 0);
 	TargetAngle = Vec2(1, 0);
 	Range = 100.0;
 	ReloadCount = 0;
 	ReloadTime = 10;
 	TurningPerformance = 0.2;
-	IFF = 0;
+	BaseUnit = NULL;
 	Type = 0;
 }
 
@@ -60,34 +56,30 @@ Turret::~Turret()
 {
 }
 
-Vec2 Turret::getGlobalPosition()
-{
-	return GlobalPosition;
-}
-
-Vec2 Turret::getTargetAngle()
+Vec2 Turret::getTargetAngle() const
 {
 	return TargetAngle;
 }
 
-int Turret::getIFF()
-{
-	return IFF;
-}
 
-int Turret::getType()
+int Turret::getType() const
 {
 	return Type;
 }
 
-Vec2 Turret::getRealPosition()
+Unit* Turret::getBaseUnit() const
 {
-	return GlobalPosition + LocalPosition.rotated(Atan2(BodyAngle.y, BodyAngle.x));
+	return BaseUnit;
 }
 
-void Turret::setIFF(int value)
+Vec2 Turret::getRealPosition() const
 {
-	IFF = value;
+	return BaseUnit->getPosition() + LocalPosition.rotated(Atan2(BaseUnit->getAngle().y, BaseUnit->getAngle().x));
+}
+
+void Turret::setBaseUnit(Unit *unit)
+{
+	BaseUnit = unit;
 }
 
 void Turret::setRange(double range)
@@ -142,7 +134,7 @@ void Turret::shot()
 		Unit* target = searchEnemyUnit();
 		if (target != NULL)
 		{
-			TargetAngle = (target->getPosition() - GlobalPosition).normalized();	//射撃角をセット
+			TargetAngle = (target->getPosition() - getRealPosition()).normalized();	//射撃角をセット
 			if (abs(TargetAngle.cross(GlobalAngle)) < 0.1)
 			{
 				bullets.push_back(this);
@@ -159,7 +151,7 @@ Unit* Turret::searchEnemyUnit()
 	Vec2 realPosition = getRealPosition();
 	for (auto& unit : units)
 	{
-		if (realPosition.distanceFrom(unit.getPosition()) < distance&&IFF!=unit.getIFF())
+		if (realPosition.distanceFrom(unit.getPosition()) < distance && BaseUnit->getIFF()!=unit.getIFF())
 		{
 			distance = realPosition.distanceFrom(unit.getPosition());
 			target = &unit;

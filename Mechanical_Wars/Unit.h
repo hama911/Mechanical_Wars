@@ -20,10 +20,10 @@ public:
 	//‰Šú‰»
 	void mountTurret();
 
-	Vec2 getPosition();
-	Vec2 getAngle();
-	int getIFF();
-	double getSpeedPerformance();
+	Vec2 getPosition() const;
+	Vec2 getAngle() const;
+	int getIFF() const;
+	double getSpeedPerformance() const;
 
 
 private:
