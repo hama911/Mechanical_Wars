@@ -21,7 +21,12 @@ public:
 	Bullet(Turret* turret);
 	~Bullet();
 
+	void setCount(int count);
+
 private:
+	//ŒÂ•Êƒf[ƒ^
+	void setBulletData();
+	void drawBullet() const;
 
 	//“à•”ŠÖ”
 	Unit* serchEnemyUnit();	//õ“G

@@ -28,6 +28,10 @@ public:
 
 
 private:
+	//個別データ
+	void setUnitData();
+	void drawUnit() const;
+
 
 	//移動系
 	void moveForward(double length);	//距離
@@ -44,16 +48,16 @@ private:
 
 	//変数
 	bool Enabled;
-	int Heat;	//射撃クールダウン
 	Vec2 Position;
 	Vec2 Angle;
 	Vec2 TargetAngle;
 	int IFF;	//識別コード
-	double Health;	//体力
+	double Health;	//耐久
 
 	//固定数値
 	double SpeedPerformance;	//速度性能
 	double TurningPerformance;	//旋回性能
+	double HealthPerformance;	//耐久性能
 	int Type;
 
 	Turret turrets[MAX_TURRET];

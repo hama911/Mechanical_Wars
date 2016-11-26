@@ -10,9 +10,9 @@ void Bullet::update()
 {
 	if (Enabled)
 	{
-		++Count;
+		--Count;
 		Position.moveBy(Angle*SpeedPerformance);
-		if (Random(Count) > 100)
+		if (Count+30 <= Random(30))
 		{
 			Enabled = false;
 			motions.push_back(Motion(this));
@@ -38,10 +38,10 @@ Unit* Bullet::hitCheck()
 			switch (Type)
 			{
 			case 0:
-				unit.addDamege(0.1);
+				unit.addDamege(0.2);
 				break;
 			case 1:
-				unit.addDamege(0.5);
+				unit.addDamege(10.0);
 				break;
 			default:
 				break;
@@ -55,31 +55,20 @@ void Bullet::draw() const
 {
 	if (Enabled)
 	{
-		switch (Type)
-		{
-		case 0:
-			Circle(ConvertVec2ToVec2(Position), 2 * getZoom()).draw(HSV(IFF, 1, 1));
-			break;
-		case 1:
-			Circle(ConvertVec2ToVec2(Position), 5 * getZoom()).draw(HSV(IFF, 1, 1));
-			break;
-		default:
-			break;
-		}
+		drawBullet();
 	}
 }
 
 
 Bullet::Bullet(Turret* turret)
 {
-	Count = 0;
+	Count = turret->getCount();
 	Enabled = true;
 	IFF = turret->getBaseUnit()->getIFF();
 	Position = turret->getRealPosition();
 	Angle = turret->getTargetAngle();
 	Type = turret->getType();
-	SpeedPerformance = 5.0;
-
+	setBulletData();
 	//í«ê’ÉVÉXÉeÉÄ
 	//serchEnemyUnit();
 
@@ -122,4 +111,9 @@ Unit* Bullet::serchEnemyUnit()
 
 Bullet::~Bullet()
 {
+}
+
+void Bullet::setCount(int count)
+{
+	Count = count;
 }

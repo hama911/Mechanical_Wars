@@ -10,6 +10,18 @@ void Turret::update()
 {
 	if (Enabled)
 	{
+
+
+
+		Unit* target = searchEnemyUnit();
+		if (target != NULL)
+		{
+			TargetAngle = (target->getPosition() - getRealPosition()).normalized();	//射撃角をセット
+			for (int i = 0; i < 3; i++)
+				TargetAngle = (target->getPosition() + target->getAngle()*target->getSpeedPerformance()*((target->getPosition().distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->getAngle()*target->getSpeedPerformance()).length())) - getRealPosition()).normalized();
+		}
+
+
 		if (Status == 1)
 			updateAngle();
 		shot();
@@ -21,19 +33,7 @@ void Turret::draw() const
 
 	if (Enabled)
 	{
-		switch (Type)
-		{
-		case 0:
-			Circle(ConvertVec2ToVec2(getRealPosition()), 5 * getZoom()).draw(HSV(BaseUnit->getIFF(), 1, 0.5));
-			Line(ConvertVec2ToVec2(getRealPosition()), ConvertVec2ToVec2(getRealPosition()) + GlobalAngle * 10 * getZoom()).draw(2 * getZoom(), HSV(BaseUnit->getIFF(), 1, 0.5));
-			break;
-		case 1:
-			Circle(ConvertVec2ToVec2(getRealPosition()), 10 * getZoom()).draw(HSV(BaseUnit->getIFF(), 1, 0.5));
-			Line(ConvertVec2ToVec2(getRealPosition()), ConvertVec2ToVec2(getRealPosition()) + GlobalAngle * 20 * getZoom()).draw(5 * getZoom(), HSV(BaseUnit->getIFF(), 1, 0.5));
-			break;
-		default:
-			break;
-		}
+		drawTurret();
 	}
 }
 Turret::Turret()
@@ -97,12 +97,14 @@ void Turret::setEnable(bool flag)
 
 void Turret::setLocalPosition(Vec2 position)
 {
+	Enabled = true;
 	LocalPosition = position;
 }
 
 void Turret::setType(int type)
 {
 	Type = type;
+	setTurretData();
 }
 
 void Turret::addRotate(double angle)
@@ -133,9 +135,10 @@ void Turret::shot()
 		if (target != NULL)
 		{
 			TargetAngle = (target->getPosition() - getRealPosition()).normalized();	//射撃角をセット
-			for(int i=0;i<10;i++)
-				TargetAngle = (target->getPosition() + target->getAngle()*target->getSpeedPerformance()*((target->getPosition().distanceFrom(getRealPosition()) / (TargetAngle*5.0 - target->getAngle()*target->getSpeedPerformance()).length())) - getRealPosition()).normalized();
+			for (int i = 0; i < 10; i++)
+				TargetAngle = (target->getPosition() + target->getAngle()*target->getSpeedPerformance()*((target->getPosition().distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->getAngle()*target->getSpeedPerformance()).length())) - getRealPosition()).normalized();
 
+			Count = int(target->getPosition().distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->getAngle()*target->getSpeedPerformance()).length());
 			if (abs(TargetAngle.cross(GlobalAngle)) < 0.1)
 			{
 				bullets.push_back(this);
@@ -163,4 +166,9 @@ Unit* Turret::searchEnemyUnit()
 	else
 		Status = 1;
 	return target;
+}
+
+int Turret::getCount() const
+{
+	return Count;
 }

@@ -21,6 +21,7 @@ public:
 	int getType() const;
 	Unit* getBaseUnit() const;
 	Vec2 getRealPosition() const;
+	int getCount() const;
 
 	void setBaseUnit(Unit *unit);
 	void setRange(double range);
@@ -31,6 +32,9 @@ public:
 	void addRotate(double angle);
 
 private:
+	//å¬ï ÉfÅ[É^
+	void setTurretData();
+	void drawTurret() const;
 
 	void updateAngle();
 	void shot();
@@ -42,7 +46,9 @@ private:
 	Vec2 TargetAngle;
 	int ReloadCount;
 	int Status;
+	int Count;
 
+	double BulletSpeed;
 	double TurningPerformance;
 	double Range;
 	int ReloadTime;
