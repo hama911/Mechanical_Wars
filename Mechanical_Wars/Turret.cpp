@@ -115,7 +115,7 @@ void Turret::addRotate(double angle)
 
 void Turret::updateAngle()
 {
-	if (abs(TargetAngle.cross(GlobalAngle)) < Sin(TurningPerformance))
+	if (abs(TargetAngle.cross(GlobalAngle)) < Sin(TurningPerformance) && TargetAngle.dot(GlobalAngle) > 0)
 		GlobalAngle = TargetAngle;
 	else
 	{

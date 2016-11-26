@@ -43,31 +43,18 @@ void Game::init()
 {
 	drawInit();
 	
-	for (int i = 0; i < 20; i++)
-	{
+	for (int i = 0; i < 200; i++)
 		units.push_back(Unit(0, 0));
-	}
-	for (int i = 0; i < 20; i++)
-	{
-		units.push_back(Unit(240, 0));
-	}
-	for (int i = 0; i < 20; i++)
-	{
+	for (int i = 0; i < 00; i++)
 		units.push_back(Unit(120, 0));
-	}
-	
-	for (int i = 0; i < 5; i++)
-	{
+	for (int i = 0; i < 0; i++)
+		units.push_back(Unit(240, 0));
+	for (int i = 0; i < 0; i++)
 		units.push_back(Unit(0, 1));
-	}
-	for (int i = 0; i < 5; i++)
-	{
-		units.push_back(Unit(240, 1));
-	}
-	for (int i = 0; i < 5; i++)
-	{
+	for (int i = 0; i < 0; i++)
 		units.push_back(Unit(120, 1));
-	}
+	for (int i = 0; i < 20; i++)
+		units.push_back(Unit(240, 1));
 }
 
 void Game::updateFadeIn(double)

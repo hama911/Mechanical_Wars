@@ -12,7 +12,7 @@ void Bullet::update()
 	{
 		--Count;
 		Position.moveBy(Angle*SpeedPerformance);
-		if (Count+30 <= Random(30))
+		if (Count+60 <= Random(60))
 		{
 			Enabled = false;
 			motions.push_back(Motion(this));
@@ -32,7 +32,7 @@ Unit* Bullet::hitCheck()
 	Unit* target = NULL;
 	for (auto& unit : units)
 	{
-		if (unit.getEnabled() && IFF != unit.getIFF() && Position.distanceFrom(unit.getPosition()) < 5)
+		if (unit.getEnabled() && IFF != unit.getIFF() && unit.hitCheck(Position))
 		{
 			target = &unit;
 			switch (Type)

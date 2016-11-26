@@ -175,6 +175,11 @@
     <Image Include="Example\Well\Well.jpg" />
     <Image Include="Example\Windmill.png" />
     <Image Include="Icon.ico" />
+    <Image Include="Ratte Chassis.png" />
+    <Image Include="Ratte Turret.png" />
+    <Image Include="Ratte Turret2.png" />
+    <Image Include="T-34 Chassis.png" />
+    <Image Include="T-34 Turret.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Assets\engine_textures.s3a" />
@@ -269,6 +274,10 @@
   <ItemGroup>
     <Media Include="Example\Sound.mp3" />
     <Media Include="Example\風の丘.mp3" />
+    <Media Include="soundcannon2.mp3" />
+    <Media Include="sound_cannon1.mp3" />
+    <Media Include="sound_explosive1.mp3" />
+    <Media Include="sound_explosive2.mp3" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Example\YomogiFont.ttf" />

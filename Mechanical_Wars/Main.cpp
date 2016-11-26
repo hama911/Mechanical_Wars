@@ -45,6 +45,13 @@ public:
 
 void Main()
 {
+	//リソース
+	TextureAsset::Register(L"T-34_Chassis", L"T-34 Chassis.png");
+	TextureAsset::Register(L"T-34_Turret", L"T-34 Turret.png");
+	TextureAsset::Register(L"Ratte_Chassis", L"Ratte Chassis.png");
+	TextureAsset::Register(L"Ratte_Turret", L"Ratte Turret.png");
+	TextureAsset::Register(L"Ratte_Turret2", L"Ratte Turret2.png");
+
 	Window::Resize(1280, 768, true);
 	MyApp manager;
 
