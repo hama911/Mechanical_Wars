@@ -10,7 +10,7 @@ void Turret::update()
 {
 	if (Enabled)
 	{
-		if(Status==1)
+		if (Status == 1)
 			updateAngle();
 		shot();
 	}
@@ -21,17 +21,15 @@ void Turret::draw() const
 
 	if (Enabled)
 	{
-		Vec2 pos = ConvertVec2ToVec2(getRealPosition());
-
 		switch (Type)
 		{
 		case 0:
-			Circle(pos, 5 * getZoom()).draw(HSV(BaseUnit->getIFF(), 1, 0.5));
-			Line(pos, pos + GlobalAngle * 10 * getZoom()).draw(2 * getZoom(), HSV(BaseUnit->getIFF(), 1, 0.5));
+			Circle(ConvertVec2ToVec2(getRealPosition()), 5 * getZoom()).draw(HSV(BaseUnit->getIFF(), 1, 0.5));
+			Line(ConvertVec2ToVec2(getRealPosition()), ConvertVec2ToVec2(getRealPosition()) + GlobalAngle * 10 * getZoom()).draw(2 * getZoom(), HSV(BaseUnit->getIFF(), 1, 0.5));
 			break;
 		case 1:
-			Circle(pos, 10 * getZoom()).draw(HSV(BaseUnit->getIFF(), 1, 0.5));
-			Line(pos, pos + GlobalAngle * 20 * getZoom()).draw(5 * getZoom(), HSV(BaseUnit->getIFF(), 1, 0.5));
+			Circle(ConvertVec2ToVec2(getRealPosition()), 10 * getZoom()).draw(HSV(BaseUnit->getIFF(), 1, 0.5));
+			Line(ConvertVec2ToVec2(getRealPosition()), ConvertVec2ToVec2(getRealPosition()) + GlobalAngle * 20 * getZoom()).draw(5 * getZoom(), HSV(BaseUnit->getIFF(), 1, 0.5));
 			break;
 		default:
 			break;
@@ -44,7 +42,7 @@ Turret::Turret()
 	LocalPosition = Vec2(0, 0);
 	GlobalAngle = Vec2(1, 0);
 	TargetAngle = Vec2(1, 0);
-	Range = 100.0;
+	Range = 300.0;
 	ReloadCount = 0;
 	ReloadTime = 10;
 	TurningPerformance = 0.2;
@@ -109,7 +107,7 @@ void Turret::setType(int type)
 
 void Turret::addRotate(double angle)
 {
-	if(Enabled)
+	if (Enabled)
 		GlobalAngle.rotate(angle);
 }
 
@@ -146,12 +144,12 @@ void Turret::shot()
 
 Unit* Turret::searchEnemyUnit()
 {
-	Unit* target=NULL;
+	Unit* target = NULL;
 	double distance = Range;
 	Vec2 realPosition = getRealPosition();
 	for (auto& unit : units)
 	{
-		if (realPosition.distanceFrom(unit.getPosition()) < distance && BaseUnit->getIFF()!=unit.getIFF())
+		if (unit.getEnabled() && BaseUnit->getIFF() != unit.getIFF() && realPosition.distanceFrom(unit.getPosition()) < distance)
 		{
 			distance = realPosition.distanceFrom(unit.getPosition());
 			target = &unit;

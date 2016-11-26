@@ -15,6 +15,8 @@ public:
 
 	void updateFadeIn(double) override;
 
+	void refreshArray();
+
 private:
 
 };

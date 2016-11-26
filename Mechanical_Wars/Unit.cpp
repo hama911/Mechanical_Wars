@@ -5,55 +5,56 @@
 extern Array<Bullet> bullets;
 extern Array<Unit> units;
 
-bool Unit::update()
+void Unit::update()
 {
-	for (auto& turret : turrets)
-		turret.setBaseUnit(this);
+	if (Enabled)
+	{
+		for (auto& turret : turrets)
+			turret.setBaseUnit(this);
 
-	bool flag = false;
-	moveForward(SpeedPerformance);
+		moveForward(SpeedPerformance);
 
-	if (RandomBool(0.01)) TargetAngle.rotate(Random(TwoPi));
+		if (RandomBool(0.01)) TargetAngle.rotate(Random(TwoPi));
 
-	turnUpdate();
+		turnUpdate();
 
-	limitMoving();
+		limitMoving();
 
-	if (Health < 0) flag = 1;
+		if (Health < 0) Enabled = false;
 
-	//ターレット制御
-	for (auto& turret : turrets)
-		turret.update();
+		//ターレット制御
+		for (auto& turret : turrets)
+			turret.update();
 
-	return flag;
+	}
 }
 
 void Unit::draw() const
 {
-	//レーダ
-	Circle(ConvertVec2ToVec2(Position), 100 * getZoom()).draw(Color(128, 0, 0, 64));
-
-	//本体
-	switch (Type)
+	if (Enabled)
 	{
-	case 0:
-		Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF));
-		break;
-	case 1:
-		
-		Rect(ConvertVec2ToPoint(Position - Vec2(30.0, 15)), Point(60 * getZoom(), 30 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF,1,0.9));
-		Rect(ConvertVec2ToPoint(Position - Vec2(20.0, 10)), Point(40 * getZoom(), 20 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF));
-		break;
-	default:
-		break;
-	}
-	//耐久ゲージ
-	Line(ConvertVec2ToVec2(Position - Vec2(10, 20)), ConvertVec2ToVec2(Position - Vec2(-10, 20))).draw(3 * getZoom(), Palette::Red);
-	Line(ConvertVec2ToVec2(Position - Vec2(10, 20)), ConvertVec2ToVec2(Position - Vec2(10 - Health, 20))).draw(3 * getZoom(), Palette::Green);
 
-	//ターレット描画
-	for (auto& turret : turrets)
-		turret.draw();
+		//本体
+		switch (Type)
+		{
+		case 0:
+			Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF));
+			break;
+		case 1:
+			Rect(ConvertVec2ToPoint(Position - Vec2(30.0, 15)), Point(60 * getZoom(), 30 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF, 1, 0.9));
+			Rect(ConvertVec2ToPoint(Position - Vec2(20.0, 10)), Point(40 * getZoom(), 20 * getZoom())).rotated(Circular3(Angle).theta).draw(HSV(IFF));
+			break;
+		default:
+			break;
+		}
+		//耐久ゲージ
+		Line(ConvertVec2ToVec2(Position - Vec2(10, 20)), ConvertVec2ToVec2(Position - Vec2(-10, 20))).draw(3 * getZoom(), Palette::Red);
+		Line(ConvertVec2ToVec2(Position - Vec2(10, 20)), ConvertVec2ToVec2(Position - Vec2(10 - Health, 20))).draw(3 * getZoom(), Palette::Green);
+
+		//ターレット描画
+		for (auto& turret : turrets)
+			turret.draw();
+	}
 }
 
 void Unit::addDamege(double value)
@@ -74,6 +75,11 @@ Vec2 Unit::getAngle() const
 int Unit::getIFF() const
 {
 	return IFF;
+}
+
+bool Unit::getEnabled() const
+{
+	return Enabled;
 }
 
 double Unit::getSpeedPerformance() const
@@ -122,6 +128,7 @@ void Unit::shot()
 
 Unit::Unit(int IFF_p, int type)	//ランダムに位置を設定
 {
+	Enabled = true;
 	IFF = IFF_p;
 	Heat = Random(20);
 	Position.x = Random(0.0, 640.0);
@@ -155,13 +162,13 @@ Unit::Unit(int IFF_p, int type)	//ランダムに位置を設定
 		turrets[1].setLocalPosition(Vec2(16, 8));
 		turrets[2].setEnable(true);
 		turrets[2].setAngle(Angle);
-		turrets[2].setLocalPosition(Vec2(-16,-8));
+		turrets[2].setLocalPosition(Vec2(-16, -8));
 		turrets[3].setEnable(true);
 		turrets[3].setAngle(Angle);
-		turrets[3].setLocalPosition(Vec2(-16,8));
+		turrets[3].setLocalPosition(Vec2(-16, 8));
 		turrets[4].setEnable(true);
 		turrets[4].setAngle(Angle);
-		turrets[4].setLocalPosition(Vec2(16,-8));
+		turrets[4].setLocalPosition(Vec2(16, -8));
 		break;
 	default:
 		break;

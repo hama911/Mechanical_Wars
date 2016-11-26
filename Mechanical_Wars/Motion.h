@@ -6,13 +6,16 @@ class Motion
 {
 public:
 
-	bool update();
+	void update();
 	void draw() const;
+
+	bool getEnabled() const;
 
 	Motion(Bullet* bullet);
 	~Motion();
 
 private:
+	bool Enabled;
 	int Count;
 	Vec2 Position;
 	int Type;

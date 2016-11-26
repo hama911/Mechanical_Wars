@@ -15,16 +15,14 @@ void Game::update()
 		++m_data->counter;
 		changeScene(L"Result");
 	}
-	Erase_if(units, [](Unit &unit) {
-		return unit.update();
-	});
-	Erase_if(bullets, [](Bullet &bullet) {
-		return bullet.update();
-	});
-	Erase_if(motions, [](Motion &motion) {
-		return motion.update();
-	});
+	for (auto& unit : units)
+		unit.update();
+	for (auto& bullet : bullets)
+		bullet.update();
+	for (auto& motion : motions)
+		motion.update();
 	drawUpdate();
+
 }
 
 void Game::draw() const
@@ -73,4 +71,11 @@ void Game::init()
 void Game::updateFadeIn(double)
 {
 	update();
+}
+
+void Game::refreshArray()
+{
+	Erase_if(units, [](const Unit& unit) {return !unit.getEnabled(); });
+	Erase_if(bullets, [](const Bullet& bullet) {return !bullet.getEnabled(); });
+	Erase_if(motions, [](const Motion& motion) {return !motion.getEnabled(); });
 }

@@ -10,12 +10,13 @@ class Bullet
 {
 public:
 
-	bool update();		//trueで消去
+	void update();		//trueで消去
 	void draw()	const;
 
 	//内部データにアクセス
-	Vec2 getPosition();
-	int getType();
+	Vec2 getPosition() const;
+	int getType() const;
+	bool getEnabled() const;
 
 	Bullet(Turret* turret);
 	~Bullet();
@@ -28,6 +29,7 @@ private:
 
 
 	//変数
+	bool Enabled;
 	int IFF;
 	Vec2 Position;
 	Vec2 Angle;

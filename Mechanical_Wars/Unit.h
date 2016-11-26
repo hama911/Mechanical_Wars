@@ -12,7 +12,7 @@ public:
 	Unit(int IFF_p,int type);
 	~Unit();
 
-	bool update();	//初期化
+	void update();	//初期化
 	void draw() const;	//描画
 
 	void addDamege(double value);
@@ -23,6 +23,7 @@ public:
 	Vec2 getPosition() const;
 	Vec2 getAngle() const;
 	int getIFF() const;
+	bool getEnabled() const;
 	double getSpeedPerformance() const;
 
 
@@ -42,6 +43,7 @@ private:
 	void limitMoving();
 
 	//変数
+	bool Enabled;
 	int Heat;	//射撃クールダウン
 	Vec2 Position;
 	Vec2 Angle;

@@ -6,24 +6,25 @@
 extern Array<Unit> units;
 extern Array<Motion> motions;
 
-bool Bullet::update()
+void Bullet::update()
 {
-	bool flag = false;
-	++Count;
-	Position.moveBy(Angle*5.0);
-	if (Random(Count) > 100)
+	if (Enabled)
 	{
-		flag = true;
-		motions.push_back(Motion(this));
-	}
+		++Count;
+		Position.moveBy(Angle*5.0);
+		if (Random(Count) > 100)
+		{
+			Enabled = false;
+			motions.push_back(Motion(this));
+		}
 
-	if (hitCheck())
-	{
-		flag = true;
-		motions.push_back(Motion(this));
-	}
+		if (hitCheck())
+		{
+			Enabled = false;
+			motions.push_back(Motion(this));
+		}
 
-	return flag;
+	}
 }
 
 Unit* Bullet::hitCheck()
@@ -31,7 +32,7 @@ Unit* Bullet::hitCheck()
 	Unit* target = NULL;
 	for (auto& unit : units)
 	{
-		if (Position.distanceFrom(unit.getPosition()) < 5 && IFF != unit.getIFF())
+		if (unit.getEnabled() && IFF != unit.getIFF() && Position.distanceFrom(unit.getPosition()) < 5)
 		{
 			target = &unit;
 			switch (Type)
@@ -52,25 +53,27 @@ Unit* Bullet::hitCheck()
 
 void Bullet::draw() const
 {
-	switch (Type)
+	if (Enabled)
 	{
-	case 0:
-		Circle(ConvertVec2ToVec2(Position), 2 * getZoom()).draw(HSV(IFF, 1, 1));
-		break;
-	case 1:
-		Circle(ConvertVec2ToVec2(Position), 5 * getZoom()).draw(HSV(IFF, 1, 1));
-		break;
-	default:
-		break;
+		switch (Type)
+		{
+		case 0:
+			Circle(ConvertVec2ToVec2(Position), 2 * getZoom()).draw(HSV(IFF, 1, 1));
+			break;
+		case 1:
+			Circle(ConvertVec2ToVec2(Position), 5 * getZoom()).draw(HSV(IFF, 1, 1));
+			break;
+		default:
+			break;
+		}
 	}
-
 }
 
 
 Bullet::Bullet(Turret* turret)
 {
 	Count = 0;
-
+	Enabled = true;
 	IFF = turret->getBaseUnit()->getIFF();
 	Position = turret->getRealPosition();
 	Angle = turret->getTargetAngle();
@@ -80,14 +83,19 @@ Bullet::Bullet(Turret* turret)
 	serchEnemyUnit();
 
 }
-Vec2 Bullet::getPosition()
+Vec2 Bullet::getPosition() const
 {
 	return Position;
 }
 
-int Bullet::getType()
+int Bullet::getType() const
 {
 	return Type;
+}
+
+bool Bullet::getEnabled() const
+{
+	return Enabled;
 }
 
 Unit* Bullet::serchEnemyUnit()
@@ -96,7 +104,7 @@ Unit* Bullet::serchEnemyUnit()
 	Unit* target = NULL;	//ターゲット
 	for (auto& unit : units)
 	{
-		if (Position.distanceFrom(unit.getPosition()) < length && IFF != unit.getIFF())
+		if (unit.getEnabled() && IFF != unit.getIFF() && Position.distanceFrom(unit.getPosition()) < length)
 		{
 			length = Position.distanceFrom(unit.getPosition());
 			target = &unit;
