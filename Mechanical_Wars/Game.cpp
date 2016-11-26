@@ -42,6 +42,7 @@ void Game::draw() const
 void Game::init()
 {
 	drawInit();
+	
 	for (int i = 0; i < 20; i++)
 	{
 		units.push_back(Unit(0, 0));
@@ -54,6 +55,7 @@ void Game::init()
 	{
 		units.push_back(Unit(120, 0));
 	}
+	
 	for (int i = 0; i < 5; i++)
 	{
 		units.push_back(Unit(0, 1));

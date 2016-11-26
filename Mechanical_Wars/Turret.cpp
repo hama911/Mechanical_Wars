@@ -133,6 +133,9 @@ void Turret::shot()
 		if (target != NULL)
 		{
 			TargetAngle = (target->getPosition() - getRealPosition()).normalized();	//ŽËŒ‚Šp‚ðƒZƒbƒg
+			for(int i=0;i<10;i++)
+				TargetAngle = (target->getPosition() + target->getAngle()*target->getSpeedPerformance()*((target->getPosition().distanceFrom(getRealPosition()) / (TargetAngle*5.0 - target->getAngle()*target->getSpeedPerformance()).length())) - getRealPosition()).normalized();
+
 			if (abs(TargetAngle.cross(GlobalAngle)) < 0.1)
 			{
 				bullets.push_back(this);

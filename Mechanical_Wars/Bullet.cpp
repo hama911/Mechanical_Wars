@@ -11,7 +11,7 @@ void Bullet::update()
 	if (Enabled)
 	{
 		++Count;
-		Position.moveBy(Angle*5.0);
+		Position.moveBy(Angle*SpeedPerformance);
 		if (Random(Count) > 100)
 		{
 			Enabled = false;
@@ -78,9 +78,10 @@ Bullet::Bullet(Turret* turret)
 	Position = turret->getRealPosition();
 	Angle = turret->getTargetAngle();
 	Type = turret->getType();
+	SpeedPerformance = 5.0;
 
 	//追跡システム
-	serchEnemyUnit();
+	//serchEnemyUnit();
 
 }
 Vec2 Bullet::getPosition() const
@@ -100,6 +101,7 @@ bool Bullet::getEnabled() const
 
 Unit* Bullet::serchEnemyUnit()
 {
+
 	double length = 300.0;	//索敵可能距離
 	Unit* target = NULL;	//ターゲット
 	for (auto& unit : units)
@@ -112,7 +114,8 @@ Unit* Bullet::serchEnemyUnit()
 	}
 	if (target != NULL)
 	{
-		Angle = (target->getPosition() + target->getAngle()*target->getSpeedPerformance()*Position.distanceFrom(target->getPosition()) / 5.0 - Position).normalize();
+		Angle = (target->getPosition() + target->getAngle()*target->getSpeedPerformance()*((target->getPosition().distanceFrom(Position) / (Angle*SpeedPerformance - target->getAngle()*target->getSpeedPerformance()).length())) - Position).normalized();
+
 	}
 	return target;
 }

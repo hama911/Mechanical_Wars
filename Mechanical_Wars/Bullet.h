@@ -35,5 +35,6 @@ private:
 	Vec2 Angle;
 	int Count;
 	int Type;
+	double SpeedPerformance;
 };
 
