@@ -34,7 +34,17 @@ Unit* Bullet::hitCheck()
 		if (Position.distanceFrom(unit.getPosition()) < 5 && IFF != unit.getIFF())
 		{
 			target = &unit;
-			unit.addDamege(1.0);
+			switch (Type)
+			{
+			case 0:
+				unit.addDamege(0.1);
+				break;
+			case 1:
+				unit.addDamege(0.5);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 	return target;
@@ -42,14 +52,29 @@ Unit* Bullet::hitCheck()
 
 void Bullet::draw() const
 {
-	Circle(ConvertVec2ToVec2(Position), 2 * getZoom()).draw(HSV(IFF, 1, 1));
+	switch (Type)
+	{
+	case 0:
+		Circle(ConvertVec2ToVec2(Position), 2 * getZoom()).draw(HSV(IFF, 1, 1));
+		break;
+	case 1:
+		Circle(ConvertVec2ToVec2(Position), 5 * getZoom()).draw(HSV(IFF, 1, 1));
+		break;
+	default:
+		break;
+	}
 
 }
 
 
-Bullet::Bullet()
+Bullet::Bullet(Turret* turret)
 {
 	Count = 0;
+
+	IFF = turret->getIFF();
+	Position = turret->getRealPosition();
+	Angle = turret->getTargetAngle();
+	Type = turret->getType();
 
 	//í«ê’ÉVÉXÉeÉÄ
 	serchEnemyUnit();
@@ -58,6 +83,11 @@ Bullet::Bullet()
 Vec2 Bullet::getPosition()
 {
 	return Position;
+}
+
+int Bullet::getType()
+{
+	return Type;
 }
 
 Unit* Bullet::serchEnemyUnit()

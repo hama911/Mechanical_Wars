@@ -162,15 +162,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Bullet.cpp" />
-    <ClCompile Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Game.cpp" />
-    <ClCompile Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Graphcis.cpp" />
-    <ClCompile Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Main.cpp" />
-    <ClCompile Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Motion.cpp" />
-    <ClCompile Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Turret.cpp" />
-    <ClCompile Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Unit.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
@@ -283,13 +274,22 @@
     <Font Include="Example\YomogiFont.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Bullet.h" />
-    <ClInclude Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Game.h" />
-    <ClInclude Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Graphics.h" />
-    <ClInclude Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Main.h" />
-    <ClInclude Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Motion.h" />
-    <ClInclude Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Turret.h" />
-    <ClInclude Include="..\..\..\OneDrive\ドキュメント\Visual Studio 2015\Projects\Mechanical_Wars\Mechanical_Wars\Unit.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="Motion.h" />
+    <ClInclude Include="Turret.h" />
+    <ClInclude Include="Unit.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Graphcis.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Motion.cpp" />
+    <ClCompile Include="Turret.cpp" />
+    <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

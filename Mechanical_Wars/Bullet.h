@@ -2,10 +2,9 @@
 
 #include <Siv3D.hpp>
 
-#include"Unit.h"
-#include"Turret.h"
 
-
+class Turret;
+class Unit;
 
 class Bullet
 {
@@ -16,8 +15,9 @@ public:
 
 	//内部データにアクセス
 	Vec2 getPosition();
+	int getType();
 
-	Bullet();
+	Bullet(Turret* turret);
 	~Bullet();
 
 private:
@@ -32,5 +32,6 @@ private:
 	Vec2 Position;
 	Vec2 Angle;
 	int Count;
+	int Type;
 };
 

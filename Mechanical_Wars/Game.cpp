@@ -44,17 +44,29 @@ void Game::draw() const
 void Game::init()
 {
 	drawInit();
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		units.push_back(Unit(0));
+		units.push_back(Unit(0, 0));
 	}
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		units.push_back(Unit(240));
+		units.push_back(Unit(240, 0));
 	}
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		units.push_back(Unit(120));
+		units.push_back(Unit(120, 0));
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		units.push_back(Unit(0, 1));
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		units.push_back(Unit(240, 1));
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		units.push_back(Unit(120, 1));
 	}
 }
 

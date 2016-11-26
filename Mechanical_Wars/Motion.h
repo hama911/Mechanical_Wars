@@ -15,5 +15,5 @@ public:
 private:
 	int Count;
 	Vec2 Position;
-
+	int Type;
 };

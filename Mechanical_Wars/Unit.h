@@ -3,11 +3,13 @@
 # include <Siv3D.hpp>
 #include"Turret.h"
 
+#define MAX_TURRET 10
+
+
 class Unit
 {
 public:
-	Unit();
-	Unit(int IFF_p);
+	Unit(int IFF_p,int type);
 	~Unit();
 
 	bool update();	//初期化
@@ -52,7 +54,8 @@ private:
 	//固定数値
 	double SpeedPerformance;	//速度性能
 	double TurningPerformance;	//旋回性能
+	int Type;
 
-	Array<Turret> turrets;
+	Turret turrets[MAX_TURRET];
 
 };

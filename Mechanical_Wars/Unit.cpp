@@ -17,18 +17,39 @@ bool Unit::update()
 	limitMoving();
 
 	if (Health < 0) flag = 1;
+
+	//ターレット制御
+	for (auto& turret : turrets)
+		turret.update(Position, Angle);
+
 	return flag;
 }
 
 void Unit::draw() const
 {
-	//本体
-	Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF));
+	//レーダ
+	Circle(ConvertVec2ToVec2(Position), 100 * getZoom()).draw(Color(128, 0, 0, 64));
 
+	//本体
+	switch (Type)
+	{
+	case 0:
+		Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF));
+		break;
+	case 1:
+		Rect(ConvertVec2ToPoint(Position - Vec2(30.0, 15)), Point(60 * getZoom(), 30 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF,1,0.9));
+		Rect(ConvertVec2ToPoint(Position - Vec2(20.0, 10)), Point(40 * getZoom(), 20 * getZoom())).rotated(Atan2(Angle.y, Angle.x)).draw(HSV(IFF));
+		break;
+	default:
+		break;
+	}
 	//耐久ゲージ
 	Line(ConvertVec2ToVec2(Position - Vec2(10, 20)), ConvertVec2ToVec2(Position - Vec2(-10, 20))).draw(3 * getZoom(), Palette::Red);
 	Line(ConvertVec2ToVec2(Position - Vec2(10, 20)), ConvertVec2ToVec2(Position - Vec2(10 - Health, 20))).draw(3 * getZoom(), Palette::Green);
 
+	//ターレット描画
+	for (auto& turret : turrets)
+		turret.draw(Position, Angle);
 }
 
 void Unit::addDamege(double value)
@@ -80,38 +101,71 @@ void Unit::moveBack(double length)
 void Unit::turnUpdate()
 {
 	if (TargetAngle.cross(Angle) > 0)
-		Angle.rotate(-0.01);
+	{
+		Angle.rotate(-TurningPerformance);
+		for (auto& turret : turrets) turret.addRotate(-TurningPerformance);
+	}
 	else
-		Angle.rotate(0.01);
+	{
+		Angle.rotate(TurningPerformance);
+		for (auto& turret : turrets) turret.addRotate(TurningPerformance);
+	}
 }
 
 void Unit::shot()
 {
 }
-
-Unit::Unit()	//ランダムに位置を設定
-{
-	IFF = Random(360);
-	Heat = Random(20);
-	SpeedPerformance = Random(1.0) + 0.5;
-	Position.x = Random(0.0, 640.0);
-	Position.y = Random(0.0, 480.0);
-	Angle = { 1.0,0.0 };
-	TargetAngle = { 1.0,0.0 };
-	Angle.rotate(Random(TwoPi));
-	Health = 20.0;
-}
-Unit::Unit(int IFF_p)	//ランダムに位置を設定
+Unit::Unit(int IFF_p, int type)	//ランダムに位置を設定
 {
 	IFF = IFF_p;
 	Heat = Random(20);
-	SpeedPerformance = Random(1.0) + 0.5;
 	Position.x = Random(0.0, 640.0);
 	Position.y = Random(0.0, 480.0);
 	Angle = { 1.0,0.0 };
 	TargetAngle = { 1.0,0.0 };
 	Angle.rotate(Random(TwoPi));
 	Health = 20.0;
+	Type = type;
+
+	switch (type)
+	{
+	case 0:
+		SpeedPerformance = 2;
+		TurningPerformance = 0.03;
+		//砲塔設定
+		turrets[0].setEnable(true);
+		turrets[0].setIFF(IFF);
+		turrets[0].setAngle(Angle);
+		break;
+	case 1:
+		SpeedPerformance = 0.5;
+		TurningPerformance = 0.01;
+		//砲塔設定
+		turrets[0].setEnable(true);
+		turrets[0].setIFF(IFF);
+		turrets[0].setAngle(Angle);
+		turrets[0].setLocalPosition(Vec2(0, 0));
+		turrets[0].setType(1);
+		turrets[1].setEnable(true);
+		turrets[1].setIFF(IFF);
+		turrets[1].setAngle(Angle);
+		turrets[1].setLocalPosition(Vec2(16, 8));
+		turrets[2].setEnable(true);
+		turrets[2].setIFF(IFF);
+		turrets[2].setAngle(Angle);
+		turrets[2].setLocalPosition(Vec2(-16,-8));
+		turrets[3].setEnable(true);
+		turrets[3].setIFF(IFF);
+		turrets[3].setAngle(Angle);
+		turrets[3].setLocalPosition(Vec2(-16,8));
+		turrets[4].setEnable(true);
+		turrets[4].setIFF(IFF);
+		turrets[4].setAngle(Angle);
+		turrets[4].setLocalPosition(Vec2(16,-8));
+		break;
+	default:
+		break;
+	}
 }
 
 Unit::~Unit()
