@@ -4,11 +4,12 @@
 #include "Motion.h"
 #include "Graphics.h"
 #include"Facility.h"
+#include"Platoon.h"
 Array<Bullet> bullets;
 Array<Unit> units;
 Array<Motion> motions;
-Array<Facility> facilitys;
-
+Array<Facility> facilities;
+Array<Platoon> platoons;
 void Game::update()
 {
 	if (Input::MouseL.clicked)
@@ -16,8 +17,10 @@ void Game::update()
 		++m_data->counter;
 		changeScene(L"Result");
 	}
-	for (auto& facility : facilitys)
+	for (auto& facility : facilities)
 		facility.update();
+	for (auto& platoon : platoons)
+		platoon.update();
 	for (auto& unit : units)
 		unit.update();
 	for (auto& bullet : bullets)
@@ -35,8 +38,10 @@ void Game::draw() const
 	Window::ClientRect().draw(Palette::Black);
 	ground.resize(1024 * getZoom(), 1024 * getZoom()).draw(ConvertVec2ToPoint(Vec2(0, 0)));
 	Rect(ConvertVec2ToPoint(Vec2(0, 0)), Point(1024 * getZoom(), 1024 * getZoom())).drawFrame(10 * getZoom(), 0, Palette::White);
-	for (auto& facility : facilitys)
+	for (auto& facility : facilities)
 		facility.draw();
+	for (auto& platoon : platoons)
+		platoon.draw();
 	for (auto& unit : units)
 		unit.draw();
 	for (auto& bullet : bullets)
@@ -63,11 +68,14 @@ void Game::init()
 
 
 	drawInit();
-
-	for (int i = 0; i < 10; i++)
-		units.push_back(Unit(0, 0));
-	for (int i = 0; i < 10; i++)
-		units.push_back(Unit(120, 0));
+	for (int i = 0; i < 1000; i++)
+		units.push_back(Unit());
+	for (auto& unit : units)
+		unit.setEnabled(false);
+	for (int i = 0; i < 50; i++)
+		units.push_back(Unit(0, 0, Vec2(i * 20 + 10, 200)));
+	for (int i = 0; i < 50; i++)
+		units.push_back(Unit(120, 0, Vec2(i * 20 + 10, 800)));
 	for (int i = 0; i < 0; i++)
 		units.push_back(Unit(240, 0));
 	for (int i = 0; i < 0; i++)
@@ -76,6 +84,10 @@ void Game::init()
 		units.push_back(Unit(120, 1));
 	for (int i = 0; i < 0; i++)
 		units.push_back(Unit(240, 1));
+	for (int i = 0; i < 200; i++)
+		platoons.push_back(Platoon());
+	facilities.push_back(Facility(Vec2(256, 256), 0, 0));
+	facilities.push_back(Facility(Vec2(768, 768), 120, 0));
 
 }
 

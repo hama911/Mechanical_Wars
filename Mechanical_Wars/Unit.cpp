@@ -2,21 +2,20 @@
 #include"Bullet.h"
 #include"Graphics.h"
 #include"Motion.h"
+#include"Platoon.h"
 
 extern Array<Bullet> bullets;
 extern Array<Unit> units;
 extern Array<Motion> motions;
+extern Array<Platoon> platoons;
 
 void Unit::update()
 {
 	if (Enabled)
 	{
+		updatePlatoon();
 		for (auto& turret : turrets)
 			turret.setBaseUnit(this);
-
-		moveForward(SpeedPerformance);
-
-		if (RandomBool(0.01)) TargetAngle.rotate(Random(TwoPi));
 
 		turnUpdate();
 
@@ -32,6 +31,48 @@ void Unit::update()
 			turret.update();
 
 	}
+}
+
+void Unit::updatePlatoon()
+{
+	if (MyPlatoon == NULL)
+	{
+
+		moveForward(SpeedPerformance);
+		if (RandomBool(0.001)) TargetAngle.rotate(Random(TwoPi));
+
+		for (auto& platoon : platoons)
+		{
+			if (platoon.joinPlatoon(this)) {
+				break;
+			}
+		}
+	}
+	else
+	{
+		//ターゲットアングルの変更
+		if (MyPlatoon->getRank(this) == 0)
+		{
+			TargetAngle = (MyPlatoon->getPosition(this) - Position).normalized();
+			if (abs(TargetAngle.cross(Angle)) < 0.8 && TargetAngle.dot(Angle) > 0)
+			{
+				if ((MyPlatoon->getPosition(this) - Position).length()>10)
+				{
+					moveForward(SpeedPerformance);
+				}
+			}
+		}
+		else
+		{
+			moveForward(SpeedPerformance/2);
+			if (RandomBool(0.001)) TargetAngle.rotate(Random(TwoPi));
+		}
+	}
+
+}
+void Unit::setPlatoon(Platoon* platoon)
+{
+	MyPlatoon = platoon;
 }
 
 void Unit::draw() const
@@ -133,6 +174,20 @@ Unit::Unit(int IFF_p, int type, Vec2 position)	//ランダムに位置を設定
 	IFF = IFF_p;
 	Type = type;
 	Position = position;
+	MyPlatoon = NULL;
+	setUnitData();
+}
+void Unit::setEnabled(bool enabled)
+{
+	Enabled = enabled;
+}
+void Unit::resetUnit(int IFF_p, int type, Vec2 position)	//ランダムに位置を設定
+{
+
+	IFF = IFF_p;
+	Type = type;
+	Position = position;
+	MyPlatoon = NULL;
 	setUnitData();
 }
 

@@ -5,11 +5,12 @@
 
 #define MAX_TURRET 10
 
+class Platoon;
 
 class Unit : public Calculation
 {
 public:
-	Unit(int IFF_p, int type,Vec2 position = Vec2(Random(1024), Random(1024)));
+	Unit(int IFF_p = 0, int type = 0, Vec2 position = Vec2(Random(1024), Random(1024)));
 	~Unit();
 
 	void update();	//初期化
@@ -19,6 +20,11 @@ public:
 
 	//初期化
 	void mountTurret();
+	void setEnabled(bool enabled);
+
+	void updatePlatoon();
+
+	void resetUnit(int IFF_p, int type, Vec2 position = Vec2(Random(1024), Random(1024)));
 
 	Vec2 getPosition() const;
 	Vec2 getAngle() const;
@@ -26,9 +32,10 @@ public:
 	bool getEnabled() const;
 	double getSpeedPerformance() const;
 	int getMotionType() const;
-	
+
 	bool hitCheck(Vec2 pos);
 
+	void setPlatoon(Platoon* platoon);
 
 private:
 	//個別データ
@@ -56,6 +63,8 @@ private:
 	Vec2 TargetAngle;
 	int IFF;	//識別コード
 	double Health;	//耐久
+
+	Platoon* MyPlatoon;
 
 	//固定数値
 	double SpeedPerformance;	//速度性能

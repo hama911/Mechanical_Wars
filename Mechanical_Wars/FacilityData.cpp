@@ -33,7 +33,15 @@ void Facility::updateFacility()
 		++Progress;
 		if (Progress > 100)
 		{
-			units.push_back(Unit(IFF, 0, Position));
+			for (auto& unit : units)
+			{
+				if (!unit.getEnabled())
+				{
+
+					unit.resetUnit(IFF, 0, Position);
+					break;
+				}
+			}
 			Progress = 0;
 		}
 		break;
