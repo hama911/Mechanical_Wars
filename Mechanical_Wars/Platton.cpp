@@ -71,7 +71,7 @@ void Platoon::update()
 	if (!Enabled) return;
 	for (auto& unit : MemberUnits)
 	{
-		if (unit != NULL && unit->getPlatoon() != this)
+		if (unit != NULL && (unit->getPlatoon() != this || !unit->getEnabled()))
 		{
 			if (unit == LeaderUnit)
 			{
