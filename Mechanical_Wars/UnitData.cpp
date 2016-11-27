@@ -38,8 +38,6 @@ void Unit::setUnitData()
 		break;
 	}
 	Enabled = true;
-	Position.x = Random(1024.0);
-	Position.y = Random(1024.0);
 	TargetAngle = Vec2(1, 0).rotated(Random(TwoPi));
 	Health = HealthPerformance;
 	Angle = TargetAngle;

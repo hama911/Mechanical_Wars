@@ -127,10 +127,12 @@ void Unit::shot()
 {
 }
 
-Unit::Unit(int IFF_p, int type)	//ランダムに位置を設定
+Unit::Unit(int IFF_p, int type, Vec2 position)	//ランダムに位置を設定
 {
+
 	IFF = IFF_p;
 	Type = type;
+	Position = position;
 	setUnitData();
 }
 

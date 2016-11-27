@@ -9,7 +9,7 @@
 class Unit : public Calculation
 {
 public:
-	Unit(int IFF_p,int type);
+	Unit(int IFF_p, int type,Vec2 position = Vec2(Random(1024), Random(1024)));
 	~Unit();
 
 	void update();	//‰Šú‰»

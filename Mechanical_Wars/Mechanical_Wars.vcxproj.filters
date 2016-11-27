@@ -450,6 +450,9 @@
     <ClInclude Include="Calculation.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Facility.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -484,6 +487,12 @@
     </ClCompile>
     <ClCompile Include="BulletData.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Facility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FacilityData.cpp">
+      <Filter>ヘッダー ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

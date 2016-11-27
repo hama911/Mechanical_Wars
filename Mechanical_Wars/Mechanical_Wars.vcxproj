@@ -288,6 +288,7 @@
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Calculation.h" />
+    <ClInclude Include="Facility.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Main.h" />
@@ -299,6 +300,8 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletData.cpp" />
     <ClCompile Include="Calculation.cpp" />
+    <ClCompile Include="Facility.cpp" />
+    <ClCompile Include="FacilityData.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphcis.cpp" />
     <ClCompile Include="Main.cpp" />
