@@ -128,6 +128,15 @@
     <Image Include="Ratte Turret2.png">
       <Filter>リソース ファイル</Filter>
     </Image>
+    <Image Include="Effect1.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Effect2.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="ground.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Assets\engine_textures.s3a">

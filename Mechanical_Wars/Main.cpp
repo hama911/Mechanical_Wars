@@ -51,6 +51,8 @@ void Main()
 	TextureAsset::Register(L"Ratte_Chassis", L"Ratte Chassis.png");
 	TextureAsset::Register(L"Ratte_Turret", L"Ratte Turret.png");
 	TextureAsset::Register(L"Ratte_Turret2", L"Ratte Turret2.png");
+	TextureAsset::Register(L"Effect1", L"Effect1.png");
+	TextureAsset::Register(L"Effect2", L"Effect2.png");
 
 	SoundAsset::Register(L"cannon1", L"sound_cannon1.mp3");
 	SoundAsset::Register(L"cannon2", L"sound_cannon2.mp3");

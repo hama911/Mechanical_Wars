@@ -165,6 +165,8 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Effect1.png" />
+    <Image Include="Effect2.png" />
     <Image Include="Engine\Splash.png" />
     <Image Include="Example\Brick.jpg" />
     <Image Include="Example\Earth.jpg" />
@@ -174,6 +176,7 @@
     <Image Include="Example\Siv3D-kun.png" />
     <Image Include="Example\Well\Well.jpg" />
     <Image Include="Example\Windmill.png" />
+    <Image Include="ground.jpg" />
     <Image Include="Icon.ico" />
     <Image Include="Ratte Chassis.png" />
     <Image Include="Ratte Turret.png" />

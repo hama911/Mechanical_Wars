@@ -19,4 +19,6 @@ public:
 
 private:
 
+	Texture ground;
+
 };

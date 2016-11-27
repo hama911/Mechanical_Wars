@@ -25,6 +25,7 @@ public:
 	int getIFF() const;
 	bool getEnabled() const;
 	double getSpeedPerformance() const;
+	int getMotionType() const;
 	
 	bool hitCheck(Vec2 pos);
 

@@ -1,9 +1,11 @@
 #include"Unit.h"
 #include"Bullet.h"
 #include"Graphics.h"
+#include"Motion.h"
 
 extern Array<Bullet> bullets;
 extern Array<Unit> units;
+extern Array<Motion> motions;
 
 void Unit::update()
 {
@@ -20,8 +22,11 @@ void Unit::update()
 
 		limitMoving();
 
-		if (Health < 0) Enabled = false;
-
+		if (Health < 0)
+		{
+			Enabled = false;
+			motions.push_back(this);
+		}
 		//ターレット制御
 		for (auto& turret : turrets)
 			turret.update();
@@ -131,4 +136,21 @@ Unit::Unit(int IFF_p, int type)	//ランダムに位置を設定
 
 Unit::~Unit()
 {
+}
+
+int Unit::getMotionType() const
+{
+	int return_ = 0;
+	switch (Type)
+	{
+	case 0:
+		return_ = 3;
+		break;
+	case 1:
+		return_ = 4;
+		break;
+	default:
+		break;
+	}
+	return return_;
 }

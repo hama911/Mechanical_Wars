@@ -8,6 +8,7 @@ Array<Bullet> bullets;
 Array<Unit> units;
 Array<Motion> motions;
 
+
 void Game::update()
 {
 	if (Input::MouseL.clicked)
@@ -28,7 +29,10 @@ void Game::update()
 
 void Game::draw() const
 {
+
 	Window::ClientRect().draw(Palette::Black);
+	ground.resize(1024*getZoom(),1024*getZoom()).draw(ConvertVec2ToPoint(Vec2(0,0)));
+	Rect(ConvertVec2ToPoint(Vec2(0, 0)), Point(1024 * getZoom(), 1024 * getZoom())).drawFrame(10 * getZoom(), 0, Palette::White);
 	for (auto& unit : units)
 		unit.draw();
 	for (auto& bullet : bullets)
@@ -36,26 +40,37 @@ void Game::draw() const
 	for (auto& motion : motions)
 		motion.draw();
 
-	Rect(ConvertVec2ToPoint(Vec2(0,0)),Point(1024*getZoom(),1024*getZoom())).drawFrame(10 * getZoom(), 0, Palette::White);
 
 }
 
 
 void Game::init()
 {
+	PerlinNoise noise(11111);
+
+	ground = Texture(Image(1024, 1024, [&noise](const Point pos)
+	{
+		const Vec2 v(pos.x * 0.5, pos.y * 0.5);
+		return ColorF(
+			(noise.octaveNoise0_1(v.x, v.y, 0.0, 4)+1)*0.09,
+			(noise.octaveNoise0_1(v.x, v.y, 0.0, 4)+1)*0.06,
+			(noise.octaveNoise0_1(v.x, v.y, 0.0, 4)+1)*0.03);
+	}));
+
+
 	drawInit();
-	
-	for (int i = 0; i < 200; i++)
+
+	for (int i = 0; i < 100; i++)
 		units.push_back(Unit(0, 0));
-	for (int i = 0; i < 00; i++)
+	for (int i = 0; i < 100; i++)
 		units.push_back(Unit(120, 0));
-	for (int i = 0; i < 0; i++)
+	for (int i = 0; i < 100; i++)
 		units.push_back(Unit(240, 0));
 	for (int i = 0; i < 0; i++)
 		units.push_back(Unit(0, 1));
 	for (int i = 0; i < 0; i++)
 		units.push_back(Unit(120, 1));
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 0; i++)
 		units.push_back(Unit(240, 1));
 }
 

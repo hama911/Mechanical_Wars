@@ -1,6 +1,8 @@
 #pragma once
 #include<Siv3D.hpp>
-#include"Bullet.h"
+
+class Unit;
+class Bullet;
 
 class Motion
 {
@@ -12,6 +14,7 @@ public:
 	bool getEnabled() const;
 
 	Motion(Bullet* bullet);
+	Motion(Unit* unit);
 	~Motion();
 
 private:
