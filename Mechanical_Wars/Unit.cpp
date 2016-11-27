@@ -56,7 +56,7 @@ void Unit::updatePlatoon()
 			TargetAngle = (MyPlatoon->getPosition(this) - Position).normalized();
 			if (abs(TargetAngle.cross(Angle)) < 0.8 && TargetAngle.dot(Angle) > 0)
 			{
-				if ((MyPlatoon->getPosition(this) - Position).length()>10)
+				if ((MyPlatoon->getPosition(this) - Position).length() > 10)
 				{
 					moveForward(SpeedPerformance);
 				}
@@ -64,12 +64,28 @@ void Unit::updatePlatoon()
 		}
 		else
 		{
-			moveForward(SpeedPerformance/2);
+			moveForward(SpeedPerformance / 2);
 			if (RandomBool(0.001)) TargetAngle.rotate(Random(TwoPi));
+		}
+		//‚æ‚è‘½‚¢‚Æ‚±‚ë‚É‰Á“ü
+		if (MyPlatoon->getTotalMember() <= 2)
+		{
+			for (auto& platoon : platoons)
+			{
+				if (&platoon!=MyPlatoon&&platoon.getIFF() == IFF && platoon.getTotalMember() + MyPlatoon->getTotalMember() <= 5&& platoon.getTotalMember() >= MyPlatoon->getTotalMember())
+				{
+						platoon.joinPlatoon(this);
+				}
+			}
 		}
 	}
 
 }
+Platoon* Unit::getPlatoon()
+{
+	return MyPlatoon;
+}
+
 void Unit::setPlatoon(Platoon* platoon)
 {
 	MyPlatoon = platoon;

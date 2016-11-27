@@ -27,6 +27,7 @@ Vec2 Platoon::getAngle()
 
 int Platoon::getIFF()
 {
+	if (LeaderUnit == NULL) return -1;
 	return LeaderUnit->getIFF();
 }
 
@@ -35,11 +36,17 @@ int Platoon::getRank(Unit* unit)
 	if (unit == LeaderUnit) return 1;
 	return 0;
 }
-
+int Platoon::getTotalMember()
+{
+	int count = 0;
+	for (auto& unit : MemberUnits)
+		if (unit != NULL) ++count;
+	return count;
+}
 bool Platoon::joinPlatoon(Unit* member)
 {
 	if (!Enabled) return false;
-	if (LeaderUnit != NULL && member->getIFF() != LeaderUnit->getIFF()) return false;
+	if (LeaderUnit != NULL && (member->getIFF() != LeaderUnit->getIFF() || member->getPosition().distanceFrom(LeaderUnit->getPosition()) > 256)) return false;
 	bool flag = false;
 	for (auto& unit : MemberUnits)
 	{
@@ -64,7 +71,7 @@ void Platoon::update()
 	if (!Enabled) return;
 	for (auto& unit : MemberUnits)
 	{
-		if (unit != NULL && unit->getEnabled() == NULL)
+		if (unit != NULL && unit->getPlatoon() != this)
 		{
 			if (unit == LeaderUnit)
 			{
@@ -73,6 +80,7 @@ void Platoon::update()
 				{
 					if (unit != NULL) LeaderUnit = unit;
 				}
+				if (LeaderUnit->getPlatoon() != this) LeaderUnit = NULL;
 			}
 			else
 			{
@@ -110,12 +118,12 @@ Vec2 Platoon::getPosition(Unit* unit)
 void Platoon::draw() const
 {
 	if (!Enabled) return;
-	if (LeaderUnit != NULL);
+	if (LeaderUnit == NULL) return;
+	Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 16 * getZoom()).draw(Color(HSV(LeaderUnit->getIFF()), 64));
+	Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 256 * getZoom()).draw(Color(HSV(LeaderUnit->getIFF()), 8));
 	for (auto& unit : MemberUnits)
 	{
 		if (unit == NULL) continue;
-		Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 16 * getZoom()).draw(Color(HSV(LeaderUnit->getIFF()), 64));
-		Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 256 * getZoom()).draw(Color(HSV(LeaderUnit->getIFF()), 4));
 		Line(ConvertVec2ToVec2(LeaderUnit->getPosition()), ConvertVec2ToVec2(unit->getPosition())).draw(Color(HSV(LeaderUnit->getIFF()), 64));
 	}
 }

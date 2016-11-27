@@ -15,6 +15,7 @@ public:
 	bool joinPlatoon(Unit* member);
 	Unit* getLeaderInfo();
 	Vec2 getAngle();
+	int getTotalMember();
 	int getIFF();
 	void setLeaderUnit(Unit* leader);
 

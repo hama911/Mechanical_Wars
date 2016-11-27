@@ -72,6 +72,9 @@ void Game::init()
 		units.push_back(Unit());
 	for (auto& unit : units)
 		unit.setEnabled(false);
+	for (int i = 0; i < 200; i++)
+		platoons.push_back(Platoon());
+	/*
 	for (int i = 0; i < 50; i++)
 		units.push_back(Unit(0, 0, Vec2(i * 20 + 10, 200)));
 	for (int i = 0; i < 50; i++)
@@ -84,10 +87,11 @@ void Game::init()
 		units.push_back(Unit(120, 1));
 	for (int i = 0; i < 0; i++)
 		units.push_back(Unit(240, 1));
-	for (int i = 0; i < 200; i++)
-		platoons.push_back(Platoon());
+		*/
 	facilities.push_back(Facility(Vec2(256, 256), 0, 0));
-	facilities.push_back(Facility(Vec2(768, 768), 120, 0));
+	facilities.push_back(Facility(Vec2(768, 768), 90, 0));
+	facilities.push_back(Facility(Vec2(768, 256), 180, 0));
+	facilities.push_back(Facility(Vec2(256, 768), 270, 0));
 
 }
 

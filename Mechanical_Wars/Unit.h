@@ -32,6 +32,7 @@ public:
 	bool getEnabled() const;
 	double getSpeedPerformance() const;
 	int getMotionType() const;
+	Platoon* getPlatoon();
 
 	bool hitCheck(Vec2 pos);
 
