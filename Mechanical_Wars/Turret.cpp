@@ -20,10 +20,12 @@ void Turret::update()
 			for (int i = 0; i < 3; i++)
 				TargetAngle = (target->getPosition() + target->getAngle()*target->getSpeedPerformance()*((target->getPosition().distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->getAngle()*target->getSpeedPerformance()).length())) - getRealPosition()).normalized();
 		}
+		else
+		{
+			TargetAngle = BaseUnit->getAngle();
+		}
 
-
-		if (Status == 1)
-			updateAngle();
+		updateAngle();
 		shot();
 	}
 }
@@ -141,7 +143,7 @@ void Turret::shot()
 			Count = int(target->getPosition().distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->getAngle()*target->getSpeedPerformance()).length());
 			if (abs(TargetAngle.cross(GlobalAngle)) < 0.1)
 			{
-				if(Type==1) SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition())*5);
+				if (Type == 1) SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 5);
 				else SoundAsset(L"cannon2").playMulti(getSoundVolume(getRealPosition()));
 				bullets.push_back(this);
 				ReloadCount = ReloadTime;
