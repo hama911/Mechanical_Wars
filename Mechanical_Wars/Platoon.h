@@ -22,6 +22,7 @@ public:
 	Vec2 getAngle();
 	int getTotalMember();
 	int getIFF();
+	void setTargetPosition(Vec2 position) { TargetPosition = position; }
 
 	bool getEnabled() const { return Enabled; }
 

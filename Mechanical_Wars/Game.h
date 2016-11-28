@@ -3,6 +3,7 @@
 #include"Main.h"
 
 
+
 class Game : public MyApp::Scene
 {
 public:
@@ -20,5 +21,6 @@ public:
 private:
 
 	Texture ground;
+
 
 };
