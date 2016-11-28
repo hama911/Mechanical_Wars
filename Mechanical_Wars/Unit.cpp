@@ -183,3 +183,19 @@ void Unit::setUnit(int IFF_p, int type, Vec2 position)
 	Speed = 0;
 	setUnitData();
 }
+
+int Unit::getMotionType() const
+{
+	switch (Type)
+	{
+	case 0:
+		return 2;
+		break;
+	case 1:
+		return 3;
+		break;
+	default:
+		break;
+	}
+	return 0;
+}

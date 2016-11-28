@@ -37,7 +37,7 @@ public:	//内部データにアクセス
 	bool getEnabled() const { return Enabled; }
 	double getSpeed() const { return Speed; }
 	Platoon* getPlatoon()const { return MyPlatoon; }
-	int getMotionType() const { return 0; }
+	int getMotionType() const;
 
 	void setEnabled(bool enabled) { Enabled = enabled; }
 	void setPlatoon(Platoon* platoon) { MyPlatoon = platoon; }

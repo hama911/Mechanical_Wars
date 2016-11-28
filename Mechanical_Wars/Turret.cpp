@@ -78,7 +78,7 @@ void Turret::shot()
 				TargetAngle = (target->getPosition() + target->getAngle()*target->getSpeed()*((target->getPosition().distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->getAngle()*target->getSpeed()).length())) - getRealPosition()).normalized();
 
 			Count = int(target->getPosition().distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->getAngle()*target->getSpeed()).length());
-			if (abs(TargetAngle.cross(GlobalAngle)) < 0.1)
+			if (abs(TargetAngle.cross(GlobalAngle)) < Sin(TurningPerformance) && TargetAngle.dot(GlobalAngle) > 0)
 			{
 				if (Type == 1) SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 5);
 				else SoundAsset(L"cannon2").playMulti(getSoundVolume(getRealPosition()));

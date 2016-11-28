@@ -6,26 +6,15 @@ void Unit::setUnitData()
 	switch (Type)
 	{
 	case 0:
-		/*
-		type 89 ã@ìÆêÌé‘
-		*/
-
 		SpeedPerformance = 0.5;
 		TurningPerformance = 0.03;
 		HealthPerformance = 10;
-
 		turrets[0].set(0, 4, 0);
-
 		break;
 	case 1:
-		/*
-		t500 èdó§è„ëïçbäÕ
-		*/
-
 		SpeedPerformance = 0.2;
 		TurningPerformance = 0.005;
 		HealthPerformance = 100;
-
 		turrets[0].set(2, -19, -7);
 		turrets[1].set(2, -19, 7);
 		turrets[2].set(1, 8, 0);
@@ -69,14 +58,9 @@ void Unit::drawUnit() const
 	switch (Type)
 	{
 	case 0:
-		//Rect(ConvertVec2ToPoint(Position - Vec2(15.0, 7.5)), Point(30 * getZoom(), 15 * getZoom())).rotated(Vec2ToRadian(Angle)).draw(HSV(IFF,1,0.9));
-		//Rect(ConvertVec2ToPoint(Position - Vec2(10.0, 5.0)), Point(20 * getZoom(), 10 * getZoom())).rotated(Vec2ToRadian(Angle)).draw(HSV(IFF));
-
 		TextureAsset(L"T-34_Chassis")(0,0,30,20).resize(30*getZoom(), 20*getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(15.0, 10.0)));
 		break;
 	case 1:
-		//Rect(ConvertVec2ToPoint(Position - Vec2(30.0, 15)), Point(60 * getZoom(), 30 * getZoom())).rotated(Vec2ToRadian(Angle)).draw(HSV(IFF, 1, 0.9));
-		//Rect(ConvertVec2ToPoint(Position - Vec2(20.0, 10)), Point(40 * getZoom(), 20 * getZoom())).rotated(Vec2ToRadian(Angle)).draw(HSV(IFF));
 		TextureAsset(L"Ratte_Chassis")(0, 0, 60, 30).resize(60 * getZoom(), 30 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(30.0, 15.0)));
 		break;
 	default:
