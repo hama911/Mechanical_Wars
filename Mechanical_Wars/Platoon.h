@@ -23,6 +23,8 @@ public:
 	int getTotalMember();
 	int getIFF();
 
+	bool getEnabled() const { return Enabled; }
+
 	void setFromUnit(Unit* leader);
 
 

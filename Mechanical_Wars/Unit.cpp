@@ -68,6 +68,11 @@ void Unit::updatePlatoon()
 	}
 	else
 	{
+		if (!MyPlatoon->getEnabled())
+		{
+			MyPlatoon = NULL;
+			return;
+		}
 		//ターゲットアングルの変更
 		Speed = MyPlatoon->getUnitSpeed(this);
 		TargetAngle = MyPlatoon->getUnitTargetAngle(this);
