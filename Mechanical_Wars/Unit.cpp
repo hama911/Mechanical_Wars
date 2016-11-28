@@ -23,8 +23,8 @@ void Unit::update()
 
 		if (Health < 0)
 		{
-			Enabled = false;
 			motions.push_back(this);
+			reset();
 		}
 		//ターレット制御
 		for (auto& turret : turrets)
@@ -32,7 +32,22 @@ void Unit::update()
 
 	}
 }
-
+void Unit::reset()
+{
+	Enabled = false;
+	Position = Vec2(0.0, 0.0);
+	Angle = Vec2(1, 0);
+	TargetAngle = Vec2(1.0, 0.0);
+	IFF = 0;
+	Health = 0.0;
+	MyPlatoon = NULL;
+	SpeedPerformance = 0.0;
+	TurningPerformance = 0.0;
+	HealthPerformance = 0.0;
+	Type = 0;
+	for (auto& turret : turrets)
+		turret.setEnable(false);
+}
 void Unit::updatePlatoon()
 {
 	if (MyPlatoon == NULL)
@@ -199,7 +214,6 @@ void Unit::setEnabled(bool enabled)
 }
 void Unit::resetUnit(int IFF_p, int type, Vec2 position)	//ランダムに位置を設定
 {
-
 	IFF = IFF_p;
 	Type = type;
 	Position = position;

@@ -25,6 +25,7 @@ public:
 	void updatePlatoon();
 
 	void resetUnit(int IFF_p, int type, Vec2 position = Vec2(Random(1024), Random(1024)));
+	void reset();
 
 	Vec2 getPosition() const;
 	Vec2 getAngle() const;

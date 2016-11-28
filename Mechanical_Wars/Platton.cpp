@@ -9,10 +9,7 @@ void Platoon::setLeaderUnit(Unit* leader)
 
 Platoon::Platoon()
 {
-	Enabled = true;
-	for (auto& unit : MemberUnits)
-		unit = NULL;
-	LeaderUnit = NULL;
+	reset();
 }
 
 Unit* Platoon::getLeaderInfo()
@@ -45,21 +42,35 @@ int Platoon::getTotalMember()
 }
 bool Platoon::joinPlatoon(Unit* member)
 {
-	if (!Enabled) return false;
 	if (LeaderUnit != NULL && (member->getIFF() != LeaderUnit->getIFF() || member->getPosition().distanceFrom(LeaderUnit->getPosition()) > 256)) return false;
-	bool flag = false;
-	for (auto& unit : MemberUnits)
+	if (!Enabled)
 	{
-		if (unit == NULL)
+		LeaderUnit = member;
+		MemberUnits[0] = member;
+		member->setPlatoon(this);
+		Enabled = true;
+		return true;
+	}
+	else {
+		for (auto& unit : MemberUnits)
 		{
-			if (LeaderUnit == NULL) LeaderUnit = member;
-			flag = true;
-			member->setPlatoon(this);
-			unit = member;
-			break;
+			if (unit == NULL)
+			{
+				member->setPlatoon(this);
+				unit = member;
+				return true;
+			}
 		}
 	}
-	return flag;
+	return false;
+}
+
+void Platoon::reset()
+{
+	Enabled = false;
+	for (auto& unit : MemberUnits)
+		unit = NULL;
+	LeaderUnit = NULL;
 }
 
 Platoon::~Platoon()
@@ -69,25 +80,56 @@ Platoon::~Platoon()
 void Platoon::update()
 {
 	if (!Enabled) return;
-	for (auto& unit : MemberUnits)
+	for (auto& unit1 : MemberUnits)
 	{
-		if (unit != NULL && (unit->getPlatoon() != this || !unit->getEnabled()))
+		if (unit1 != NULL && (unit1->getPlatoon() != this || !unit1->getEnabled()))
 		{
-			if (unit == LeaderUnit)
+			if (unit1 == LeaderUnit)
 			{
-				unit = NULL;
-				for (auto& unit : MemberUnits)
+				unit1 = NULL;
+				for (auto& unit2 : MemberUnits)
 				{
-					if (unit != NULL) LeaderUnit = unit;
+					if (unit2 != NULL)
+					{
+						LeaderUnit = unit2;
+						break;
+					}
 				}
-				if (LeaderUnit->getPlatoon() != this) LeaderUnit = NULL;
+				if (LeaderUnit->getPlatoon() != this) 
+				{
+					reset();
+					return;
+				}
 			}
 			else
 			{
-				unit = NULL;
+				unit1 = NULL;
+			}
+			relocation();
+		}
+	}
+}
+void Platoon::relocation()
+{
+	Unit* NewUnits[MAX_MEMBER];
+	for (auto& unit1 : NewUnits)
+		unit1 = NULL;
+	for (auto& unit1 : MemberUnits)
+	{
+		if (unit1 != NULL)
+		{
+			for (auto& unit2 : NewUnits)
+			{
+				if (unit2 == NULL)
+				{
+					unit2 = unit1;
+					break;
+				}
 			}
 		}
 	}
+	for (int i = 0; i < MAX_MEMBER; i++)
+		MemberUnits[i] = NewUnits[i];
 }
 
 Vec2 Platoon::getPosition(Unit* unit)
@@ -95,13 +137,13 @@ Vec2 Platoon::getPosition(Unit* unit)
 	//return Vec2(0, 0);
 	//if (LeaderUnit == NULL) return Vec2(0, 0);
 	Vec2 local;
-	int count = 2;
+	int count = 1;
 	for (auto& member : MemberUnits)
 	{
 		if (member == LeaderUnit) continue;
 		if (count % 2 == 1)
 		{
-			local = Vec2(-count * 5, count * 15);
+			local = Vec2(-count * 5 - 5, count * 15 + 15);
 
 		}
 		else

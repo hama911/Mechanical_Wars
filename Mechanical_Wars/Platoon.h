@@ -4,6 +4,8 @@
 
 class Unit;
 
+#define MAX_MEMBER 5
+
 class Platoon : public Calculation
 {
 public:
@@ -19,13 +21,15 @@ public:
 	int getIFF();
 	void setLeaderUnit(Unit* leader);
 
+	void relocation();
+	void reset();
 
 	Platoon();
 	~Platoon();
 
 private:
 	bool Enabled;
-	Unit* MemberUnits[5];
+	Unit* MemberUnits[MAX_MEMBER];
 	Unit* LeaderUnit;
 
 };
