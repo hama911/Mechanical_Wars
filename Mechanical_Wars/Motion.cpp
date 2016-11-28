@@ -19,11 +19,9 @@ void Motion::draw() const
 		switch (Type)
 		{
 		case 0:
-			//Circle(ConvertVec2ToVec2(Position), (Count / 4 + 2) * getZoom()).draw(Color(255, 128, 0, 240 - Count * 12));
 			TextureAsset(L"Effect2")((Count) * 32, 0, 32, 32).resize(16 * getZoom(), 16 * getZoom()).draw(ConvertVec2ToPoint(Position - Vec2(8.0, 8.0)));
 			break;
 		case 1:
-			//Circle(ConvertVec2ToVec2(Position), (Count + 8) * getZoom()).draw(Color(255, 128, 0, 240 - Count * 12));
 			TextureAsset(L"Effect1")((Count) * 64, 0,64, 64).resize(32 * getZoom(), 32 * getZoom()).draw(ConvertVec2ToPoint(Position - Vec2(16.0, 16.0)));
 			break;
 		case 3:
@@ -44,8 +42,9 @@ bool Motion::getEnabled() const
 	return Enabled;
 }
 
-Motion::Motion(Bullet* bullet)
+bool Motion::setFromBullet(Bullet* bullet)
 {
+	if (Enabled) return false;
 	Enabled = true;
 	Count = 0;
 	Position = bullet->getPosition();
@@ -53,15 +52,14 @@ Motion::Motion(Bullet* bullet)
 	if (Type == 2) Type = 0;
 	if (Type == 1) SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
 	else SoundAsset(L"explosive1").playMulti(getSoundVolume(Position));
-}
-
-Motion::~Motion()
-{
+	return true;
 }
 
 
-Motion::Motion(Unit* unit)
+
+bool Motion::setFromUnit(Unit* unit)
 {
+	if (Enabled) return false;
 	Enabled = true;
 	Count = 0;
 	Position = unit->getPosition();
@@ -69,4 +67,13 @@ Motion::Motion(Unit* unit)
 	if (Type == 2) Type = 0;
 	if (Type == 1 || Type == 3 || Type == 4 ) SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
 	else SoundAsset(L"explosive1").playMulti(getSoundVolume(Position));
+	return true;
+}
+
+void Motion::reset()
+{
+	Enabled = false;
+	Count = 0;
+	Position = Vec2(0, 0);
+	Type = 0;
 }

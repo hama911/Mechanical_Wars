@@ -68,30 +68,25 @@ void Game::init()
 
 
 	drawInit();
+
+
+
+	for (int i = 0; i < 1000; i++)
+		facilities.push_back(Facility());
 	for (int i = 0; i < 1000; i++)
 		units.push_back(Unit());
-	for (auto& unit : units)
-		unit.setEnabled(false);
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 1000; i++)
+		motions.push_back(Motion());
+	for (int i = 0; i < 1000; i++)
+		bullets.push_back(Bullet());
+	for (int i = 0; i < 1000; i++)
 		platoons.push_back(Platoon());
-	/*
-	for (int i = 0; i < 50; i++)
-		units.push_back(Unit(0, 0, Vec2(i * 20 + 10, 200)));
-	for (int i = 0; i < 50; i++)
-		units.push_back(Unit(120, 0, Vec2(i * 20 + 10, 800)));
-	for (int i = 0; i < 0; i++)
-		units.push_back(Unit(240, 0));
-	for (int i = 0; i < 0; i++)
-		units.push_back(Unit(0, 1));
-	for (int i = 0; i < 0; i++)
-		units.push_back(Unit(120, 1));
-	for (int i = 0; i < 0; i++)
-		units.push_back(Unit(240, 1));
-		*/
-	facilities.push_back(Facility(Vec2(256, 256), 0, 0));
-	facilities.push_back(Facility(Vec2(768, 768), 90, 0));
-	facilities.push_back(Facility(Vec2(768, 256), 180, 0));
-	facilities.push_back(Facility(Vec2(256, 768), 270, 0));
+
+	//Hê‚ÌƒZƒbƒg
+	for (auto& facility : facilities)
+		if (facility.set(240, 768, 512, 0)) break;
+	for (auto& facility : facilities)
+		if (facility.set(0, 256, 512, 0)) break;
 
 }
 

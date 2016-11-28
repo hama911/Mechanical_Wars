@@ -10,8 +10,8 @@ class Platoon;
 class Unit : public Calculation
 {
 public:
-	Unit(int IFF_p = 0, int type = 0, Vec2 position = Vec2(Random(1024), Random(1024)));
-	~Unit();
+	Unit() { Enabled = false; }
+
 
 	void update();	//初期化
 	void draw() const;	//描画
@@ -20,24 +20,27 @@ public:
 
 	//初期化
 	void mountTurret();
-	void setEnabled(bool enabled);
 
 	void updatePlatoon();
 
-	void resetUnit(int IFF_p, int type, Vec2 position = Vec2(Random(1024), Random(1024)));
+	void setUnit(int IFF_p, int type, Vec2 position = Vec2(Random(1024), Random(1024)));
 	void reset();
 
-	Vec2 getPosition() const;
-	Vec2 getAngle() const;
-	int getIFF() const;
-	bool getEnabled() const;
-	double getSpeedPerformance() const;
-	int getMotionType() const;
-	Platoon* getPlatoon();
 
 	bool hitCheck(Vec2 pos);
 
-	void setPlatoon(Platoon* platoon);
+
+public:	//内部データにアクセス
+	Vec2 getPosition() const { return Position; }
+	Vec2 getAngle() const { return Angle; }
+	int getIFF() const { return IFF; }
+	bool getEnabled() const { return Enabled; }
+	double getSpeed() const { return Speed; }
+	Platoon* getPlatoon()const { return MyPlatoon; }
+	int getMotionType() const { return 0; }
+
+	void setEnabled(bool enabled) { Enabled = enabled; }
+	void setPlatoon(Platoon* platoon) { MyPlatoon = platoon; }
 
 private:
 	//個別データ
@@ -58,6 +61,7 @@ private:
 	//制限
 	void limitMoving();
 
+private:
 	//変数
 	bool Enabled;
 	Vec2 Position;
@@ -65,6 +69,7 @@ private:
 	Vec2 TargetAngle;
 	int IFF;	//識別コード
 	double Health;	//耐久
+	double Speed;	//現在のスピード
 
 	Platoon* MyPlatoon;
 

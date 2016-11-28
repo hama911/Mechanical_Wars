@@ -13,9 +13,13 @@ public:
 
 	bool getEnabled() const;
 
-	Motion(Bullet* bullet);
-	Motion(Unit* unit);
-	~Motion();
+	void reset();
+
+	Motion() { Enabled = false; }
+
+	bool setFromBullet(Bullet* bullet);
+
+	bool setFromUnit(Unit* unit);
 
 private:
 	bool Enabled;

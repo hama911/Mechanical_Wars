@@ -5,13 +5,12 @@
 class Facility : public Calculation
 {
 public:
-	Facility(Vec2 facility,int IFF_p,int type);
-	~Facility();
+	Facility() { Enabled = false; }
 
 	void update();
 	void draw() const;
-
-	void setFacilityData();
+	void reset();
+	bool set(int iff, double x, double y, int type);
 	void drawFacility() const;
 	void updateFacility();
 private:
@@ -21,7 +20,6 @@ private:
 	Vec2 Position;
 	int Type;
 	int IFF;
-
 	int Progress;
 
 };

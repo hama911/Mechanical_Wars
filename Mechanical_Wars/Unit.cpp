@@ -23,7 +23,8 @@ void Unit::update()
 
 		if (Health < 0)
 		{
-			motions.push_back(this);
+			for (auto& motion : motions)
+				if (motion.setFromUnit(this)) break;
 			reset();
 		}
 		//ターレット制御
@@ -45,15 +46,17 @@ void Unit::reset()
 	TurningPerformance = 0.0;
 	HealthPerformance = 0.0;
 	Type = 0;
+	Speed = 0;
 	for (auto& turret : turrets)
 		turret.setEnable(false);
 }
 void Unit::updatePlatoon()
 {
+	Speed = 0;
 	if (MyPlatoon == NULL)
 	{
 
-		moveForward(SpeedPerformance);
+		Speed = SpeedPerformance;
 		if (RandomBool(0.001)) TargetAngle.rotate(Random(TwoPi));
 
 		for (auto& platoon : platoons)
@@ -73,13 +76,17 @@ void Unit::updatePlatoon()
 			{
 				if ((MyPlatoon->getPosition(this) - Position).length() > 10)
 				{
-					moveForward(SpeedPerformance);
+					Speed = SpeedPerformance;
+				}
+				else
+				{
+					Speed = SpeedPerformance / 2;
 				}
 			}
 		}
 		else
 		{
-			moveForward(SpeedPerformance / 2);
+			Speed = SpeedPerformance / 2;
 			if (RandomBool(0.001)) TargetAngle.rotate(Random(TwoPi));
 		}
 		//より多いところに加入
@@ -87,24 +94,17 @@ void Unit::updatePlatoon()
 		{
 			for (auto& platoon : platoons)
 			{
-				if (&platoon!=MyPlatoon&&platoon.getIFF() == IFF && platoon.getTotalMember() + MyPlatoon->getTotalMember() <= 5&& platoon.getTotalMember() >= MyPlatoon->getTotalMember())
+				if (&platoon != MyPlatoon&&platoon.getIFF() == IFF && platoon.getTotalMember() + MyPlatoon->getTotalMember() <= 5 && platoon.getTotalMember() >= MyPlatoon->getTotalMember())
 				{
-						platoon.joinPlatoon(this);
+					platoon.joinPlatoon(this);
 				}
 			}
 		}
 	}
+	moveForward(Speed);
 
 }
-Platoon* Unit::getPlatoon()
-{
-	return MyPlatoon;
-}
 
-void Unit::setPlatoon(Platoon* platoon)
-{
-	MyPlatoon = platoon;
-}
 
 void Unit::draw() const
 {
@@ -128,31 +128,6 @@ void Unit::draw() const
 void Unit::addDamege(double value)
 {
 	Health -= value;
-}
-
-Vec2 Unit::getPosition() const
-{
-	return Position;
-}
-
-Vec2 Unit::getAngle() const
-{
-	return Angle;
-}
-
-int Unit::getIFF() const
-{
-	return IFF;
-}
-
-bool Unit::getEnabled() const
-{
-	return Enabled;
-}
-
-double Unit::getSpeedPerformance() const
-{
-	return SpeedPerformance;
 }
 
 void Unit::limitMoving()
@@ -199,45 +174,12 @@ void Unit::shot()
 {
 }
 
-Unit::Unit(int IFF_p, int type, Vec2 position)	//ランダムに位置を設定
-{
-
-	IFF = IFF_p;
-	Type = type;
-	Position = position;
-	MyPlatoon = NULL;
-	setUnitData();
-}
-void Unit::setEnabled(bool enabled)
-{
-	Enabled = enabled;
-}
-void Unit::resetUnit(int IFF_p, int type, Vec2 position)	//ランダムに位置を設定
+void Unit::setUnit(int IFF_p, int type, Vec2 position)
 {
 	IFF = IFF_p;
 	Type = type;
 	Position = position;
 	MyPlatoon = NULL;
+	Speed = 0;
 	setUnitData();
-}
-
-Unit::~Unit()
-{
-}
-
-int Unit::getMotionType() const
-{
-	int return_ = 0;
-	switch (Type)
-	{
-	case 0:
-		return_ = 3;
-		break;
-	case 1:
-		return_ = 4;
-		break;
-	default:
-		break;
-	}
-	return return_;
 }

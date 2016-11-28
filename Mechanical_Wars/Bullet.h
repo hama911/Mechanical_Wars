@@ -13,15 +13,20 @@ public:
 	void update();		//trueで消去
 	void draw()	const;
 
-	//内部データにアクセス
-	Vec2 getPosition() const;
-	int getType() const;
-	bool getEnabled() const;
+	Bullet() { Enabled = false; }
 
-	Bullet(Turret* turret);
-	~Bullet();
+	void reset();
 
-	void setCount(int count);
+	bool set(Turret* turret);
+
+
+	//Get/Set関数
+public:
+	Vec2 getPosition() const { return Position; }
+	int getType() const { return Type; }
+	bool getEnabled() const { return Enabled; }
+	void setCount(int count) { Count = count; }
+
 
 private:
 	//個別データ
@@ -41,5 +46,6 @@ private:
 	int Count;
 	int Type;
 	double SpeedPerformance;
+
 };
 

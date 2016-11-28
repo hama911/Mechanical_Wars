@@ -12,24 +12,28 @@ public:
 	void update();
 	void draw() const;
 
-	Turret();
-	~Turret();
+	Turret() { Enabled = false; }
 
-	//内部データにアクセス
-	Vec2 getGlobalPosition() const;
-	Vec2 getTargetAngle() const;
-	int getType() const;
-	Unit* getBaseUnit() const;
-	Vec2 getRealPosition() const;
-	int getCount() const;
-
-	void setBaseUnit(Unit *unit);
-	void setRange(double range);
-	void setAngle(Vec2 angle);
-	void setEnable(bool flag);
-	void setLocalPosition(Vec2 position);
-	void setType(int type);
 	void addRotate(double angle);
+	void reset();
+	void set(int type,double x,double y);
+
+public:	//内部データにアクセス
+	void setBaseUnit(Unit *unit) { BaseUnit = unit; }
+	void setRange(double range) { Range = range; }
+	void setAngle(Vec2 angle) { GlobalAngle = angle; }
+	void setEnable(bool enabled) { Enabled = enabled; }
+
+	void setLocalPosition(Vec2 position);
+
+	
+	Vec2 getTargetAngle() const { return TargetAngle; }
+	int getType() const { return Type; }
+	int getCount() const { return Count; }
+	Unit* getBaseUnit() const { return BaseUnit; }
+
+	Vec2 getRealPosition() const;
+
 
 private:
 	//個別データ

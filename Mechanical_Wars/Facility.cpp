@@ -1,17 +1,26 @@
 #include"Facility.h"
 
-Facility::Facility(Vec2 position,int IFF_p,int type)
+
+void Facility::reset()
 {
-	Enabled = true;
-	Position = position;
-	Type = type;
-	IFF = IFF_p;
+	Enabled = false;
+	Position = Vec2(0, 0);
+	Type = 0;
+	IFF = 0;
 	Progress = 0;
 }
 
-Facility::~Facility()
+bool Facility::set(int iff, double x, double y, int type)
 {
+	if (Enabled) return false;
+	Enabled = true;
+	Position = Vec2(x, y);
+	Type = type;
+	IFF = iff;
+	Progress = 0;
+	return true;
 }
+
 void Facility::update()
 {
 	if (!Enabled) return;

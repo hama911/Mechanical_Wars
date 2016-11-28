@@ -4,14 +4,6 @@
 
 extern Array<Unit> units;
 
-void Facility::setFacilityData()
-{
-	switch (Type)
-	{
-	default:
-		break;
-	}
-}
 
 void Facility::drawFacility() const
 {
@@ -38,7 +30,7 @@ void Facility::updateFacility()
 				if (!unit.getEnabled())
 				{
 
-					unit.resetUnit(IFF, 0, Position);
+					unit.setUnit(IFF, 0, Position);
 					break;
 				}
 			}

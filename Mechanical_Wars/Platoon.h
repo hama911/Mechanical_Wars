@@ -12,17 +12,20 @@ public:
 
 	void update();
 	void draw() const;
+
+
 	int getRank(Unit* unit);
 	Vec2 getPosition(Unit* leader);
-	bool joinPlatoon(Unit* member);
 	Unit* getLeaderInfo();
 	Vec2 getAngle();
 	int getTotalMember();
 	int getIFF();
+
 	void setLeaderUnit(Unit* leader);
 
 	void relocation();
 	void reset();
+	bool joinPlatoon(Unit* member);
 
 	Platoon();
 	~Platoon();

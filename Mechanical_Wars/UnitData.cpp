@@ -14,8 +14,7 @@ void Unit::setUnitData()
 		TurningPerformance = 0.03;
 		HealthPerformance = 10;
 
-		turrets[0].setLocalPosition(Vec2(4, 0));
-		turrets[0].setType(0);
+		turrets[0].set(0, 4, 0);
 
 		break;
 	case 1:
@@ -27,12 +26,9 @@ void Unit::setUnitData()
 		TurningPerformance = 0.005;
 		HealthPerformance = 100;
 
-		turrets[2].setLocalPosition(Vec2(8, 0));
-		turrets[2].setType(1);
-		turrets[1].setLocalPosition(Vec2(-19, 7));
-		turrets[1].setType(2);
-		turrets[0].setLocalPosition(Vec2(-19, -7));
-		turrets[0].setType(2);
+		turrets[0].set(2, -19, -7);
+		turrets[1].set(2, -19, 7);
+		turrets[2].set(1, 8, 0);
 		break;
 	default:
 		break;

@@ -12,20 +12,18 @@ void Bullet::update()
 	{
 		--Count;
 		Position.moveBy(Angle*SpeedPerformance);
-		if (Count<0)
+		if (Count < 0)
 		{
-			Enabled = false;
-			motions.push_back(Motion(this));
-			//if (Type == 1) SoundAsset(L"explosive2").playMulti(0.03*getZoom());
-			//else SoundAsset(L"explosive1").playMulti(0.01*getZoom());
+			for (auto& motion : motions)
+				if (motion.setFromBullet(this)) break;
+			reset();
 		}
 
 		if (hitCheck())
 		{
-			Enabled = false;
-			motions.push_back(Motion(this));
-			//if (Type == 1) SoundAsset(L"explosive2").playMulti(0.03*getZoom());
-			//else SoundAsset(L"explosive1").playMulti(0.01*getZoom());
+			for (auto& motion : motions)
+				if (motion.setFromBullet(this)) break;
+			reset();
 		}
 
 	}
@@ -66,11 +64,22 @@ void Bullet::draw() const
 	}
 }
 
-
-Bullet::Bullet(Turret* turret)
+void Bullet::reset()
 {
-	Count = turret->getCount();
+	Enabled = false;
+	IFF = 0;
+	Position = Vec2(0, 0);
+	Angle = Vec2(0, 0);
+	Count = 0;
+	Type = 0;
+	SpeedPerformance = 0;
+}
+
+bool Bullet::set(Turret* turret)
+{
+	if (Enabled) return false;
 	Enabled = true;
+	Count = turret->getCount()*1.2;
 	IFF = turret->getBaseUnit()->getIFF();
 	Position = turret->getRealPosition();
 	Angle = turret->getTargetAngle();
@@ -78,21 +87,7 @@ Bullet::Bullet(Turret* turret)
 	setBulletData();
 	//’ÇÕƒVƒXƒeƒ€
 	//serchEnemyUnit();
-
-}
-Vec2 Bullet::getPosition() const
-{
-	return Position;
-}
-
-int Bullet::getType() const
-{
-	return Type;
-}
-
-bool Bullet::getEnabled() const
-{
-	return Enabled;
+	return true;
 }
 
 Unit* Bullet::serchEnemyUnit()
@@ -110,17 +105,8 @@ Unit* Bullet::serchEnemyUnit()
 	}
 	if (target != NULL)
 	{
-		Angle = (target->getPosition() + target->getAngle()*target->getSpeedPerformance()*((target->getPosition().distanceFrom(Position) / (Angle*SpeedPerformance - target->getAngle()*target->getSpeedPerformance()).length())) - Position).normalized();
+		Angle = (target->getPosition() + target->getAngle()*target->getSpeed()*((target->getPosition().distanceFrom(Position) / (Angle*SpeedPerformance - target->getAngle()*target->getSpeed()).length())) - Position).normalized();
 
 	}
 	return target;
-}
-
-Bullet::~Bullet()
-{
-}
-
-void Bullet::setCount(int count)
-{
-	Count = count;
 }
