@@ -2,9 +2,14 @@
 #include"Graphics.h"
 #include"Unit.h"
 
-void Platoon::setLeaderUnit(Unit* leader)
+void Platoon::setFromUnit(Unit* leader)
 {
 	LeaderUnit = leader;
+	MemberUnits[0] = leader;
+	leader->setPlatoon(this);
+	Enabled = true;
+	TargetAngle.rotate(Random(TwoPi));
+	TargetPosition = Vec2(Random(1024), Random(1024));
 }
 
 Platoon::Platoon()
@@ -45,10 +50,7 @@ bool Platoon::joinPlatoon(Unit* member)
 	if (LeaderUnit != NULL && (member->getIFF() != LeaderUnit->getIFF() || member->getPosition().distanceFrom(LeaderUnit->getPosition()) > 256)) return false;
 	if (!Enabled)
 	{
-		LeaderUnit = member;
-		MemberUnits[0] = member;
-		member->setPlatoon(this);
-		Enabled = true;
+		setFromUnit(member);
 		return true;
 	}
 	else {
@@ -71,6 +73,8 @@ void Platoon::reset()
 	for (auto& unit : MemberUnits)
 		unit = NULL;
 	LeaderUnit = NULL;
+	TargetPosition = Vec2(0, 0);
+	TargetAngle = Vec2(1, 0);
 }
 
 Platoon::~Platoon()
@@ -95,7 +99,7 @@ void Platoon::update()
 						break;
 					}
 				}
-				if (LeaderUnit->getPlatoon() != this) 
+				if (LeaderUnit->getPlatoon() != this)
 				{
 					reset();
 					return;
@@ -131,30 +135,64 @@ void Platoon::relocation()
 	for (int i = 0; i < MAX_MEMBER; i++)
 		MemberUnits[i] = NewUnits[i];
 }
-
-Vec2 Platoon::getPosition(Unit* unit)
+double Platoon::getUnitSpeed(Unit* unit)
 {
-	//return Vec2(0, 0);
-	//if (LeaderUnit == NULL) return Vec2(0, 0);
+	if (abs(getUnitTargetAngle(unit).cross(unit->getAngle())) < 0.8 && getUnitTargetAngle(unit).dot(unit->getAngle()) > 0)
+	{
+		if ((getUnitTargetPosition(unit) - unit->getPosition()).length() < 1)
+		{
+			return 0;
+		}
+		if ((getUnitTargetPosition(unit) - unit->getPosition()).length() < 5)
+		{
+			return unit->getSpeedPerformance() / 4;
+		}
+		if (unit == LeaderUnit) return unit->getSpeedPerformance() / 2;
+		return unit->getSpeedPerformance();
+	}
+	else
+	{
+		return 0;
+	}
+}
+Vec2 Platoon::getUnitTargetPosition(Unit* unit)
+{
 	Vec2 local;
 	int count = 1;
-	for (auto& member : MemberUnits)
+	if (unit == LeaderUnit)
 	{
-		if (member == LeaderUnit) continue;
-		if (count % 2 == 1)
+		return TargetPosition;
+	}
+	else
+	{
+		for (auto& member : MemberUnits)
 		{
-			local = Vec2(-count * 5 - 5, count * 15 + 15);
+			if (member == LeaderUnit) continue;
+			if (count % 2 == 1)
+			{
+				local = Vec2(-count * 5 - 5, count * 15 + 15);
 
+			}
+			else
+			{
+				local = Vec2(-count * 5, -count * 15);
+			}
+			if (member == unit) break;
+			++count;
 		}
-		else
-		{
-			local = Vec2(-count * 5, -count * 15);
-		}
-		if (member == unit) break;
-		++count;
 	}
 
-	return  LeaderUnit->getPosition() + local.rotated(Vec2ToRadian(LeaderUnit->getAngle()));
+	if ((TargetPosition - LeaderUnit->getPosition()).length() < 1)
+		return  LeaderUnit->getPosition() + local.rotated(Vec2ToRadian(TargetAngle));
+	else
+		return  LeaderUnit->getPosition() + local.rotated(Vec2ToRadian(LeaderUnit->getAngle()));
+}
+Vec2 Platoon::getUnitTargetAngle(Unit* unit)
+{
+	if ((getUnitTargetPosition(unit) - unit->getPosition()).length() < 1)
+		return TargetAngle;
+	else
+		return (getUnitTargetPosition(unit) - unit->getPosition()).normalized();
 }
 
 void Platoon::draw() const
@@ -163,6 +201,7 @@ void Platoon::draw() const
 	if (LeaderUnit == NULL) return;
 	Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 16 * getZoom()).draw(Color(HSV(LeaderUnit->getIFF()), 64));
 	Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 256 * getZoom()).draw(Color(HSV(LeaderUnit->getIFF()), 8));
+	Line(ConvertVec2ToVec2(LeaderUnit->getPosition()), ConvertVec2ToVec2(TargetPosition)).draw(10 * getZoom(), Color(HSV(LeaderUnit->getIFF()), 128));
 	for (auto& unit : MemberUnits)
 	{
 		if (unit == NULL) continue;

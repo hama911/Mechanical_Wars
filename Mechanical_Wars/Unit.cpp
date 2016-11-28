@@ -69,26 +69,8 @@ void Unit::updatePlatoon()
 	else
 	{
 		//ターゲットアングルの変更
-		if (MyPlatoon->getRank(this) == 0)
-		{
-			TargetAngle = (MyPlatoon->getPosition(this) - Position).normalized();
-			if (abs(TargetAngle.cross(Angle)) < 0.8 && TargetAngle.dot(Angle) > 0)
-			{
-				if ((MyPlatoon->getPosition(this) - Position).length() > 10)
-				{
-					Speed = SpeedPerformance;
-				}
-				else
-				{
-					Speed = SpeedPerformance / 2;
-				}
-			}
-		}
-		else
-		{
-			Speed = SpeedPerformance / 2;
-			if (RandomBool(0.001)) TargetAngle.rotate(Random(TwoPi));
-		}
+		Speed = MyPlatoon->getUnitSpeed(this);
+		TargetAngle = MyPlatoon->getUnitTargetAngle(this);
 		//より多いところに加入
 		if (MyPlatoon->getTotalMember() <= 2)
 		{

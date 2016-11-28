@@ -15,13 +15,16 @@ public:
 
 
 	int getRank(Unit* unit);
-	Vec2 getPosition(Unit* leader);
+	Vec2 getUnitTargetAngle(Unit* unit);
+	Vec2 getUnitTargetPosition(Unit* unit);
+	double getUnitSpeed(Unit* unit);
 	Unit* getLeaderInfo();
 	Vec2 getAngle();
 	int getTotalMember();
 	int getIFF();
 
-	void setLeaderUnit(Unit* leader);
+	void setFromUnit(Unit* leader);
+
 
 	void relocation();
 	void reset();
@@ -34,5 +37,8 @@ private:
 	bool Enabled;
 	Unit* MemberUnits[MAX_MEMBER];
 	Unit* LeaderUnit;
+
+	Vec2 TargetPosition;	//目標地点
+	Vec2 TargetAngle;		//目標方向
 
 };

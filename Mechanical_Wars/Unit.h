@@ -36,6 +36,7 @@ public:	//内部データにアクセス
 	int getIFF() const { return IFF; }
 	bool getEnabled() const { return Enabled; }
 	double getSpeed() const { return Speed; }
+	double getSpeedPerformance() const { return SpeedPerformance; }
 	Platoon* getPlatoon()const { return MyPlatoon; }
 	int getMotionType() const;
 
