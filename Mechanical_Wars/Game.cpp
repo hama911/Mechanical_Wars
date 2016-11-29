@@ -10,6 +10,8 @@ Array<Unit> units;
 Array<Motion> motions;
 Array<Facility> facilities;
 Array<Platoon> platoons;
+Platoon* SelectedPlatoon = NULL;
+int FriendIFF = 0;
 void Game::update()
 {
 	if (Input::MouseL.clicked)
@@ -29,7 +31,15 @@ void Game::update()
 		motion.update();
 	drawUpdate();
 
-
+	if (Input::MouseL.clicked)
+	{
+		for (auto& platoon : platoons)
+			if (platoon.getEnabled() && platoon.getIFF() == FriendIFF && platoon.getLeaderInfo()->getPosition().distanceFrom(DisConvertVec2ToVec2(Mouse::Pos())) < 16) SelectedPlatoon = &platoon;
+	}
+	if (Input::MouseR.clicked&&SelectedPlatoon != NULL&&SelectedPlatoon->getEnabled())
+		SelectedPlatoon->setTargetPosition(DisConvertVec2ToVec2(Mouse::Pos()));
+	if (Input::MouseR.pressed && SelectedPlatoon != NULL&&SelectedPlatoon->getEnabled())
+		SelectedPlatoon->setTargetAngle((DisConvertVec2ToVec2(Mouse::Pos()) - SelectedPlatoon->getTargetPosition()).normalized());
 }
 
 void Game::draw() const

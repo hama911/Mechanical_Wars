@@ -2,7 +2,7 @@
 #include"Graphics.h"
 #include"Unit.h"
 
-//extern Platoon* SelectedPlatoon;
+extern Platoon* SelectedPlatoon;
 void Platoon::setFromUnit(Unit* leader)
 {
 	LeaderUnit = leader;
@@ -110,7 +110,7 @@ void Platoon::update()
 			{
 				unit1 = NULL;
 			}
-			relocation();
+			//relocation();	//Ä”z’u
 		}
 	}
 }
@@ -200,8 +200,9 @@ void Platoon::draw() const
 {
 	if (!Enabled) return;
 	if (LeaderUnit == NULL) return;
-	//if (this == SelectedPlatoon)	Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 20 * getZoom()).draw(Palette::Yellow);
+	if (this == SelectedPlatoon)	Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 20 * getZoom()).draw(Palette::Yellow);
 
+	Line(ConvertVec2ToVec2(TargetPosition), ConvertVec2ToVec2(TargetPosition + TargetAngle * 40)).drawArrow(10 * getZoom(),Vec2(20,20)*getZoom(), Color(HSV(LeaderUnit->getIFF()), 128));
 	Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 16 * getZoom()).draw(Color(HSV(LeaderUnit->getIFF()), 64));
 	Circle(ConvertVec2ToVec2(LeaderUnit->getPosition()), 256 * getZoom()).draw(Color(HSV(LeaderUnit->getIFF()), 8));
 	Line(ConvertVec2ToVec2(LeaderUnit->getPosition()), ConvertVec2ToVec2(TargetPosition)).draw(10 * getZoom(), Color(HSV(LeaderUnit->getIFF()), 128));

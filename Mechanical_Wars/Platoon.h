@@ -23,6 +23,8 @@ public:
 	int getTotalMember();
 	int getIFF();
 	void setTargetPosition(Vec2 position) { TargetPosition = position; }
+	void setTargetAngle(Vec2 angle) { TargetAngle = angle; }
+	Vec2 getTargetPosition() const { return TargetPosition; }
 
 	bool getEnabled() const { return Enabled; }
 
