@@ -19,23 +19,13 @@ public:
 	void set(int type,double x,double y);
 
 public:	//内部データにアクセス
-	void setBaseUnit(Unit *unit) { BaseUnit = unit; }
-	void setRange(double range) { Range = range; }
-	void setAngle(Vec2 angle) { GlobalAngle = angle; }
-	void setEnable(bool enabled) { Enabled = enabled; }
 
 	void setLocalPosition(Vec2 position);
-
-	
-	Vec2 getTargetAngle() const { return TargetAngle; }
-	int getType() const { return Type; }
-	int getCount() const { return Count; }
-	Unit* getBaseUnit() const { return BaseUnit; }
 
 	Vec2 getRealPosition() const;
 
 
-private:
+public:
 	//個別データ
 	void setTurretData();
 	void drawTurret() const;

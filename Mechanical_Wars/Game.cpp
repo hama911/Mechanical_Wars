@@ -34,13 +34,13 @@ void Game::update()
 	if (Input::MouseL.clicked)
 	{
 		for (auto& platoon : platoons)
-			if (platoon.getEnabled() && platoon.getIFF() == FriendIFF && platoon.getLeaderInfo()->getPosition().distanceFrom(DisConvertVec2ToVec2(Mouse::Pos())) < 16) SelectedPlatoon = &platoon;
+			if (platoon.Enabled && platoon.LeaderUnit->IFF == FriendIFF && platoon.getLeaderInfo()->Position.distanceFrom(DisConvertVec2ToVec2(Mouse::Pos())) < 16) SelectedPlatoon = &platoon;
 	}
 
-	if (Input::MouseR.clicked&&SelectedPlatoon != NULL&&SelectedPlatoon->getEnabled())
-		SelectedPlatoon->setTargetPosition(DisConvertVec2ToVec2(Mouse::Pos()));
-	if (Input::MouseR.pressed && SelectedPlatoon != NULL&&SelectedPlatoon->getEnabled())
-		SelectedPlatoon->setTargetAngle((DisConvertVec2ToVec2(Mouse::Pos()) - SelectedPlatoon->getTargetPosition()).normalized());
+	if (Input::MouseR.clicked&&SelectedPlatoon != NULL&&SelectedPlatoon->Enabled)
+		SelectedPlatoon->TargetPosition = DisConvertVec2ToVec2(Mouse::Pos());
+	if (Input::MouseR.pressed && SelectedPlatoon != NULL&&SelectedPlatoon->Enabled)
+		SelectedPlatoon->TargetAngle = (DisConvertVec2ToVec2(Mouse::Pos()) - SelectedPlatoon->TargetPosition).normalized();
 }
 
 void Game::draw() const
@@ -112,7 +112,7 @@ void Game::updateFadeIn(double)
 
 void Game::refreshArray()
 {
-	Erase_if(units, [](const Unit& unit) {return !unit.getEnabled(); });
-	Erase_if(bullets, [](const Bullet& bullet) {return !bullet.getEnabled(); });
-	Erase_if(motions, [](const Motion& motion) {return !motion.getEnabled(); });
+	Erase_if(units, [](const Unit& unit) {return !unit.Enabled; });
+	Erase_if(bullets, [](const Bullet& bullet) {return !bullet.Enabled; });
+	Erase_if(motions, [](const Motion& motion) {return !motion.Enabled; });
 }

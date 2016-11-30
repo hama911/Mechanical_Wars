@@ -13,7 +13,7 @@ public:
 	bool set(int iff, double x, double y, int type);
 	void drawFacility() const;
 	void updateFacility();
-private:
+public:
 
 
 	bool Enabled;

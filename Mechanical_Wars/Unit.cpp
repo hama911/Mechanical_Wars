@@ -15,11 +15,12 @@ void Unit::update()
 	{
 		updatePlatoon();
 		for (auto& turret : turrets)
-			turret.setBaseUnit(this);
+			turret.BaseUnit = this;
 
 		turnUpdate();
 
 		limitMoving();
+
 
 		if (Supply < 0) Supply = 0;
 		if (Fuel < 0) Fuel = 0;
@@ -54,7 +55,7 @@ void Unit::reset()
 	Type = 0;
 	Speed = 0;
 	for (auto& turret : turrets)
-		turret.setEnable(false);
+		turret.Enabled = false;
 }
 
 void Unit::updatePlatoon()
@@ -86,7 +87,7 @@ void Unit::updatePlatoon()
 	}
 	else
 	{
-		if (!MyPlatoon->getEnabled())
+		if (!MyPlatoon->Enabled)
 		{
 			MyPlatoon = NULL;
 			return;
@@ -99,7 +100,7 @@ void Unit::updatePlatoon()
 		{
 			for (auto& platoon : platoons)
 			{
-				if (&platoon != MyPlatoon&&platoon.getIFF() == IFF && platoon.getTotalMember() + MyPlatoon->getTotalMember() <= 5 && platoon.getTotalMember() >= MyPlatoon->getTotalMember())
+				if (platoon.Enabled && &platoon != MyPlatoon&&platoon.LeaderUnit->IFF == IFF && platoon.getTotalMember() + MyPlatoon->getTotalMember() <= 5 && platoon.getTotalMember() >= MyPlatoon->getTotalMember())
 				{
 					platoon.joinPlatoon(this);
 				}

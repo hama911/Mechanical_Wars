@@ -21,16 +21,8 @@ public:
 	Unit* getLeaderInfo();
 	Vec2 getAngle();
 	int getTotalMember();
-	int getIFF();
-	void setTargetPosition(Vec2 position) { TargetPosition = position; }
-	void setTargetAngle(Vec2 angle) { TargetAngle = angle; }
-	Vec2 getTargetPosition() const { return TargetPosition; }
-
-	bool getEnabled() const { return Enabled; }
 
 	void setFromUnit(Unit* leader);
-
-
 	void relocation();
 	void reset();
 	bool joinPlatoon(Unit* member);
@@ -38,7 +30,7 @@ public:
 	Platoon();
 	~Platoon();
 
-private:
+public:
 	bool Enabled;
 	Unit* MemberUnits[MAX_MEMBER];
 	Unit* LeaderUnit;

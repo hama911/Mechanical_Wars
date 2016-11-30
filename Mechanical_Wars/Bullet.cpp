@@ -34,7 +34,7 @@ Unit* Bullet::hitCheck()
 	Unit* target = NULL;
 	for (auto& unit : units)
 	{
-		if (unit.getEnabled() && IFF != unit.getIFF() && unit.hitCheck(Position))
+		if (unit.Enabled && IFF != unit.IFF && unit.hitCheck(Position))
 		{
 			target = &unit;
 			switch (Type)
@@ -79,11 +79,11 @@ bool Bullet::set(Turret* turret)
 {
 	if (Enabled) return false;
 	Enabled = true;
-	Count = int(turret->getCount()*1.2);
-	IFF = turret->getBaseUnit()->getIFF();
+	Count = int(turret->Count*1.2);
+	IFF = turret->BaseUnit->IFF;
 	Position = turret->getRealPosition();
-	Angle = turret->getTargetAngle();
-	Type = turret->getType();
+	Angle = turret->TargetAngle;
+	Type = turret->Type;
 	setBulletData();
 	//追跡システム
 	//serchEnemyUnit();
@@ -97,15 +97,15 @@ Unit* Bullet::serchEnemyUnit()
 	Unit* target = NULL;	//ターゲット
 	for (auto& unit : units)
 	{
-		if (unit.getEnabled() && IFF != unit.getIFF() && Position.distanceFrom(unit.getPosition()) < length)
+		if (unit.Enabled && IFF != unit.IFF && Position.distanceFrom(unit.Position) < length)
 		{
-			length = Position.distanceFrom(unit.getPosition());
+			length = Position.distanceFrom(unit.Position);
 			target = &unit;
 		}
 	}
 	if (target != NULL)
 	{
-		Angle = (target->getPosition() + target->getAngle()*target->getSpeed()*((target->getPosition().distanceFrom(Position) / (Angle*SpeedPerformance - target->getAngle()*target->getSpeed()).length())) - Position).normalized();
+		Angle = (target->Position + target->Angle*target->Speed*((target->Position.distanceFrom(Position) / (Angle*SpeedPerformance - target->Angle*target->Speed).length())) - Position).normalized();
 
 	}
 	return target;

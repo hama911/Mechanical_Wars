@@ -31,22 +31,9 @@ public:
 
 
 public:	//内部データにアクセス
-	Vec2 getPosition() const { return Position; }
-	Vec2 getAngle() const { return Angle; }
-	int getIFF() const { return IFF; }
-	bool getEnabled() const { return Enabled; }
-	double getSpeed() const { return Speed; }
-	int getType() const { return Type; }
-	double getSpeedPerformance() const { return SpeedPerformance; }
-	Platoon* getPlatoon()const { return MyPlatoon; }
 	int getMotionType() const;
-	double getSupply() { return Supply; }
-	void pullSupply(double value) { Supply -= value; }
-	void pullFuel(double value) { Fuel -= value; }
-	void setEnabled(bool enabled) { Enabled = enabled; }
-	void setPlatoon(Platoon* platoon) { MyPlatoon = platoon; }
 
-private:
+public:
 	//個別データ
 	void setUnitData();
 	void drawUnit() const;
@@ -65,7 +52,7 @@ private:
 	//制限
 	void limitMoving();
 
-private:
+public:
 	//変数
 	bool Enabled;
 	Vec2 Position;

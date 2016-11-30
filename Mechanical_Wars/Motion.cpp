@@ -37,18 +37,14 @@ void Motion::draw() const
 	}
 }
 
-bool Motion::getEnabled() const
-{
-	return Enabled;
-}
 
 bool Motion::setFromBullet(Bullet* bullet)
 {
 	if (Enabled) return false;
 	Enabled = true;
 	Count = 0;
-	Position = bullet->getPosition();
-	Type = bullet->getType();
+	Position = bullet->Position;
+	Type = bullet->Type;
 	if (Type == 2) Type = 0;
 	if (Type == 1) SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
 	else SoundAsset(L"explosive1").playMulti(getSoundVolume(Position));
@@ -62,7 +58,7 @@ bool Motion::setFromUnit(Unit* unit)
 	if (Enabled) return false;
 	Enabled = true;
 	Count = 0;
-	Position = unit->getPosition();
+	Position = unit->Position;
 	Type = unit->getMotionType();
 	if (Type == 2) Type = 0;
 	if (Type == 1 || Type == 3 || Type == 4 ) SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);

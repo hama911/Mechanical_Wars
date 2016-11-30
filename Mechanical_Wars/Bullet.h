@@ -20,15 +20,9 @@ public:
 	bool set(Turret* turret);
 
 
-	//Get/SetŠÖ”
+
+
 public:
-	Vec2 getPosition() const { return Position; }
-	int getType() const { return Type; }
-	bool getEnabled() const { return Enabled; }
-	void setCount(int count) { Count = count; }
-
-
-private:
 	//ŒÂ•Êƒf[ƒ^
 	void setBulletData();
 	void drawBullet() const;

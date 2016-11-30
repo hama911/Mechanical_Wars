@@ -11,8 +11,6 @@ public:
 	void update();
 	void draw() const;
 
-	bool getEnabled() const;
-
 	void reset();
 
 	Motion() { Enabled = false; }
@@ -21,7 +19,7 @@ public:
 
 	bool setFromUnit(Unit* unit);
 
-private:
+public:
 	bool Enabled;
 	int Count;
 	Vec2 Position;
