@@ -21,5 +21,9 @@ private:
 	int Type;
 	int IFF;
 	int Progress;
+	double Supply;
+	double Fuel;
+	double SupplyMax;
+	double FuelMax;
 
 };

@@ -21,6 +21,9 @@ void Unit::update()
 
 		limitMoving();
 
+		if (Supply < 0) Supply = 0;
+		if (Fuel < 0) Fuel = 0;
+
 		if (Health < 0)
 		{
 			for (auto& motion : motions)
@@ -31,10 +34,13 @@ void Unit::update()
 		for (auto& turret : turrets)
 			turret.update();
 
+
 	}
 }
 void Unit::reset()
 {
+	Supply = 0;
+	Fuel = 0;
 	Enabled = false;
 	Position = Vec2(0.0, 0.0);
 	Angle = Vec2(1, 0);
@@ -50,19 +56,31 @@ void Unit::reset()
 	for (auto& turret : turrets)
 		turret.setEnable(false);
 }
+
 void Unit::updatePlatoon()
 {
 	Speed = 0;
 	if (MyPlatoon == NULL)
 	{
-
 		Speed = SpeedPerformance;
 		if (RandomBool(0.001)) TargetAngle.rotate(Random(TwoPi));
-
+		double distance = 10000;
+		Platoon *option = NULL;
 		for (auto& platoon : platoons)
 		{
-			if (platoon.joinPlatoon(this)) {
-				break;
+			if (platoon.getJoinDistance(this) < distance)
+			{
+				distance = platoon.getJoinDistance(this);
+				option = &platoon;
+			}
+		}
+		if (option != NULL) {
+			option->joinPlatoon(this);
+		}
+		else {
+			for (auto& platoon : platoons)
+			{
+				if (platoon.joinPlatoon(this)) break;
 			}
 		}
 	}
@@ -88,8 +106,11 @@ void Unit::updatePlatoon()
 			}
 		}
 	}
-	moveForward(Speed);
-
+	if (Fuel > 0)
+	{
+		moveForward(Speed);
+		Fuel -= Speed / 100.0;
+	}
 }
 
 
@@ -104,6 +125,14 @@ void Unit::draw() const
 		//É^Å[ÉåÉbÉgï`âÊ
 		for (auto& turret : turrets)
 			turret.draw();
+
+		//ëœãvÉQÅ[ÉW
+		Line(ConvertVec2ToVec2(Position - Vec2(FuelMax / 2, 26)), ConvertVec2ToVec2(Position - Vec2(-FuelMax / 2, 26))).draw(3 * getZoom(), Palette::Black);
+		Line(ConvertVec2ToVec2(Position - Vec2(FuelMax / 2, 26)), ConvertVec2ToVec2(Position - Vec2(FuelMax / 2 - Fuel, 26))).draw(3 * getZoom(), Palette::Purple);
+
+		//ëœãvÉQÅ[ÉW
+		Line(ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2, 23)), ConvertVec2ToVec2(Position - Vec2(-SupplyMax / 2, 23))).draw(3 * getZoom(), Palette::Black);
+		Line(ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2, 23)), ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2 - Supply, 23))).draw(3 * getZoom(), Palette::Yellow);
 
 		//ëœãvÉQÅ[ÉW
 		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
@@ -161,14 +190,16 @@ void Unit::shot()
 {
 }
 
-void Unit::setUnit(int IFF_p, int type, Vec2 position)
+bool Unit::setUnit(int IFF_p, int type, Vec2 position)
 {
+	if (Enabled) return false;
 	IFF = IFF_p;
 	Type = type;
 	Position = position;
 	MyPlatoon = NULL;
 	Speed = 0;
 	setUnitData();
+	return true;
 }
 
 int Unit::getMotionType() const

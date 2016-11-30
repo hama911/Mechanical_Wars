@@ -23,7 +23,7 @@ public:
 
 	void updatePlatoon();
 
-	void setUnit(int IFF_p, int type, Vec2 position = Vec2(Random(1024), Random(1024)));
+	bool setUnit(int IFF_p, int type, Vec2 position = Vec2(Random(1024), Random(1024)));
 	void reset();
 
 
@@ -36,10 +36,13 @@ public:	//内部データにアクセス
 	int getIFF() const { return IFF; }
 	bool getEnabled() const { return Enabled; }
 	double getSpeed() const { return Speed; }
+	int getType() const { return Type; }
 	double getSpeedPerformance() const { return SpeedPerformance; }
 	Platoon* getPlatoon()const { return MyPlatoon; }
 	int getMotionType() const;
-
+	double getSupply() { return Supply; }
+	void pullSupply(double value) { Supply -= value; }
+	void pullFuel(double value) { Fuel -= value; }
 	void setEnabled(bool enabled) { Enabled = enabled; }
 	void setPlatoon(Platoon* platoon) { MyPlatoon = platoon; }
 
@@ -79,6 +82,12 @@ private:
 	double TurningPerformance;	//旋回性能
 	double HealthPerformance;	//耐久性能
 	int Type;
+
+	//補給
+	double Supply;	//補給量
+	double Fuel;	//燃料
+	double SupplyMax;
+	double FuelMax;
 
 	Turret turrets[MAX_TURRET];
 

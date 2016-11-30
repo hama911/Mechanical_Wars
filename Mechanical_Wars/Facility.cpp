@@ -8,6 +8,10 @@ void Facility::reset()
 	Type = 0;
 	IFF = 0;
 	Progress = 0;
+	Supply = 0;
+	Fuel = 0;
+	SupplyMax = 0;
+	FuelMax = 0;
 }
 
 bool Facility::set(int iff, double x, double y, int type)
@@ -17,7 +21,20 @@ bool Facility::set(int iff, double x, double y, int type)
 	Position = Vec2(x, y);
 	Type = type;
 	IFF = iff;
+	Supply = 0;
+	Fuel = 0;
 	Progress = 0;
+	switch (Type)
+	{
+	case 0:
+		break;
+	case 1:
+		SupplyMax = 100;
+		FuelMax = 100;
+		break;
+	default:
+		break;
+	}
 	return true;
 }
 

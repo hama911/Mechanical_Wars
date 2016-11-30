@@ -36,6 +36,7 @@ void Game::update()
 		for (auto& platoon : platoons)
 			if (platoon.getEnabled() && platoon.getIFF() == FriendIFF && platoon.getLeaderInfo()->getPosition().distanceFrom(DisConvertVec2ToVec2(Mouse::Pos())) < 16) SelectedPlatoon = &platoon;
 	}
+
 	if (Input::MouseR.clicked&&SelectedPlatoon != NULL&&SelectedPlatoon->getEnabled())
 		SelectedPlatoon->setTargetPosition(DisConvertVec2ToVec2(Mouse::Pos()));
 	if (Input::MouseR.pressed && SelectedPlatoon != NULL&&SelectedPlatoon->getEnabled())
@@ -97,6 +98,10 @@ void Game::init()
 		if (facility.set(240, 768, 512, 0)) break;
 	for (auto& facility : facilities)
 		if (facility.set(0, 256, 512, 0)) break;
+	for (auto& facility : facilities)
+		if (facility.set(240, 768, 256, 1)) break;
+	for (auto& facility : facilities)
+		if (facility.set(0, 256, 768, 1)) break;
 
 }
 

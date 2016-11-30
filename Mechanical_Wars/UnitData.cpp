@@ -6,18 +6,35 @@ void Unit::setUnitData()
 	switch (Type)
 	{
 	case 0:
+		Supply = 10;
+		Fuel = 10;
+		SupplyMax = 10;
+		FuelMax = 10;
 		SpeedPerformance = 0.5;
 		TurningPerformance = 0.03;
 		HealthPerformance = 10;
 		turrets[0].set(0, 4, 0);
 		break;
 	case 1:
+		Supply = 10;
+		Fuel = 10;
+		SupplyMax = 10;
+		FuelMax = 10;
 		SpeedPerformance = 0.2;
 		TurningPerformance = 0.005;
 		HealthPerformance = 100;
 		turrets[0].set(2, -19, -7);
 		turrets[1].set(2, -19, 7);
 		turrets[2].set(1, 8, 0);
+		break;
+	case 2:	//補給用トラック
+		Supply = 100;
+		Fuel = 100;
+		SupplyMax = 100;
+		FuelMax = 100;
+		SpeedPerformance = 1.0;
+		TurningPerformance = 0.05;
+		HealthPerformance = 5;
 		break;
 	default:
 		break;
@@ -46,6 +63,12 @@ bool Unit::hitCheck(Vec2 pos)
 		if (pos2.y < -15) flag = false;
 		if (pos2.y > 15) flag = false;
 		break;
+	case 2:
+		if (pos2.x < -7.5) flag = false;
+		if (pos2.x > 7.5) flag = false;
+		if (pos2.y < -5) flag = false;
+		if (pos2.y > 5) flag = false;
+		break;
 	default:
 		flag = false;
 		break;
@@ -62,6 +85,9 @@ void Unit::drawUnit() const
 		break;
 	case 1:
 		TextureAsset(L"Ratte_Chassis")(0, 0, 60, 30).resize(60 * getZoom(), 30 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(30.0, 15.0)));
+		break;
+	case 2:
+		TextureAsset(L"Supply_Truck")(0, 0, 15, 10).resize(15 * getZoom(), 10 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(7.5, 5.0)));
 		break;
 	default:
 		break;

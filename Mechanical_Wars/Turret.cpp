@@ -67,6 +67,7 @@ void Turret::updateAngle()
 
 void Turret::shot()
 {
+	if (BaseUnit->getSupply() < 0.5) return;
 	--ReloadCount;
 	if (ReloadCount < 0)
 	{
@@ -85,6 +86,7 @@ void Turret::shot()
 				for (auto& bullet : bullets)
 					if (bullet.set(this)) break;
 				ReloadCount = ReloadTime;
+				BaseUnit->pullSupply(0.5);
 			}
 		}
 	}
