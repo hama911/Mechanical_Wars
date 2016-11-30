@@ -177,7 +177,7 @@ double Platoon::getUnitSpeed(Unit* unit)
 		{
 			return unit->SpeedPerformance / 4;
 		}
-		if (unit == LeaderUnit) return unit->SpeedPerformance / 2;
+		if (unit == LeaderUnit) return unit->SpeedPerformance *0.8;
 		return unit->SpeedPerformance;
 	}
 	else

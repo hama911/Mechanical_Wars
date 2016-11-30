@@ -21,6 +21,19 @@ void Unit::update()
 
 		limitMoving();
 
+		if (MyPlatoon != NULL && MyPlatoon->SupplyUnit != NULL)
+		{
+			if (SupplyMax - Supply > 0.1 && MyPlatoon->SupplyUnit->Supply > 0.1)
+			{
+				Supply += 0.1;
+				MyPlatoon->SupplyUnit->Supply -= 0.1;
+			}
+			if (FuelMax - Fuel > 0.1 && MyPlatoon->SupplyUnit->Fuel > 0.1)
+			{
+				Fuel += 0.1;
+				MyPlatoon->SupplyUnit->Fuel -= 0.1;
+			}
+		}
 
 		if (Supply < 0) Supply = 0;
 		if (Fuel < 0) Fuel = 0;
@@ -110,7 +123,7 @@ void Unit::updatePlatoon()
 	if (Fuel > 0)
 	{
 		moveForward(Speed);
-		Fuel -= Speed / 100.0;
+		Fuel -= Speed * 0.01;
 	}
 }
 
