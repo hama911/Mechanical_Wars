@@ -13,7 +13,7 @@ void Turret::update()
 	if (target != NULL)
 	{
 		TargetAngle = (target->Position - getRealPosition()).normalized();	//ŽËŒ‚Šp‚ðƒZƒbƒg
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 10; i++)
 			TargetAngle = (target->Position + target->Angle*target->Speed*((target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->Speed).length())) - getRealPosition()).normalized();
 	}
 	else

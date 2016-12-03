@@ -8,6 +8,7 @@ void Turret::set(int type,double x,double y) {
 	LocalPosition = Vec2(x, y);
 	GlobalAngle = Vec2(1, 0);
 	TargetAngle = Vec2(1, 0);
+	ReloadCount = 0;
 	setTurretData();
 }
 
@@ -16,7 +17,7 @@ void Turret::setTurretData()
 	switch (Type)
 	{
 	case 0:
-		Range = 256.0;
+		Range = 2560.0;
 		ReloadTime = 60;
 		TurningPerformance = 0.09;
 		BulletSpeed = 2.0;
