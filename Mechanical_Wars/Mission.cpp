@@ -10,6 +10,17 @@ void Mission::update()
 	if (!Enabled) return;
 	if (Prosecutor != NULL && Prosecutor->RunningMission != this) Prosecutor = NULL;
 	if (Priority <= 0) Enabled = false;
+	//Šp“x‚ÌÝ’è
+	Vec2 enemyAngle = Vec2(0, 0);
+	int count = 0;
+	for (auto& connect : Connects)
+	{
+		if (connect != NULL && connect->IFF != IFF)
+		{
+			enemyAngle += (connect->Position - Position).normalized();
+		}
+	}
+	Angle = Vec2(1, 0).rotated(Vec2ToRadian(enemyAngle));
 }
 
 void Mission::draw() const
@@ -34,8 +45,6 @@ bool Mission::set(Vec2 position, double angle, int iff, Platoon* platoon, int pr
 	Enabled = true;
 	Position = position;
 	Angle = Vec2(1, 0);
-	if (iff == 0) Angle = Vec2(-1, 0);
-	Angle.rotate(angle);
 	IFF = iff;
 	Prosecutor = platoon;
 	Priority = priority;
