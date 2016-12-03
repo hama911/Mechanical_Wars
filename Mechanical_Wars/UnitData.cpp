@@ -1,6 +1,8 @@
 #include"Unit.h"
 #include"Graphics.h"
+#include"Facility.h"
 
+extern Array<Facility> facilities;
 void Unit::setUnitData()
 {
 	switch (Type)
@@ -33,7 +35,7 @@ void Unit::setUnitData()
 		SupplyMax = 100;
 		FuelMax = 100;
 		SpeedPerformance = 1.0;
-		TurningPerformance = 0.05;
+		TurningPerformance = 0.2;
 		HealthPerformance = 5;
 		break;
 	default:
@@ -99,7 +101,32 @@ void Unit::updateUnit()
 	switch (Type)
 	{
 	case 2:
-		if (Fuel <= 1 || Supply <= 1) Enabled = false;
+		if (Fuel <= 50 || Supply <= 1)
+		{
+			double distance = 10000;
+			Facility *supplyFacility = NULL;
+			for (auto& facility : facilities)
+			{
+				if (facility.Enabled && facility.IFF == IFF && facility.Type == 1 && facility.Position.distanceFrom(Position) < distance)
+				{
+					distance = facility.Position.distanceFrom(Position);
+					supplyFacility = &facility;
+				}
+			}
+			if (supplyFacility == NULL) return;
+			if (supplyFacility->Position.distanceFrom(Position) > 16)
+			{
+				TargetAngle = (supplyFacility->Position - Position).normalized();
+				Speed = SpeedPerformance;
+			}
+			else
+			{
+				supplyFacility->Fuel -= FuelMax - Fuel;
+				supplyFacility->Supply -= SupplyMax - Supply;
+				Fuel = FuelMax;
+				Supply = SupplyMax;
+			}
+		}
 		break;
 	default:
 		break;

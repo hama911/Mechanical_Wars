@@ -12,44 +12,51 @@ extern Array<Platoon> platoons;
 
 void Unit::update()
 {
-	if (Enabled)
+	if (!Enabled) return;
+	updatePlatoon();
+	for (auto& turret : turrets)
+		turret.BaseUnit = this;
+
+
+	limitMoving();
+
+	if (MyPlatoon != NULL && MyPlatoon->SupplyUnit != NULL)
 	{
-		updatePlatoon();
-		for (auto& turret : turrets)
-			turret.BaseUnit = this;
-
-		turnUpdate();
-
-		limitMoving();
-
-		if (MyPlatoon != NULL && MyPlatoon->SupplyUnit != NULL)
+		if (SupplyMax - Supply > 0.1 && MyPlatoon->SupplyUnit->Supply > 0.1)
 		{
-			if (SupplyMax - Supply > 0.1 && MyPlatoon->SupplyUnit->Supply > 0.1)
-			{
-				Supply += 0.1;
-				MyPlatoon->SupplyUnit->Supply -= 0.1;
-			}
-			if (FuelMax - Fuel > 0.1 && MyPlatoon->SupplyUnit->Fuel > 0.1)
-			{
-				Fuel += 0.1;
-				MyPlatoon->SupplyUnit->Fuel -= 0.1;
-			}
+			Supply += 0.1;
+			MyPlatoon->SupplyUnit->Supply -= 0.1;
 		}
-
-		if (Supply < 0) Supply = 0;
-		if (Fuel < 0) Fuel = 0;
-
-		if (Health < 0)
+		if (FuelMax - Fuel > 0.1 && MyPlatoon->SupplyUnit->Fuel > 0.1)
 		{
-			for (auto& motion : motions)
-				if (motion.setFromUnit(this)) break;
-			reset();
+			Fuel += 0.1;
+			MyPlatoon->SupplyUnit->Fuel -= 0.1;
 		}
-		//ターレット制御
-		for (auto& turret : turrets)
-			turret.update();
+	}
+
+	if (Supply < 0) Supply = 0;
+	if (Fuel < 0) Fuel = 0;
+
+	if (Health < 0)
+	{
+		for (auto& motion : motions)
+			if (motion.setFromUnit(this)) break;
+		reset();
+	}
+	//ターレット制御
+	for (auto& turret : turrets)
+		turret.update();
 
 
+
+	updateUnit();
+
+
+	turnUpdate();
+	if (Fuel > 0)
+	{
+		moveForward(Speed);
+		Fuel -= Speed * 0.01;
 	}
 }
 void Unit::reset()
@@ -121,13 +128,6 @@ void Unit::updatePlatoon()
 			}
 		}
 	}
-	if (Fuel > 0)
-	{
-		moveForward(Speed);
-		Fuel -= Speed * 0.01;
-	}
-
-	updateUnit();
 }
 
 
