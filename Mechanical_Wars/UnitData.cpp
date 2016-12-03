@@ -10,7 +10,7 @@ void Unit::setUnitData()
 		Fuel = 10;
 		SupplyMax = 10;
 		FuelMax = 10;
-		SpeedPerformance = 0.5;
+		SpeedPerformance = 1.0;
 		TurningPerformance = 0.03;
 		HealthPerformance = 10;
 		turrets[0].set(0, 4, 0);
@@ -20,8 +20,8 @@ void Unit::setUnitData()
 		Fuel = 10;
 		SupplyMax = 10;
 		FuelMax = 10;
-		SpeedPerformance = 0.2;
-		TurningPerformance = 0.005;
+		SpeedPerformance = 0.3;
+		TurningPerformance = 0.02;
 		HealthPerformance = 100;
 		turrets[0].set(2, -19, -7);
 		turrets[1].set(2, -19, 7);
@@ -81,13 +81,25 @@ void Unit::drawUnit() const
 	switch (Type)
 	{
 	case 0:
-		TextureAsset(L"T-34_Chassis")(0,0,30,20).resize(30*getZoom(), 20*getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(15.0, 10.0)));
+		TextureAsset(L"T-34_Chassis")(0, 0, 30, 20).resize(30 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(15.0, 10.0)));
 		break;
 	case 1:
 		TextureAsset(L"Ratte_Chassis")(0, 0, 60, 30).resize(60 * getZoom(), 30 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(30.0, 15.0)));
 		break;
 	case 2:
 		TextureAsset(L"Supply_Truck")(0, 0, 15, 10).resize(15 * getZoom(), 10 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(7.5, 5.0)));
+		break;
+	default:
+		break;
+	}
+}
+
+void Unit::updateUnit()
+{
+	switch (Type)
+	{
+	case 2:
+		if (Fuel <= 1 || Supply <= 1) Enabled = false;
 		break;
 	default:
 		break;

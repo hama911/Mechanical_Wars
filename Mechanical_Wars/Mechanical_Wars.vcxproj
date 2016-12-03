@@ -293,8 +293,10 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="Mission.h" />
     <ClInclude Include="Motion.h" />
     <ClInclude Include="Platoon.h" />
+    <ClInclude Include="Power.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>
@@ -307,8 +309,10 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphcis.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Mission.cpp" />
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="Platton.cpp" />
+    <ClCompile Include="Power.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="TurretData.cpp" />
     <ClCompile Include="Unit.cpp" />

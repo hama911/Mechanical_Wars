@@ -1,7 +1,8 @@
 #include"Facility.h"
 #include"Graphics.h"
 #include"Unit.h"
-
+#include"Power.h"
+extern Array<Power> powers;
 extern Array<Unit> units;
 
 
@@ -29,12 +30,20 @@ void Facility::updateFacility()
 	switch (Type)
 	{
 	case 0:		//•ºŠí»‘¢‹Ç
-		++Progress;
-		if (Progress > 100)
+		Progress += 1;
+		while (Progress > 1 && powers[IFF].NeedUnits[2] > 0)
+		{
+			for (auto& unit : units)
+				if (unit.setUnit(IFF, 2, Position)) break;
+			Progress -= 1;
+			--powers[IFF].NeedUnits[2];
+		}
+		while (Progress > 10 && powers[IFF].NeedUnits[0] > 0)
 		{
 			for (auto& unit : units)
 				if (unit.setUnit(IFF, 0, Position)) break;
-			Progress = 0;
+			Progress -= 10;
+			--powers[IFF].NeedUnits[0];
 		}
 		break;
 	case 1:		//•¨Ž‘»‘¢‹Ç
@@ -42,13 +51,6 @@ void Facility::updateFacility()
 		Supply += 1.0;
 		if (Fuel > FuelMax) Fuel = FuelMax;
 		if (Supply > SupplyMax) Supply = SupplyMax;
-		++Progress;
-		if(Progress>400)
-		{
-			for (auto& unit : units)
-				if (unit.setUnit(IFF, 2, Position)) break;
-			Progress = 0;
-		}
 		break;
 	default:
 		break;

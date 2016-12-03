@@ -35,6 +35,7 @@ public:	//内部データにアクセス
 
 public:
 	//個別データ
+	void updateUnit();
 	void setUnitData();
 	void drawUnit() const;
 

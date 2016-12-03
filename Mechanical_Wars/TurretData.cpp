@@ -16,7 +16,7 @@ void Turret::setTurretData()
 	switch (Type)
 	{
 	case 0:
-		Range = 128.0;
+		Range = 256.0;
 		ReloadTime = 60;
 		TurningPerformance = 0.09;
 		BulletSpeed = 2.0;

@@ -3,6 +3,7 @@
 #include"Graphics.h"
 #include"Motion.h"
 #include"Platoon.h"
+#include"Game.h"
 
 extern Array<Bullet> bullets;
 extern Array<Unit> units;
@@ -125,6 +126,8 @@ void Unit::updatePlatoon()
 		moveForward(Speed);
 		Fuel -= Speed * 0.01;
 	}
+
+	updateUnit();
 }
 
 
@@ -162,10 +165,10 @@ void Unit::addDamege(double value)
 
 void Unit::limitMoving()
 {
-	if (Position.x < 0) Position.x = 0;
-	if (Position.y < 0) Position.y = 0;
-	if (Position.x > 1024) Position.x = 1024;
-	if (Position.y > 1024) Position.y = 1024;
+	if (Position.x < GROUND_LIMIT_MIN_X) Position.x = GROUND_LIMIT_MIN_Y;
+	if (Position.y < GROUND_LIMIT_MIN_Y) Position.y = GROUND_LIMIT_MIN_Y;
+	if (Position.x > GROUND_LIMIT_MAX_X) Position.x = GROUND_LIMIT_MAX_X;
+	if (Position.y > GROUND_LIMIT_MAX_Y) Position.y = GROUND_LIMIT_MAX_Y;
 }
 
 void Unit::mountTurret()

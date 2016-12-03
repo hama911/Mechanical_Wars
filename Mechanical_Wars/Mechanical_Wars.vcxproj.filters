@@ -462,6 +462,12 @@
     <ClInclude Include="Platoon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Mission.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Power.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -504,6 +510,12 @@
       <Filter>ソース ファイル\ユニット関連</Filter>
     </ClCompile>
     <ClCompile Include="FacilityData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Mission.cpp">
+      <Filter>ソース ファイル\ユニット関連</Filter>
+    </ClCompile>
+    <ClCompile Include="Power.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

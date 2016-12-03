@@ -3,6 +3,7 @@
 #include"Calculation.h"
 
 class Unit;
+class Mission;
 
 #define MAX_MEMBER 6
 
@@ -31,6 +32,7 @@ public:
 	~Platoon();
 
 public:
+	Mission* RunningMission;
 	bool Enabled;
 	Unit* MemberUnits[MAX_MEMBER];
 	Unit* LeaderUnit;
