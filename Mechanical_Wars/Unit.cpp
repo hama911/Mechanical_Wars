@@ -143,17 +143,7 @@ void Unit::draw() const
 		for (auto& turret : turrets)
 			turret.draw();
 
-		//ëœãvÉQÅ[ÉW
-		Line(ConvertVec2ToVec2(Position - Vec2(FuelMax / 2, 26)), ConvertVec2ToVec2(Position - Vec2(-FuelMax / 2, 26))).draw(3 * getZoom(), Palette::Black);
-		Line(ConvertVec2ToVec2(Position - Vec2(FuelMax / 2, 26)), ConvertVec2ToVec2(Position - Vec2(FuelMax / 2 - Fuel, 26))).draw(3 * getZoom(), Palette::Purple);
 
-		//ëœãvÉQÅ[ÉW
-		Line(ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2, 23)), ConvertVec2ToVec2(Position - Vec2(-SupplyMax / 2, 23))).draw(3 * getZoom(), Palette::Black);
-		Line(ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2, 23)), ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2 - Supply, 23))).draw(3 * getZoom(), Palette::Yellow);
-
-		//ëœãvÉQÅ[ÉW
-		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
-		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
 
 	}
 }

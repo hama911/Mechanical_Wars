@@ -115,7 +115,7 @@ void Game::init()
 		bullets.push_back(Bullet());
 	for (int i = 0; i < 1000; i++)
 		platoons.push_back(Platoon());
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 1000; i++)
 		missions.push_back(Mission());
 	for (int i = 0; i < 360; i++)
 		powers.push_back(Power(i));
@@ -149,7 +149,7 @@ void Game::init()
 	for (int x = 0; x < 16; x++)
 		for (int y = 0; y < 8; y++)
 			for (auto& mission : missions)
-				if ((x % 2) + y != 8 && mission.set(Vec2(x * 128 + 64, y * 128 + 64 + (x % 2) * 64), Pi, 240 * (x > 4), NULL, 3)) break;
+				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), Pi, 240 * (x > 4), NULL, 3)) break;
 }
 
 void Game::updateFadeIn(double)

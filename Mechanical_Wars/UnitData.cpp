@@ -83,12 +83,32 @@ void Unit::drawUnit() const
 	switch (Type)
 	{
 	case 0:
+		//ëœãvÉQÅ[ÉW
+		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
+		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
+
 		TextureAsset(L"T-34_Chassis")(0, 0, 30, 20).resize(30 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(15.0, 10.0)));
 		break;
 	case 1:
+		//ëœãvÉQÅ[ÉW
+		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
+		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
+
 		TextureAsset(L"Ratte_Chassis")(0, 0, 60, 30).resize(60 * getZoom(), 30 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(30.0, 15.0)));
 		break;
 	case 2:
+		//ëœãvÉQÅ[ÉW
+		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
+		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
+
+		//îRóøÉQÅ[ÉW
+		Line(ConvertVec2ToVec2(Position - Vec2(10, 26)), ConvertVec2ToVec2(Position - Vec2(-10, 26))).draw(3 * getZoom(), Palette::Black);
+		Line(ConvertVec2ToVec2(Position - Vec2(10, 26)), ConvertVec2ToVec2(Position - Vec2(10 - (Fuel / FuelMax) * 20, 26))).draw(3 * getZoom(), Palette::Purple);
+
+		//ï®éëÉQÅ[ÉW
+		Line(ConvertVec2ToVec2(Position - Vec2(10, 23)), ConvertVec2ToVec2(Position - Vec2(-10, 23))).draw(3 * getZoom(), Palette::Black);
+		Line(ConvertVec2ToVec2(Position - Vec2(10, 23)), ConvertVec2ToVec2(Position - Vec2(10 - (Supply / SupplyMax) * 20, 23))).draw(3 * getZoom(), Palette::Yellow);
+
 		TextureAsset(L"Supply_Truck")(0, 0, 15, 10).resize(15 * getZoom(), 10 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(7.5, 5.0)));
 		break;
 	default:

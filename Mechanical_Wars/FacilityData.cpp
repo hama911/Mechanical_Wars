@@ -11,7 +11,7 @@ void Facility::drawFacility() const
 	switch (Type)
 	{
 	case 0:		//ï∫äÌêªë¢ã«
-		Rect(ConvertVec2ToPoint(Position), Size(64 * getZoom(), 64 * getZoom())).draw(Palette::Chocolate);
+		Rect(ConvertVec2ToPoint(Position - Vec2(32, 32)), Size(64 * getZoom(), 64 * getZoom())).draw(Palette::Chocolate);
 		break;
 	case 1:		//ï®éëêªë¢ã«
 		Line(ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2, 43)), ConvertVec2ToVec2(Position - Vec2(-SupplyMax / 2, 43))).draw(3 * getZoom(), Palette::Black);

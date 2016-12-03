@@ -23,7 +23,7 @@ void Mission::draw() const
 		Circle(ConvertVec2ToVec2(Position), 35 * getZoom()).drawFrame(1 * getZoom(), 0, Color(Palette::Yellow, 128));
 
 	}
-	Circle(ConvertVec2ToVec2(Position), 50 * getZoom()).drawFrame(1 * getZoom(), 0, HSV(IFF));
+	Circle(ConvertVec2ToVec2(Position), 64 * getZoom()).drawFrame(1 * getZoom(), 0, HSV(IFF));
 	Circle(ConvertVec2ToVec2(Position), (Priority * 5) * getZoom()).draw(HSV(IFF));
 
 }
