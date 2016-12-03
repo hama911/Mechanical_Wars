@@ -1,26 +1,83 @@
 #include"Mission.h"
 #include"Graphics.h"
 #include"Platoon.h"
-
+#include"Unit.h"
 extern Array<Mission> missions;
 extern Mission* SelectedMission;
-
+extern Array<Unit> units;
 void Mission::update()
 {
 	if (!Enabled) return;
 	if (Prosecutor != NULL && Prosecutor->RunningMission != this) Prosecutor = NULL;
 	if (Priority <= 0) Enabled = false;
-	//äpìxÇÃê›íË
-	Vec2 enemyAngle = Vec2(0, 0);
-	int count = 0;
-	for (auto& connect : Connects)
+	//ìGÇ…ÇÊÇÈêËóÃîªíË
+	Mission *target = NULL;
+	int occupier = 0;
+	if (Prosecutor != NULL)
 	{
-		if (connect != NULL && connect->IFF != IFF)
+		for (auto& unit : Prosecutor->MemberUnits)
 		{
-			enemyAngle += (connect->Position - Position).normalized();
+			if (unit != NULL && unit->Position.distanceFrom(Position) < 192) ++occupier;
 		}
 	}
-	Angle = Vec2(1, 0).rotated(Vec2ToRadian(enemyAngle));
+	else
+	{
+		occupier = 0;
+	}
+
+	int enemyOccupier = 0;
+	for (auto& connect : Connects)
+	{
+		if (connect != NULL && connect->IFF != IFF && connect->Prosecutor != NULL)
+		{
+			int count = 0;
+			for (auto& unit : connect->Prosecutor->MemberUnits)
+			{
+				if (unit != NULL && unit->Position.distanceFrom(Position) < 192) ++count;
+			}
+			if (count > enemyOccupier && count > occupier + 2) {
+				enemyOccupier = count;
+				target = connect;
+			}
+		}
+	}
+	if (target != NULL)
+	{
+		//ñ°ï˚ÅAìGÇÃóDóÚîªíË
+		int count = 0;
+		for (auto& unit : units)
+		{
+			if (unit.Enabled && unit.Position.distanceFrom(Position) < 192)
+			{
+				if (unit.IFF == IFF) --count;
+				if (unit.IFF != IFF) ++count;
+			}
+		}
+		if (count > 0)
+		{
+			if (Prosecutor != NULL) Prosecutor->RunningMission = target->Prosecutor->RunningMission;
+			Prosecutor = target->Prosecutor;
+			target->Prosecutor = NULL;
+			IFF = target->IFF;
+		}
+
+	}
+
+
+	//äpìxÇÃê›íË
+	if (Prosecutor != NULL)
+	{
+		Vec2 enemyAngle = Vec2(0, 0);
+		int count = 0;
+		for (auto& connect : Connects)
+		{
+			if (connect != NULL && connect->IFF != IFF)
+			{
+				enemyAngle += (connect->Position - Position).normalized();
+			}
+		}
+		Angle = Vec2(1, 0).rotated(Vec2ToRadian(enemyAngle));
+	}
 }
 
 void Mission::draw() const

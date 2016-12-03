@@ -163,6 +163,7 @@ void Platoon::update()
 	MemberUnits[0] = LeaderUnit;
 
 	//ミッションの確認
+	if (RunningMission != NULL && RunningMission->Prosecutor != this) RunningMission = NULL;
 	if (RunningMission == NULL || !RunningMission->Enabled)
 	{
 		double distance = 10000;
@@ -215,6 +216,10 @@ void Platoon::update()
 	{
 		TargetAngle = RunningMission->Angle;
 		TargetPosition = RunningMission->Position;
+	}
+	else
+	{
+		Enabled = false;
 	}
 }
 void Platoon::relocation()

@@ -20,25 +20,29 @@ Platoon* SelectedPlatoon = NULL;
 int FriendIFF = 0;
 void Game::update()
 {
-	if (Input::MouseL.clicked)
+
+	for (int i = 0; i < Speed; i++)
 	{
-		++m_data->counter;
-		changeScene(L"Result");
+		if (Input::MouseL.clicked)
+		{
+			++m_data->counter;
+			changeScene(L"Result");
+		}
+		for (auto& power : powers)
+			power.update();
+		for (auto& facility : facilities)
+			facility.update();
+		for (auto& mission : missions)
+			mission.update();
+		for (auto& unit : units)
+			unit.update();
+		for (auto& platoon : platoons)
+			platoon.update();
+		for (auto& bullet : bullets)
+			bullet.update();
+		for (auto& motion : motions)
+			motion.update();
 	}
-	for (auto& power : powers)
-		power.update();
-	for (auto& facility : facilities)
-		facility.update();
-	for (auto& mission : missions)
-		mission.update();
-	for (auto& unit : units)
-		unit.update();
-	for (auto& platoon : platoons)
-		platoon.update();
-	for (auto& bullet : bullets)
-		bullet.update();
-	for (auto& motion : motions)
-		motion.update();
 	drawUpdate();
 	if (Input::MouseL.clicked)
 	{
@@ -60,18 +64,30 @@ void Game::update()
 			SelectedPlatoon->TargetAngle = (DisConvertVec2ToVec2(Mouse::Pos()) - SelectedPlatoon->TargetPosition).normalized();
 		}
 	}
+	if (Input::KeyF1.clicked)
+	{
+		if (Speed <= 1) Speed = 0;
+		else Speed /= 2;
+	}
+	if (Input::KeyF2.clicked)
+	{
+		if (Speed == 0) Speed = 1;
+		else Speed *= 2;
+	}
 }
+
 
 void Game::draw() const
 {
 
 	Window::ClientRect().draw(Palette::Darkorange);
 	//ground.resize(1024 * getZoom(), 1024 * getZoom()).draw(ConvertVec2ToPoint(Vec2(0, 0)));
-	Rect(ConvertVec2ToPoint(Vec2(GROUND_LIMIT_MIN_X, GROUND_LIMIT_MIN_Y)), Point((GROUND_LIMIT_MAX_X - GROUND_LIMIT_MIN_X) * getZoom(), (GROUND_LIMIT_MAX_Y - GROUND_LIMIT_MIN_Y) * getZoom())).drawFrame(5 * getZoom(), 0, Palette::White);
+	Rect(ConvertVec2ToPoint(Vec2(GROUND_LIMIT_MIN_X, GROUND_LIMIT_MIN_Y)), Point((GROUND_LIMIT_MAX_X - GROUND_LIMIT_MIN_X) * getZoom(), (GROUND_LIMIT_MAX_Y - GROUND_LIMIT_MIN_Y) * getZoom())).drawFrame(0, 5 * getZoom(), Palette::White);
 	for (auto& power : powers)
 		power.draw();
 	for (auto& facility : facilities)
 		facility.draw();
+
 	for (auto& mission : missions)
 		mission.draw();
 	for (auto& platoon : platoons)
@@ -120,36 +136,46 @@ void Game::init()
 	for (int i = 0; i < 360; i++)
 		powers.push_back(Power(i));
 
+	/*
 	for (int i = 0; i < 7; i++)
 	{
 		for (int j = 0; j < 5; j++)
 			for (auto& unit : units)
 				if (unit.setUnit(240, 0, Vec2(700, 512))) break;
-		//for (auto& unit : units)
-			//if (unit.setUnit(240, 1, Vec2(700, 512))) break;
+		for (auto& unit : units)
+			if (unit.setUnit(240, 1, Vec2(700, 512))) break;
 		for (auto& unit : units)
 			if (unit.setUnit(240, 2, Vec2(700, 512))) break;
-
 	}
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 5; j++)
+			for (auto& unit : units)
+				if (unit.setUnit(0, 0, Vec2(500, 512))) break;
+		for (auto& unit : units)
+			if (unit.setUnit(0, 1, Vec2(500, 512))) break;
+		for (auto& unit : units)
+			if (unit.setUnit(0, 2, Vec2(500, 512))) break;
+	}*/
 
 
 	//Hê‚ÌƒZƒbƒg
 
 	for (auto& facility : facilities)
-		if (facility.set(240, 768, 256, 1)) break;
+		if (facility.set(240, 1054, 256, 1)) break;
 	for (auto& facility : facilities)
-		if (facility.set(240, 768, 512, 0)) break;
+		if (facility.set(240, 1054, 768, 0)) break;
 	for (auto& facility : facilities)
-		if (facility.set(0, 256, 512, 1)) break;
+		if (facility.set(0, 64, 256 + 64, 0)) break;
 	for (auto& facility : facilities)
-		if (facility.set(0, 256, 768, 0)) break;
+		if (facility.set(0, 64, 768 + 64, 1)) break;
 
 
 	//“G‚ÌMission
-	for (int x = 0; x < 16; x++)
+	for (int x = 0; x < 10; x++)
 		for (int y = 0; y < 8; y++)
 			for (auto& mission : missions)
-				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), Pi, 240 * (x > 4), NULL, 3)) break;
+				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), 0, (240 * (x >= 9) + 120 * (x > 1 && x < 9)), NULL, 3)) break;
 }
 
 void Game::updateFadeIn(double)

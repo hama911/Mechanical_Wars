@@ -30,19 +30,19 @@ void Facility::updateFacility()
 	switch (Type)
 	{
 	case 0:		//•ºŠí»‘¢‹Ç
-		Progress += 1;
-		while (Progress > 1 && powers[IFF].NeedUnits[2] > 0)
+		++Progress;
+		while (Progress > 10 && powers[IFF].NeedUnits[2] > 0)
 		{
 			for (auto& unit : units)
 				if (unit.setUnit(IFF, 2, Position)) break;
-			Progress -= 1;
+			Progress -= 10;
 			--powers[IFF].NeedUnits[2];
 		}
-		while (Progress > 10 && powers[IFF].NeedUnits[0] > 0)
+		while (Progress > 50 && powers[IFF].NeedUnits[0] > 0)
 		{
 			for (auto& unit : units)
 				if (unit.setUnit(IFF, 0, Position)) break;
-			Progress -= 10;
+			Progress -= 50;
 			--powers[IFF].NeedUnits[0];
 		}
 		break;

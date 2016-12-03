@@ -3,7 +3,7 @@
 #include"Main.h"
 
 #define GROUND_LIMIT_MIN_X 0
-#define GROUND_LIMIT_MAX_X 2048
+#define GROUND_LIMIT_MAX_X 1118
 #define GROUND_LIMIT_MIN_Y 0
 #define GROUND_LIMIT_MAX_Y 1024
 
@@ -25,6 +25,7 @@ public:
 
 private:
 
+	int Speed = 1;
 	Texture ground;
 
 

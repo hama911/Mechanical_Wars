@@ -84,8 +84,6 @@ void Unit::updatePlatoon()
 	Speed = 0;
 	if (MyPlatoon == NULL)
 	{
-		Speed = SpeedPerformance;
-		if (RandomBool(0.001)) TargetAngle.rotate(Random(TwoPi));
 		double distance = 10000;
 		Platoon *option = NULL;
 		for (auto& platoon : platoons)
