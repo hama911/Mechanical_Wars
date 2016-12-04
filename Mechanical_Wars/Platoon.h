@@ -27,6 +27,7 @@ public:
 	void relocation();
 	void reset();
 	bool joinPlatoon(Unit* member);
+	void searchNewMission(void);
 
 	Platoon();
 	~Platoon();

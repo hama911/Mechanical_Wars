@@ -121,8 +121,6 @@ Platoon::~Platoon()
 void Platoon::update()
 {
 	if (!Enabled) return;
-
-
 	//メンバーの欠損に対する対処
 	for (auto& unit1 : MemberUnits)
 	{
@@ -164,54 +162,7 @@ void Platoon::update()
 
 	//ミッションの確認
 	if (RunningMission != NULL && RunningMission->Prosecutor != this) RunningMission = NULL;
-	if (RunningMission == NULL || !RunningMission->Enabled)
-	{
-		double distance = 10000;
-		bool cz_flag = false;
-		Mission *mission2 = NULL;
-		for (auto& mission : missions)
-		{
-			if (mission.Enabled && mission.IFF == LeaderUnit->IFF && mission.Prosecutor == NULL)
-			{
-				bool flag = false;
-				for (auto & connect : mission.Connects)
-					if (connect != NULL && connect->IFF != mission.IFF) flag = true;
-				if (flag >= cz_flag && mission.Position.distanceFrom(LeaderUnit->Position) < distance)
-				{
-					distance = mission.Position.distanceFrom(LeaderUnit->Position);
-					cz_flag = flag;
-					RunningMission = &mission;
-					mission2 = &mission;
-				}
-			}
-		}
-		if (mission2 != NULL) mission2->Prosecutor = this;
-	}
-	else
-	{
-		double distance = 10000;
-		bool cz_flag = false;
-		for (auto & connect : RunningMission->Connects)
-			if (connect != NULL && connect->IFF != RunningMission->IFF) cz_flag = true;
-		Mission *mission2 = NULL;
-		for (auto& mission : missions)
-		{
-			if (mission.Enabled && mission.IFF == LeaderUnit->IFF && (mission.Prosecutor == NULL || mission.Prosecutor == this))
-			{
-				bool flag = false;
-				for (auto & connect : mission.Connects)
-					if (connect != NULL && connect->IFF != mission.IFF) flag = true;
-				if (flag > cz_flag || (flag == cz_flag && mission.Position.distanceFrom(LeaderUnit->Position) < distance))
-				{
-					distance = mission.Position.distanceFrom(LeaderUnit->Position);
-					cz_flag = flag;
-					RunningMission = &mission;
-					mission2 = &mission;
-				}
-			}
-		}
-		if (mission2 != NULL) mission2->Prosecutor = this;
-	}
+	searchNewMission();
 	if (RunningMission != NULL)
 	{
 		TargetAngle = RunningMission->Angle;
@@ -222,6 +173,40 @@ void Platoon::update()
 		Enabled = false;
 	}
 }
+
+void Platoon::searchNewMission()
+{
+	double distance = 10000;
+	bool cz_flag = false;
+	if (RunningMission != NULL)
+	{
+		for (auto & connect : RunningMission->Connects)
+			if (connect != NULL && connect->IFF != RunningMission->IFF) cz_flag = true;
+		RunningMission->Prosecutor = NULL;
+		RunningMission = NULL;
+	}
+	for (auto& mission : missions)
+	{
+		if (mission.Enabled && mission.IFF == LeaderUnit->IFF)
+		{
+			if (mission.Prosecutor == NULL || mission.Prosecutor->LeaderUnit == NULL || mission.Position.distanceFrom(LeaderUnit->Position) < mission.Prosecutor->LeaderUnit->Position.distanceFrom(mission.Position))
+			{
+				bool flag = false;
+				for (auto & connect : mission.Connects)
+					if (connect != NULL && connect->IFF != mission.IFF) flag = true;
+				if (flag > cz_flag || (flag == cz_flag && mission.Position.distanceFrom(LeaderUnit->Position) < distance))
+				{
+					distance = mission.Position.distanceFrom(LeaderUnit->Position);
+					cz_flag = flag;
+					RunningMission = &mission;
+				}
+			}
+		}
+	}
+	if (RunningMission != NULL) RunningMission->Prosecutor = this;
+
+}
+
 void Platoon::relocation()
 {
 	Unit* NewUnits[MAX_MEMBER];

@@ -2,6 +2,7 @@
 #include<Siv3D.hpp>
 #include"Calculation.h"
 
+class Mission;
 class Facility : public Calculation
 {
 public:
@@ -10,16 +11,15 @@ public:
 	void update();
 	void draw() const;
 	void reset();
-	bool set(int iff, double x, double y, int type);
+	bool set(Mission *mission, int type);
 	void drawFacility() const;
 	void updateFacility();
 public:
 
 
 	bool Enabled;
-	Vec2 Position;
+	Mission* LocatedMission;
 	int Type;
-	int IFF;
 	int Progress;
 	double Supply;
 	double Fuel;

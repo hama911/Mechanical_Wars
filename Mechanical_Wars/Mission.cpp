@@ -92,7 +92,7 @@ void Mission::draw() const
 
 	}
 	Circle(ConvertVec2ToVec2(Position), 64 * getZoom()).drawFrame(1 * getZoom(), 0, HSV(IFF));
-	Circle(ConvertVec2ToVec2(Position), (Priority * 5) * getZoom()).draw(HSV(IFF));
+	Circle(ConvertVec2ToVec2(Position), ((5 - BAL) * 5) * getZoom()).draw(HSV(IFF));
 
 }
 
@@ -132,4 +132,20 @@ bool Mission::set(Vec2 position, double angle, int iff, Platoon* platoon, int pr
 		}
 	}
 	return true;
+}
+
+bool Mission::getBattleFlag()
+{
+	if (!Enabled) return false;
+	for (auto& connect : Connects)
+		if (connect != NULL && connect->IFF != IFF) return true;
+	return false;
+}
+
+void Mission::setBAL()
+{
+	if (!Enabled) return;
+	if (getBattleFlag()) BAL = 0;
+	for (auto& connect : Connects)
+		if (connect != NULL && connect->IFF == IFF && connect->BAL < BAL) BAL = connect->BAL + 1;
 }

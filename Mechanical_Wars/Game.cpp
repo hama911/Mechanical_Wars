@@ -34,6 +34,13 @@ void Game::update()
 			facility.update();
 		for (auto& mission : missions)
 			mission.update();
+
+		//ミッションのセット
+		for (auto& mission : missions)
+			mission.BAL = 5;
+		for (int i = 0; i < 5; i++)
+			for (auto& mission : missions)
+				mission.setBAL();
 		for (auto& unit : units)
 			unit.update();
 		for (auto& platoon : platoons)
@@ -159,23 +166,24 @@ void Game::init()
 	}*/
 
 
-	//工場のセット
-
-	for (auto& facility : facilities)
-		if (facility.set(240, 1054, 256, 1)) break;
-	for (auto& facility : facilities)
-		if (facility.set(240, 1054, 768, 0)) break;
-	for (auto& facility : facilities)
-		if (facility.set(0, 64, 256 + 64, 0)) break;
-	for (auto& facility : facilities)
-		if (facility.set(0, 64, 768 + 64, 1)) break;
 
 
 	//敵のMission
 	for (int x = 0; x < 10; x++)
 		for (int y = 0; y < 8; y++)
 			for (auto& mission : missions)
-				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), 0, (240 * (x >= 9) + 120 * (x > 1 && x < 9)), NULL, 3)) break;
+				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), 0, (240 * (x >= 9) + 120 * (x > 0 && x < 9)), NULL, 3)) break;
+
+
+	//工場のセット
+	for (auto& facility : facilities)
+		if (facility.set(&missions[5], 1)) break;
+	for (auto& facility : facilities)
+		if (facility.set(&missions[1], 0)) break;
+	for (auto& facility : facilities)
+		if (facility.set(&missions[73], 0)) break;
+	for (auto& facility : facilities)
+		if (facility.set(&missions[69], 1)) break;
 }
 
 void Game::updateFadeIn(double)

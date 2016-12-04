@@ -2,6 +2,7 @@
 #include"Graphics.h"
 #include"Unit.h"
 #include"Power.h"
+#include"Mission.h"
 extern Array<Power> powers;
 extern Array<Unit> units;
 
@@ -11,14 +12,14 @@ void Facility::drawFacility() const
 	switch (Type)
 	{
 	case 0:		//ï∫äÌêªë¢ã«
-		Rect(ConvertVec2ToPoint(Position - Vec2(32, 32)), Size(64 * getZoom(), 64 * getZoom())).draw(Palette::Chocolate);
+		Rect(ConvertVec2ToPoint(LocatedMission->Position - Vec2(32, 32)), Size(64 * getZoom(), 64 * getZoom())).draw(Palette::Chocolate);
 		break;
 	case 1:		//ï®éëêªë¢ã«
-		Line(ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2, 43)), ConvertVec2ToVec2(Position - Vec2(-SupplyMax / 2, 43))).draw(3 * getZoom(), Palette::Black);
-		Line(ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2, 43)), ConvertVec2ToVec2(Position - Vec2(SupplyMax / 2 - Supply, 43))).draw(3 * getZoom(), Palette::Purple);
-		Line(ConvertVec2ToVec2(Position - Vec2(FuelMax / 2, 40)), ConvertVec2ToVec2(Position - Vec2(-FuelMax / 2, 40))).draw(3 * getZoom(), Palette::Black);
-		Line(ConvertVec2ToVec2(Position - Vec2(FuelMax / 2, 40)), ConvertVec2ToVec2(Position - Vec2(FuelMax / 2 - Fuel, 40))).draw(3 * getZoom(), Palette::Yellow);
-		Rect(ConvertVec2ToPoint(Position - Vec2(32, 32)), Size(64 * getZoom(), 64 * getZoom())).draw(Palette::Red);
+		Line(ConvertVec2ToVec2(LocatedMission->Position - Vec2(SupplyMax / 2, 43)), ConvertVec2ToVec2(LocatedMission->Position - Vec2(-SupplyMax / 2, 43))).draw(3 * getZoom(), Palette::Black);
+		Line(ConvertVec2ToVec2(LocatedMission->Position - Vec2(SupplyMax / 2, 43)), ConvertVec2ToVec2(LocatedMission->Position - Vec2(SupplyMax / 2 - Supply, 43))).draw(3 * getZoom(), Palette::Purple);
+		Line(ConvertVec2ToVec2(LocatedMission->Position - Vec2(FuelMax / 2, 40)), ConvertVec2ToVec2(LocatedMission->Position - Vec2(-FuelMax / 2, 40))).draw(3 * getZoom(), Palette::Black);
+		Line(ConvertVec2ToVec2(LocatedMission->Position - Vec2(FuelMax / 2, 40)), ConvertVec2ToVec2(LocatedMission->Position - Vec2(FuelMax / 2 - Fuel, 40))).draw(3 * getZoom(), Palette::Yellow);
+		Rect(ConvertVec2ToPoint(LocatedMission->Position - Vec2(32, 32)), Size(64 * getZoom(), 64 * getZoom())).draw(Palette::Red);
 		break;
 	default:
 		break;
@@ -31,19 +32,19 @@ void Facility::updateFacility()
 	{
 	case 0:		//ï∫äÌêªë¢ã«
 		++Progress;
-		while (Progress > 10 && powers[IFF].NeedUnits[2] > 0)
+		while (Progress > 0 && powers[LocatedMission->IFF].NeedUnits[2] > 0)
 		{
 			for (auto& unit : units)
-				if (unit.setUnit(IFF, 2, Position)) break;
-			Progress -= 10;
-			--powers[IFF].NeedUnits[2];
-		}
-		while (Progress > 50 && powers[IFF].NeedUnits[0] > 0)
-		{
-			for (auto& unit : units)
-				if (unit.setUnit(IFF, 0, Position)) break;
+				if (unit.setUnit(LocatedMission->IFF, 2, LocatedMission->Position)) break;
 			Progress -= 50;
-			--powers[IFF].NeedUnits[0];
+			--powers[LocatedMission->IFF].NeedUnits[2];
+		}
+		while (Progress > 0 && powers[LocatedMission->IFF].NeedUnits[0] > 0)
+		{
+			for (auto& unit : units)
+				if (unit.setUnit(LocatedMission->IFF, 0, LocatedMission->Position)) break;
+			Progress -= 80;
+			--powers[LocatedMission->IFF].NeedUnits[0];
 		}
 		break;
 	case 1:		//ï®éëêªë¢ã«

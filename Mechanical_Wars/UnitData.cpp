@@ -1,6 +1,7 @@
 #include"Unit.h"
 #include"Graphics.h"
 #include"Facility.h"
+#include"Mission.h"
 
 extern Array<Facility> facilities;
 void Unit::setUnitData()
@@ -8,7 +9,7 @@ void Unit::setUnitData()
 	switch (Type)
 	{
 	case 0:
-		Supply = 10;
+		Supply = 0;
 		Fuel = 10;
 		SupplyMax = 10;
 		FuelMax = 10;
@@ -18,7 +19,7 @@ void Unit::setUnitData()
 		turrets[0].set(0, 4, 0);
 		break;
 	case 1:
-		Supply = 10;
+		Supply = 0;
 		Fuel = 10;
 		SupplyMax = 10;
 		FuelMax = 10;
@@ -30,8 +31,8 @@ void Unit::setUnitData()
 		turrets[2].set(1, 8, 0);
 		break;
 	case 2:	//補給用トラック
-		Supply = 100;
-		Fuel = 100;
+		Supply = 0;
+		Fuel = 50;
 		SupplyMax = 100;
 		FuelMax = 100;
 		SpeedPerformance = 1.0;
@@ -127,16 +128,16 @@ void Unit::updateUnit()
 			Facility *supplyFacility = NULL;
 			for (auto& facility : facilities)
 			{
-				if (facility.Enabled && facility.IFF == IFF && facility.Type == 1 && facility.Position.distanceFrom(Position) < distance)
+				if (facility.Enabled && facility.LocatedMission->IFF == IFF && facility.Type == 1 && facility.LocatedMission->Position.distanceFrom(Position) < distance)
 				{
-					distance = facility.Position.distanceFrom(Position);
+					distance = facility.LocatedMission->Position.distanceFrom(Position);
 					supplyFacility = &facility;
 				}
 			}
 			if (supplyFacility == NULL) return;
-			if (supplyFacility->Position.distanceFrom(Position) > 16)
+			if (supplyFacility->LocatedMission->Position.distanceFrom(Position) > 16)
 			{
-				TargetAngle = (supplyFacility->Position - Position).normalized();
+				TargetAngle = (supplyFacility->LocatedMission->Position - Position).normalized();
 				Speed = SpeedPerformance;
 			}
 			else

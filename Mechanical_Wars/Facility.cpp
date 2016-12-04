@@ -4,23 +4,21 @@
 void Facility::reset()
 {
 	Enabled = false;
-	Position = Vec2(0, 0);
 	Type = 0;
-	IFF = 0;
 	Progress = 0;
 	Supply = 0;
 	Fuel = 0;
 	SupplyMax = 0;
 	FuelMax = 0;
+	LocatedMission = NULL;
 }
 
-bool Facility::set(int iff, double x, double y, int type)
+bool Facility::set(Mission *mission, int type)
 {
 	if (Enabled) return false;
 	Enabled = true;
-	Position = Vec2(x, y);
 	Type = type;
-	IFF = iff;
+	LocatedMission = mission;
 	Supply = 0;
 	Fuel = 0;
 	Progress = 0;

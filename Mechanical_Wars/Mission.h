@@ -18,8 +18,12 @@ public:
 	bool set(Vec2 position, double angle, int iff, Platoon* platoon = NULL, int priority = 1);
 	void update();
 	void draw() const;
+	bool getBattleFlag();	//戦闘中か
+	void setBAL();
 
 public:
+
+	int BAL;		//戦闘地域レベル
 	bool Enabled;
 	Vec2 Position;	//ミッションの位置
 	Vec2 Angle;		//ミッションの向く方向

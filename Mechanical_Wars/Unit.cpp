@@ -20,7 +20,7 @@ void Unit::update()
 
 	limitMoving();
 
-	if (MyPlatoon != NULL && MyPlatoon->SupplyUnit != NULL)
+	if (MyPlatoon != NULL && MyPlatoon->SupplyUnit != NULL && Position.distanceFrom(MyPlatoon->SupplyUnit->Position)<64)
 	{
 		if (SupplyMax - Supply > 0.1 && MyPlatoon->SupplyUnit->Supply > 0.1)
 		{
@@ -140,8 +140,6 @@ void Unit::draw() const
 		//ターレット描画
 		for (auto& turret : turrets)
 			turret.draw();
-
-
 
 	}
 }
