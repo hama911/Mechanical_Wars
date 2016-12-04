@@ -11,6 +11,8 @@ void Bullet::update()
 	if (Enabled)
 	{
 		--Count;
+		for (auto& motion : motions)
+			if (motion.setFromBulletLine(Position, Position + Angle*(SpeedPerformance-1))) break;
 		Position.moveBy(Angle*SpeedPerformance);
 		if (Count < 0)
 		{

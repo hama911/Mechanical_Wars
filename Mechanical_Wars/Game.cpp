@@ -132,7 +132,7 @@ void Game::init()
 		facilities.push_back(Facility());
 	for (int i = 0; i < 1000; i++)
 		units.push_back(Unit());
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 2000; i++)
 		motions.push_back(Motion());
 	for (int i = 0; i < 1000; i++)
 		bullets.push_back(Bullet());

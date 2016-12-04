@@ -6,7 +6,7 @@ void Bullet::setBulletData()
 	switch (Type)
 	{
 	case 0:
-		SpeedPerformance = 2.0;
+		SpeedPerformance = 3.0;
 		break;
 	case 1:
 		SpeedPerformance = 1.0;

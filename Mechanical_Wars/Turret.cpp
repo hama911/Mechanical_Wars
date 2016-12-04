@@ -36,7 +36,7 @@ void Turret::draw() const
 
 Vec2 Turret::getRealPosition() const
 {
-	return BaseUnit->Position + LocalPosition.rotated(Vec2ToRadian(BaseUnit->Angle));
+	return BaseUnit->Position + LocalPosition.rotated(Vec2ToRadian(BaseUnit->Angle)) + TargetAngle * 16;
 }
 
 

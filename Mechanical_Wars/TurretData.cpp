@@ -2,9 +2,9 @@
 #include"Graphics.h"
 #include"Unit.h"
 
-void Turret::set(int type,double x,double y) {
+void Turret::set(int type, double x, double y) {
 	Enabled = true;
-	Type = type; 
+	Type = type;
 	LocalPosition = Vec2(x, y);
 	GlobalAngle = Vec2(1, 0);
 	TargetAngle = Vec2(1, 0);
@@ -44,13 +44,13 @@ void Turret::drawTurret() const
 	switch (Type)
 	{
 	case 0:
-		TextureAsset(L"T-34_Turret")(0, 0, 30, 20).resize(30 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(15.0, 10.0)));
+		TextureAsset(L"T-34_Turret")(0, 0, 30, 20).resize(30 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(15.0, 10.0) - TargetAngle * 16));
 		break;
 	case 1:
-		TextureAsset(L"Ratte_Turret")(0, 0, 60, 30).resize(60 * getZoom(), 30 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(30.0, 15.0)));
+		TextureAsset(L"Ratte_Turret")(0, 0, 60, 30).resize(60 * getZoom(), 30 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(30.0, 15.0) - TargetAngle * 16));
 		break;
 	case 2:
-		TextureAsset(L"Ratte_Turret2")(0, 0, 60, 30).resize(40 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(20.0, 10.0)));
+		TextureAsset(L"Ratte_Turret2")(0, 0, 60, 30).resize(40 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(20.0, 10.0) - TargetAngle * 16));
 		break;
 	default:
 		break;
