@@ -55,7 +55,7 @@ void Unit::update()
 
 	//ë¨ìxêßå‰
 	Position.moveBy(getSpeedVec2());
-	Fuel -= getSpeedDouble();
+	Fuel -= getSpeedDouble()*0.01;
 
 }
 

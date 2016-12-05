@@ -8,26 +8,23 @@ extern Array<Motion> motions;
 
 void Bullet::update()
 {
-	if (Enabled)
+	if (!Enabled) return;
+	--Count;
+	for (auto& motion : motions)
+		if (motion.setFromBulletLine(Position, Position + Angle*(SpeedPerformance - 1))) break;
+	Position.moveBy(Angle*SpeedPerformance);
+	if (Count < 0)
 	{
-		--Count;
 		for (auto& motion : motions)
-			if (motion.setFromBulletLine(Position, Position + Angle*(SpeedPerformance - 1))) break;
-		Position.moveBy(Angle*SpeedPerformance);
-		if (Count < 0)
-		{
-			for (auto& motion : motions)
-				if (motion.setFromBullet(this)) break;
-			reset();
-		}
+			if (motion.setFromBullet(this)) break;
+		reset();
+	}
 
-		if (hitCheck())
-		{
-			for (auto& motion : motions)
-				if (motion.setFromBullet(this)) break;
-			reset();
-		}
-
+	if (hitCheck())
+	{
+		for (auto& motion : motions)
+			if (motion.setFromBullet(this)) break;
+		reset();
 	}
 }
 

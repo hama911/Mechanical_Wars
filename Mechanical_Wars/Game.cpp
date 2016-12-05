@@ -88,7 +88,6 @@ void Game::draw() const
 {
 
 	Window::ClientRect().draw(Palette::Darkorange);
-	//ground.resize(1024 * getZoom(), 1024 * getZoom()).draw(ConvertVec2ToPoint(Vec2(0, 0)));
 	Rect(ConvertVec2ToPoint(Vec2(GROUND_LIMIT_MIN_X, GROUND_LIMIT_MIN_Y)), Point((GROUND_LIMIT_MAX_X - GROUND_LIMIT_MIN_X) * getZoom(), (GROUND_LIMIT_MAX_Y - GROUND_LIMIT_MIN_Y) * getZoom())).drawFrame(0, 5 * getZoom(), Palette::White);
 	for (auto& power : powers)
 		power.draw();
@@ -112,17 +111,6 @@ void Game::draw() const
 
 void Game::init()
 {
-	PerlinNoise noise(11111);
-
-	ground = Texture(Image(1024, 1024, [&noise](const Point pos)
-	{
-		const Vec2 v(pos.x * 0.5, pos.y * 0.5);
-		return ColorF(
-			(noise.octaveNoise0_1(v.x, v.y, 0.0, 4) + 1)*0.09,
-			(noise.octaveNoise0_1(v.x, v.y, 0.0, 4) + 1)*0.06,
-			(noise.octaveNoise0_1(v.x, v.y, 0.0, 4) + 1)*0.03);
-	}));
-
 
 	drawInit();
 

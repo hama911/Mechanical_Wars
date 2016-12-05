@@ -33,7 +33,7 @@ void Mission::update()
 			int count = 0;
 			for (auto& unit : connect->Prosecutor->MemberUnits)
 			{
-				if (unit != NULL && unit->Position.distanceFrom(Position) < 192) ++count;
+				if (unit != NULL && unit->Position.distanceFrom(Position) < 256) ++count;
 			}
 			if (count > enemyOccupier && count > occupier + 2) {
 				enemyOccupier = count;

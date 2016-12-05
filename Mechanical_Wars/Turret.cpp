@@ -2,8 +2,6 @@
 #include"Unit.h"
 #include"Bullet.h"
 #include"Graphics.h"
-#include"Motion.h"
-extern Array<Motion> motions;
 
 extern Array<Unit> units;
 extern Array<Bullet> bullets;
@@ -14,7 +12,7 @@ void Turret::update()
 	Unit* target = searchEnemyUnit();
 	if (target != NULL)
 	{
-		TargetAngle = calculateDeviation(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2());	
+		TargetAngle = calculateDeviation(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2());
 	}
 	else
 	{
@@ -28,10 +26,8 @@ void Turret::update()
 void Turret::draw() const
 {
 
-	if (Enabled)
-	{
-		drawTurret();
-	}
+	if (!Enabled) return;
+	drawTurret();
 }
 
 Vec2 Turret::getRealPosition() const
@@ -75,10 +71,9 @@ void Turret::shot()
 		if (target != NULL)
 		{
 			TargetAngle = calculateDeviation(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2());
-
-			Count = int(calculateCollisionTime(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2()));
 			if (abs(TargetAngle.cross(GlobalAngle)) < Sin(TurningPerformance) && TargetAngle.dot(GlobalAngle) > 0)
 			{
+				Count = int(calculateCollisionTime(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2()));
 				if (Type == 1) SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 5);
 				else SoundAsset(L"cannon2").playMulti(getSoundVolume(getRealPosition()));
 				for (auto& bullet : bullets)
