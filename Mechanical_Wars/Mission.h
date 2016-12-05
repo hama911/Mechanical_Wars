@@ -15,7 +15,7 @@ public:
 	Mission() { Enabled = false; }
 
 
-	bool set(Vec2 position, double angle, int iff, Platoon* platoon = NULL, int priority = 1);
+	bool set(Vec2 position, int iff, Platoon* platoon = NULL, int priority = 1);
 	void update();
 	void draw() const;
 	bool getBattleFlag();	//êÌì¨íÜÇ©

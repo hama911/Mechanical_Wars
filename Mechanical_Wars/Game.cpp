@@ -38,7 +38,7 @@ void Game::update()
 		//ミッションのセット
 		for (auto& mission : missions)
 			mission.BAL = 5;
-		for (int i = 0; i < 5; i++)
+		for (int j = 0; j < 5; j++)
 			for (auto& mission : missions)
 				mission.setBAL();
 		for (auto& unit : units)
@@ -172,7 +172,7 @@ void Game::init()
 	for (int x = 0; x < 10; x++)
 		for (int y = 0; y < 8; y++)
 			for (auto& mission : missions)
-				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), 0, (240 * (x >= 9) + 120 * (x > 0 && x < 9)), NULL, 3)) break;
+				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), (240 * (x >= 9) + 120 * (x > 0 && x < 9)), NULL, 3)) break;
 
 
 	//工場のセット

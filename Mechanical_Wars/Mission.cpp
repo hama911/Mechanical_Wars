@@ -68,7 +68,6 @@ void Mission::update()
 	if (Prosecutor != NULL)
 	{
 		Vec2 enemyAngle = Vec2(0, 0);
-		int count = 0;
 		for (auto& connect : Connects)
 		{
 			if (connect != NULL && connect->IFF != IFF)
@@ -96,7 +95,7 @@ void Mission::draw() const
 
 }
 
-bool Mission::set(Vec2 position, double angle, int iff, Platoon* platoon, int priority)
+bool Mission::set(Vec2 position, int iff, Platoon* platoon, int priority)
 {
 	if (Enabled) return false;
 	Enabled = true;
