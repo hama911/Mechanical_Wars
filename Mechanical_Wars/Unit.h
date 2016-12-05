@@ -33,6 +33,9 @@ public:
 public:	//内部データにアクセス
 	int getMotionType() const;
 
+	Vec2 getSpeedVec2() const;	//現在のスピードをVec2型で返す
+	double getSpeedDouble() const;	//現在のスピードをdouble型で返す
+
 public:
 	//個別データ
 	void updateUnit();
@@ -40,9 +43,6 @@ public:
 	void drawUnit() const;
 
 
-	//移動系
-	void moveForward(double length);	//距離
-	void moveBack(double length);		//距離
 
 	//回転系
 	void turnUpdate();	//角度
@@ -58,10 +58,9 @@ public:
 	bool Enabled;
 	Vec2 Position;
 	Vec2 Angle;
-	Vec2 TargetAngle;
+	Vec2 TargetPosition;
 	int IFF;	//識別コード
 	double Health;	//耐久
-	double Speed;	//現在のスピード
 
 	Platoon* MyPlatoon;
 

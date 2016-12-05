@@ -14,7 +14,7 @@ void Turret::update()
 	{
 		TargetAngle = (target->Position - getRealPosition()).normalized();	//射撃角をセット
 		for (int i = 0; i < 10; i++)
-			TargetAngle = (target->Position + target->Angle*target->Speed*((target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->Speed).length())) - getRealPosition()).normalized();
+			TargetAngle = (target->Position + target->Angle*target->getSpeedVec2()*((target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->getSpeedVec2()).length())) - getRealPosition()).normalized();
 	}
 	else
 	{
@@ -76,9 +76,9 @@ void Turret::shot()
 		{
 			TargetAngle = (target->Position - getRealPosition()).normalized();	//射撃角をセット
 			for (int i = 0; i < 10; i++)
-				TargetAngle = (target->Position + target->Angle*target->Speed*((target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->Speed).length())) - getRealPosition()).normalized();
+				TargetAngle = (target->Position + target->Angle*target->getSpeedVec2()*((target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->getSpeedVec2()).length())) - getRealPosition()).normalized();
 
-			Count = int(target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->Speed).length());
+			Count = int(target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->getSpeedVec2()).length());
 			if (abs(TargetAngle.cross(GlobalAngle)) < Sin(TurningPerformance) && TargetAngle.dot(GlobalAngle) > 0)
 			{
 				if (Type == 1) SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 5);

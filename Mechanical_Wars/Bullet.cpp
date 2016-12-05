@@ -107,7 +107,7 @@ Unit* Bullet::serchEnemyUnit()
 	}
 	if (target != NULL)
 	{
-		Angle = (target->Position + target->Angle*target->Speed*((target->Position.distanceFrom(Position) / (Angle*SpeedPerformance - target->Angle*target->Speed).length())) - Position).normalized();
+		Angle = (target->Position + target->Angle*target->getSpeedVec2()*((target->Position.distanceFrom(Position) / (Angle*SpeedPerformance - target->Angle*target->getSpeedVec2()).length())) - Position).normalized();
 
 	}
 	return target;

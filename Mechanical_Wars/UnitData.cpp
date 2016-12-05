@@ -43,9 +43,9 @@ void Unit::setUnitData()
 		break;
 	}
 	Enabled = true;
-	TargetAngle = Vec2(1, 0).rotated(Random(TwoPi));
+	TargetPosition = Position;
 	Health = HealthPerformance;
-	Angle = TargetAngle;
+	Angle = Vec2(1, 0);
 }
 
 bool Unit::hitCheck(Vec2 pos)
@@ -137,8 +137,7 @@ void Unit::updateUnit()
 			if (supplyFacility == NULL) return;
 			if (supplyFacility->LocatedMission->Position.distanceFrom(Position) > 16)
 			{
-				TargetAngle = (supplyFacility->LocatedMission->Position - Position).normalized();
-				Speed = SpeedPerformance;
+				TargetPosition = supplyFacility->LocatedMission->Position;
 			}
 			else
 			{

@@ -20,7 +20,7 @@ void Unit::update()
 
 	limitMoving();
 
-	if (MyPlatoon != NULL && MyPlatoon->SupplyUnit != NULL && Position.distanceFrom(MyPlatoon->SupplyUnit->Position)<64)
+	if (MyPlatoon != NULL && MyPlatoon->SupplyUnit != NULL && Position.distanceFrom(MyPlatoon->SupplyUnit->Position) < 64)
 	{
 		if (SupplyMax - Supply > 0.1 && MyPlatoon->SupplyUnit->Supply > 0.1)
 		{
@@ -51,22 +51,63 @@ void Unit::update()
 
 	updateUnit();
 
-
 	turnUpdate();
-	if (Fuel > 0)
+
+	//速度制御
+	Position.moveBy(getSpeedVec2());
+	Fuel -= getSpeedDouble();
+
+}
+
+Vec2 Unit::getSpeedVec2() const
+{
+	return Angle*getSpeedDouble();
+}
+
+double Unit::getSpeedDouble() const
+{
+	if (TargetPosition.distanceFrom(Position) < 1) return 0;
+	if ((TargetPosition - Position).normalized() == Angle)
 	{
-		moveForward(Speed);
-		Fuel -= Speed * 0.01;
+		return SpeedPerformance;
+	}
+
+	return 0;
+}
+
+void Unit::turnUpdate()
+{
+	Vec2 targetAngle = (TargetPosition - Position).normalized();
+	if (TargetPosition.distanceFrom(Position) < 1 && MyPlatoon != NULL)
+		targetAngle = MyPlatoon->TargetAngle;
+
+	if (abs(targetAngle.cross(Angle)) < Sin(TurningPerformance) && targetAngle.dot(Angle) > 0)
+	{
+		Angle = targetAngle;
+	}
+	else
+	{
+		if (targetAngle.cross(Angle) > 0)
+		{
+			Angle.rotate(-TurningPerformance);
+			for (auto& turret : turrets) turret.addRotate(-TurningPerformance);
+		}
+		else
+		{
+			Angle.rotate(TurningPerformance);
+			for (auto& turret : turrets) turret.addRotate(TurningPerformance);
+		}
 	}
 }
+
 void Unit::reset()
 {
 	Supply = 0;
 	Fuel = 0;
 	Enabled = false;
-	Position = Vec2(0.0, 0.0);
+	Position = Vec2(0, 0);
 	Angle = Vec2(1, 0);
-	TargetAngle = Vec2(1.0, 0.0);
+	TargetPosition = Vec2(0, 0);
 	IFF = 0;
 	Health = 0.0;
 	MyPlatoon = NULL;
@@ -74,14 +115,12 @@ void Unit::reset()
 	TurningPerformance = 0.0;
 	HealthPerformance = 0.0;
 	Type = 0;
-	Speed = 0;
 	for (auto& turret : turrets)
 		turret.Enabled = false;
 }
 
 void Unit::updatePlatoon()
 {
-	Speed = 0;
 	if (MyPlatoon == NULL)
 	{
 		double distance = 10000;
@@ -112,8 +151,7 @@ void Unit::updatePlatoon()
 			return;
 		}
 		//ターゲットアングルの変更
-		Speed = MyPlatoon->getUnitSpeed(this);
-		TargetAngle = MyPlatoon->getUnitTargetAngle(this);
+		TargetPosition = MyPlatoon->getUnitTargetPosition(this);
 		//より多いところに加入
 		if (MyPlatoon->getTotalMember() <= 2)
 		{
@@ -157,41 +195,8 @@ void Unit::limitMoving()
 	if (Position.y > GROUND_LIMIT_MAX_Y) Position.y = GROUND_LIMIT_MAX_Y;
 }
 
-void Unit::mountTurret()
-{
-}
 
-void Unit::moveForward(double length)
-{
-	Position.moveBy(Angle*length);
-}
-void Unit::moveBack(double length)
-{
-	Position.moveBy(-Angle*length);
-}
 
-void Unit::turnUpdate()
-{
-	if (abs(TargetAngle.cross(Angle)) < Sin(TurningPerformance) && TargetAngle.dot(Angle) > 0)
-		Angle = TargetAngle;
-	else
-	{
-		if (TargetAngle.cross(Angle) > 0)
-		{
-			Angle.rotate(-TurningPerformance);
-			for (auto& turret : turrets) turret.addRotate(-TurningPerformance);
-		}
-		else
-		{
-			Angle.rotate(TurningPerformance);
-			for (auto& turret : turrets) turret.addRotate(TurningPerformance);
-		}
-	}
-}
-
-void Unit::shot()
-{
-}
 
 bool Unit::setUnit(int IFF_p, int type, Vec2 position)
 {
@@ -200,7 +205,6 @@ bool Unit::setUnit(int IFF_p, int type, Vec2 position)
 	Type = type;
 	Position = position;
 	MyPlatoon = NULL;
-	Speed = 0;
 	setUnitData();
 	return true;
 }
