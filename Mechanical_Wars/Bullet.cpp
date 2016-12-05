@@ -12,7 +12,7 @@ void Bullet::update()
 	{
 		--Count;
 		for (auto& motion : motions)
-			if (motion.setFromBulletLine(Position, Position + Angle*(SpeedPerformance-1))) break;
+			if (motion.setFromBulletLine(Position, Position + Angle*(SpeedPerformance - 1))) break;
 		Position.moveBy(Angle*SpeedPerformance);
 		if (Count < 0)
 		{
@@ -60,10 +60,8 @@ Unit* Bullet::hitCheck()
 
 void Bullet::draw() const
 {
-	if (Enabled)
-	{
-		drawBullet();
-	}
+	if (!Enabled) return;
+	drawBullet();
 }
 
 void Bullet::reset()
@@ -81,7 +79,7 @@ bool Bullet::set(Turret* turret)
 {
 	if (Enabled) return false;
 	Enabled = true;
-	Count = int(turret->Count*1.2);
+	Count = int(turret->Count);
 	IFF = turret->BaseUnit->IFF;
 	Position = turret->getRealPosition();
 	Angle = turret->TargetAngle;

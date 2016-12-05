@@ -2,6 +2,8 @@
 #include"Unit.h"
 #include"Bullet.h"
 #include"Graphics.h"
+#include"Motion.h"
+extern Array<Motion> motions;
 
 extern Array<Unit> units;
 extern Array<Bullet> bullets;
@@ -12,9 +14,7 @@ void Turret::update()
 	Unit* target = searchEnemyUnit();
 	if (target != NULL)
 	{
-		TargetAngle = (target->Position - getRealPosition()).normalized();	//射撃角をセット
-		for (int i = 0; i < 10; i++)
-			TargetAngle = (target->Position + target->Angle*target->getSpeedVec2()*((target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->getSpeedVec2()).length())) - getRealPosition()).normalized();
+		TargetAngle = calculateDeviation(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2());	
 	}
 	else
 	{
@@ -74,11 +74,9 @@ void Turret::shot()
 		Unit* target = searchEnemyUnit();
 		if (target != NULL)
 		{
-			TargetAngle = (target->Position - getRealPosition()).normalized();	//射撃角をセット
-			for (int i = 0; i < 10; i++)
-				TargetAngle = (target->Position + target->Angle*target->getSpeedVec2()*((target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->getSpeedVec2()).length())) - getRealPosition()).normalized();
+			TargetAngle = calculateDeviation(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2());
 
-			Count = int(target->Position.distanceFrom(getRealPosition()) / (TargetAngle*BulletSpeed - target->Angle*target->getSpeedVec2()).length());
+			Count = int(calculateCollisionTime(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2()));
 			if (abs(TargetAngle.cross(GlobalAngle)) < Sin(TurningPerformance) && TargetAngle.dot(GlobalAngle) > 0)
 			{
 				if (Type == 1) SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 5);

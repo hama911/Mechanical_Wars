@@ -20,7 +20,6 @@ void Bullet::setBulletData()
 
 void Bullet::drawBullet() const
 {
-
 	switch (Type)
 	{
 	case 0:
