@@ -76,7 +76,7 @@ void Unit::update()
 				}
 				else
 				{
-					Fuel = supplyFacility->Fuel;
+					Fuel += supplyFacility->Fuel;
 					supplyFacility->Fuel = 0;
 				}
 				if (supplyFacility->Supply > SupplyMax - Supply)
@@ -86,7 +86,7 @@ void Unit::update()
 				}
 				else
 				{
-					Supply = supplyFacility->Supply;
+					Supply += supplyFacility->Supply;
 					supplyFacility->Supply = 0;
 				}
 			}
