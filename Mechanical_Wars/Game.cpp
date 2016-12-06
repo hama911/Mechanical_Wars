@@ -20,7 +20,7 @@ Platoon* SelectedPlatoon = NULL;
 int FriendIFF = 0;
 void Game::update()
 {
-
+	ClearPrint();
 	for (int i = 0; i < Speed; i++)
 	{
 		if (Input::MouseL.clicked)
@@ -28,27 +28,46 @@ void Game::update()
 			++m_data->counter;
 			changeScene(L"Result");
 		}
+		StopwatchMicrosec c;
+		c.restart();
 		for (auto& power : powers)
 			power.update();
+		Println(c.us());
+		c.restart();
 		for (auto& facility : facilities)
 			facility.update();
+		Println(c.us());
+		c.restart();
+		
 		for (auto& mission : missions)
 			mission.update();
-
 		//ミッションのセット
 		for (auto& mission : missions)
 			mission.BAL = 5;
 		for (int j = 0; j < 5; j++)
 			for (auto& mission : missions)
 				mission.setBAL();
+		Println(c.us());
+
+		c.restart();
 		for (auto& unit : units)
 			unit.update();
+		Println(c.us());
+
+		c.restart();
 		for (auto& platoon : platoons)
 			platoon.update();
+		Println(c.us());
+
+		c.restart();
 		for (auto& bullet : bullets)
 			bullet.update();
+		Println(c.us());
+
+		c.restart();
 		for (auto& motion : motions)
 			motion.update();
+		Println(c.us());
 	}
 	drawUpdate();
 	if (Input::MouseL.clicked)
@@ -116,20 +135,22 @@ void Game::init()
 
 
 
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 10; i++)
 		facilities.push_back(Facility());
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 100; i++)
 		units.push_back(Unit());
 	for (int i = 0; i < 2000; i++)
 		motions.push_back(Motion());
 	for (int i = 0; i < 1000; i++)
 		bullets.push_back(Bullet());
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 100; i++)
 		platoons.push_back(Platoon());
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 80; i++)
 		missions.push_back(Mission());
 	for (int i = 0; i < 360; i++)
 		powers.push_back(Power(i));
+	powers[0].Enabled = true;
+	powers[240].Enabled = true;
 
 	/*
 	for (int i = 0; i < 7; i++)

@@ -13,6 +13,9 @@ void Bullet::setBulletData()
 	case 2:
 		SpeedPerformance = 3.0;
 		break;
+	case 3:
+		SpeedPerformance = 4.0;
+		break;
 	default:
 		break;
 	}
@@ -30,6 +33,9 @@ void Bullet::drawBullet() const
 		break;
 	case 2:
 		Circle(ConvertVec2ToVec2(Position), 1 * getZoom()).draw(HSV(IFF, 1, 1));
+		break;
+	case 3:
+		Circle(ConvertVec2ToVec2(Position), 0.5 * getZoom()).draw(HSV(IFF, 1, 1));
 		break;
 	default:
 		break;

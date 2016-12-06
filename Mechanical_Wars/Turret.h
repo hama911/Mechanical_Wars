@@ -15,7 +15,6 @@ public:
 	Turret() { Enabled = false; }
 
 	void addRotate(double angle);
-	void reset();
 	void set(int type,double x,double y);
 
 public:	//内部データにアクセス

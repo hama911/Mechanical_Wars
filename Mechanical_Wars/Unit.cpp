@@ -48,7 +48,6 @@ void Unit::update()
 		turret.update();
 
 
-
 	updateUnit();
 
 	turnUpdate();

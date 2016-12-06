@@ -54,6 +54,8 @@ void Main()
 	TextureAsset::Register(L"Effect1", L"Effect1.png");
 	TextureAsset::Register(L"Effect2", L"Effect2.png");
 	TextureAsset::Register(L"Supply_Truck", L"SupplyTruck.png");
+	TextureAsset::Register(L"Rifle", L"rifle.png");
+	TextureAsset::Register(L"Soldier", L"soldier.png");
 	SoundAsset::Register(L"cannon1", L"sound_cannon1.mp3");
 	SoundAsset::Register(L"cannon2", L"sound_cannon2.mp3");
 	SoundAsset::Register(L"explosive1", L"sound_explosive1.mp3");

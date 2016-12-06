@@ -20,15 +20,6 @@ void Platoon::setFromUnit(Unit* leader)
 	RunningMission = NULL;
 }
 
-Platoon::Platoon()
-{
-	reset();
-}
-
-Unit* Platoon::getLeaderInfo()
-{
-	return LeaderUnit;
-}
 
 double Platoon::getJoinDistance(Unit* unit)
 {
@@ -45,16 +36,6 @@ double Platoon::getJoinDistance(Unit* unit)
 	return unit->Position.distanceFrom(LeaderUnit->Position);
 }
 
-Vec2 Platoon::getAngle()
-{
-	return LeaderUnit->Angle;
-}
-
-int Platoon::getRank(Unit* unit)
-{
-	if (unit == LeaderUnit) return 1;
-	return 0;
-}
 int Platoon::getTotalMember()
 {
 	int count = 0;
@@ -112,10 +93,6 @@ void Platoon::reset()
 	TargetPosition = Vec2(0, 0);
 	TargetAngle = Vec2(1, 0);
 	SupplyUnit = NULL;
-}
-
-Platoon::~Platoon()
-{
 }
 
 void Platoon::update()
@@ -207,48 +184,6 @@ void Platoon::searchNewMission()
 
 }
 
-void Platoon::relocation()
-{
-	Unit* NewUnits[MAX_MEMBER];
-	for (auto& unit1 : NewUnits)
-		unit1 = NULL;
-	for (auto& unit1 : MemberUnits)
-	{
-		if (unit1 != NULL)
-		{
-			for (auto& unit2 : NewUnits)
-			{
-				if (unit2 == NULL)
-				{
-					unit2 = unit1;
-					break;
-				}
-			}
-		}
-	}
-	for (int i = 0; i < MAX_MEMBER; i++)
-		MemberUnits[i] = NewUnits[i];
-}
-double Platoon::getUnitSpeed(Unit* unit)
-{
-	if (abs(getUnitTargetAngle(unit).cross(unit->Angle)) < 0.8 && getUnitTargetAngle(unit).dot(unit->Angle) > 0)
-	{
-		if ((getUnitTargetPosition(unit) - unit->Position).length() < 1)
-		{
-			return 0;
-		}
-		if ((getUnitTargetPosition(unit) - unit->Position).length() < 5)
-		{
-			return unit->SpeedPerformance / 4;
-		}
-		if (unit == LeaderUnit) return unit->SpeedPerformance *0.8;
-		return unit->SpeedPerformance;
-	}
-	else
-	{
-		return 0;
-	}
-}
 Vec2 Platoon::getUnitTargetPosition(Unit* unit)
 {
 	Vec2 local;
@@ -277,24 +212,6 @@ Vec2 Platoon::getUnitTargetPosition(Unit* unit)
 		return  TargetPosition + local.rotated(Vec2ToRadian(TargetAngle));
 	else
 		return  LeaderUnit->Position + local.rotated(Vec2ToRadian(LeaderUnit->Angle));
-}
-Vec2 Platoon::getUnitTargetAngle(Unit* unit)
-{
-	if (unit == LeaderUnit)
-	{
-		if ((getUnitTargetPosition(unit) - unit->Position).length() < 1)
-			return TargetAngle;
-		else
-			return (getUnitTargetPosition(unit) - unit->Position).normalized();
-	}
-	else
-	{
-		if ((getUnitTargetPosition(unit) - unit->Position).length() < 1)
-			return TargetAngle;
-		else
-			return (getUnitTargetPosition(unit) - unit->Position).normalized();
-
-	}
 }
 
 void Platoon::draw() const

@@ -34,6 +34,11 @@ void Turret::setTurretData()
 		TurningPerformance = 0.04;
 		BulletSpeed = 3.0;
 		break;
+	case 3:	//ï‡ï∫èe
+		Range = 192.0;
+		ReloadTime = 120;
+		TurningPerformance = 0.1;
+		BulletSpeed = 4.0;
 	default:
 		break;
 	}
@@ -44,13 +49,16 @@ void Turret::drawTurret() const
 	switch (Type)
 	{
 	case 0:
-		TextureAsset(L"T-34_Turret")(0, 0, 30, 20).resize(30 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(15.0, 10.0) - TargetAngle * 16));
+		TextureAsset(L"T-34_Turret")(0, 0, 30, 20).resize(30 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(15.0, 10.0)));
 		break;
 	case 1:
-		TextureAsset(L"Ratte_Turret")(0, 0, 60, 30).resize(60 * getZoom(), 30 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(30.0, 15.0) - TargetAngle * 16));
+		TextureAsset(L"Ratte_Turret")(0, 0, 60, 30).resize(60 * getZoom(), 30 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(30.0, 15.0)));
 		break;
 	case 2:
-		TextureAsset(L"Ratte_Turret2")(0, 0, 60, 30).resize(40 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(20.0, 10.0) - TargetAngle * 16));
+		TextureAsset(L"Ratte_Turret2")(0, 0, 60, 30).resize(40 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(20.0, 10.0)));
+		break;
+	case 3:
+		TextureAsset(L"Rifle").resize(15 * getZoom(), 5 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(7.5, 2.5)));
 		break;
 	default:
 		break;

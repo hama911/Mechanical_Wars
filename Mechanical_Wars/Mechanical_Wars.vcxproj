@@ -181,6 +181,8 @@
     <Image Include="Ratte Chassis.png" />
     <Image Include="Ratte Turret.png" />
     <Image Include="Ratte Turret2.png" />
+    <Image Include="rifle.png" />
+    <Image Include="soldier.png" />
     <Image Include="SupplyTruck.png" />
     <Image Include="T-34 Chassis.png" />
     <Image Include="T-34 Turret.png" />

@@ -47,6 +47,9 @@ Unit* Bullet::hitCheck()
 			case 2:
 				unit.addDamege(0.5);
 				break;
+			case 3:
+				unit.addDamege(0.1);
+				break;
 			default:
 				break;
 			}

@@ -39,6 +39,15 @@ void Unit::setUnitData()
 		TurningPerformance = 0.2;
 		HealthPerformance = 5;
 		break;
+	case 3:	//ï‡ï∫
+		Supply = 100;
+		Fuel = 100;
+		SupplyMax = 100;
+		FuelMax = 100;
+		SpeedPerformance = 0.3;
+		TurningPerformance = 0.1;
+		HealthPerformance = 50;
+		turrets[0].set(3, 0, 3);
 	default:
 		break;
 	}
@@ -71,6 +80,12 @@ bool Unit::hitCheck(Vec2 pos)
 		if (pos2.x > 7.5) flag = false;
 		if (pos2.y < -5) flag = false;
 		if (pos2.y > 5) flag = false;
+		break;
+	case 3:
+		if (pos2.x < -5) flag = false;
+		if (pos2.x > 5) flag = false;
+		if (pos2.y < -7.5) flag = false;
+		if (pos2.y > 7.5) flag = false;
 		break;
 	default:
 		flag = false;
@@ -111,6 +126,13 @@ void Unit::drawUnit() const
 		Line(ConvertVec2ToVec2(Position - Vec2(10, 23)), ConvertVec2ToVec2(Position - Vec2(10 - (Supply / SupplyMax) * 20, 23))).draw(3 * getZoom(), Palette::Yellow);
 
 		TextureAsset(L"Supply_Truck")(0, 0, 15, 10).resize(15 * getZoom(), 10 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(7.5, 5.0)));
+		break;
+	case 3:		//ï‡ï∫
+		//ëœãvÉQÅ[ÉW
+		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
+		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
+
+		TextureAsset(L"Soldier").resize(10 * getZoom(), 15 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(5.0, 7.5)));
 		break;
 	default:
 		break;

@@ -42,7 +42,7 @@ void Facility::updateFacility()
 		while (Progress > 0 && powers[LocatedMission->IFF].NeedUnits[0] > 0)
 		{
 			for (auto& unit : units)
-				if (unit.setUnit(LocatedMission->IFF, 0, LocatedMission->Position)) break;
+				if (unit.setUnit(LocatedMission->IFF, 3, LocatedMission->Position)) break;
 			Progress -= 80;
 			--powers[LocatedMission->IFF].NeedUnits[0];
 		}

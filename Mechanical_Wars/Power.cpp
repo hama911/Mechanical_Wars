@@ -6,6 +6,7 @@ extern Array<Mission> missions;
 extern Array<Platoon> platoons;
 void Power::update()
 {
+	if (!Enabled) return;
 	FindFreeMission();
 	FindNeedUnits();
 }

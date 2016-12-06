@@ -32,7 +32,7 @@ void Turret::draw() const
 
 Vec2 Turret::getRealPosition() const
 {
-	return BaseUnit->Position + LocalPosition.rotated(Vec2ToRadian(BaseUnit->Angle)) + TargetAngle * 16;
+	return BaseUnit->Position + LocalPosition.rotated(Vec2ToRadian(BaseUnit->Angle));
 }
 
 
@@ -74,8 +74,11 @@ void Turret::shot()
 			if (abs(TargetAngle.cross(GlobalAngle)) < Sin(TurningPerformance) && TargetAngle.dot(GlobalAngle) > 0)
 			{
 				Count = int(calculateCollisionTime(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2()));
+				/*
+				
 				if (Type == 1) SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 5);
 				else SoundAsset(L"cannon2").playMulti(getSoundVolume(getRealPosition()));
+				*/
 				for (auto& bullet : bullets)
 					if (bullet.set(this)) break;
 				ReloadCount = ReloadTime;

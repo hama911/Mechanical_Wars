@@ -10,7 +10,7 @@ class Bullet
 {
 public:
 
-	void update();		//true‚ÅÁ‹
+	void update();
 	void draw()	const;
 
 	Bullet() { Enabled = false; }

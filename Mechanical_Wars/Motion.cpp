@@ -54,9 +54,24 @@ bool Motion::setFromBullet(Bullet* bullet)
 	Count = 0;
 	Position = bullet->Position;
 	Type = bullet->Type;
-	if (Type == 2) Type = 0;
-	if (Type == 1) SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
-	else SoundAsset(L"explosive1").playMulti(getSoundVolume(Position));
+	switch (Type)
+	{
+	case 0:
+		SoundAsset(L"explosive1").playMulti(getSoundVolume(Position));
+		break;
+	case 1:
+		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
+		break;
+	case 2:
+		Type = 0;
+		SoundAsset(L"explosive1").playMulti(getSoundVolume(Position));
+		break;
+	case 3:
+		Enabled = false;
+		break;
+	default:
+		break;
+	}
 	return true;
 }
 

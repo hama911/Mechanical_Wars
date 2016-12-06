@@ -7,6 +7,15 @@ class Mission;
 
 #define MAX_MEMBER 6
 
+/*
+‹K‘¥
+LeaderUnit‚Í0”Ô‚ÉŠ„‚è“–‚Ä
+SupplyUnit‚Í1”Ô‚ÉŠ„‚è“–‚Ä
+g—p‚É‚Íreset()‚ğ‚©‚¯‚Ä‚©‚çg‚¤‚±‚Æ
+‰ğ•ú‚Íreset()‚ğ‚©‚¯‚é‚±‚Æ
+
+*/
+
 class Platoon : public Calculation
 {
 public:
@@ -15,22 +24,15 @@ public:
 	void draw() const;
 
 	double getJoinDistance(Unit* unit);	//‚à‚µæ“¾‚Å‚«‚È‚¢ó‹µ‚Ìê‡‚Í10000‚ğ•Ô‚·
-	int getRank(Unit* unit);
-	Vec2 getUnitTargetAngle(Unit* unit);
 	Vec2 getUnitTargetPosition(Unit* unit);
-	double getUnitSpeed(Unit* unit);
-	Unit* getLeaderInfo();
-	Vec2 getAngle();
 	int getTotalMember();
 
 	void setFromUnit(Unit* leader);
-	void relocation();
 	void reset();
 	bool joinPlatoon(Unit* member);
 	void searchNewMission(void);
 
-	Platoon();
-	~Platoon();
+	Platoon() { reset(); }
 
 public:
 	Mission* RunningMission;
