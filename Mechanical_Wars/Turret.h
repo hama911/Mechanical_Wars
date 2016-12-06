@@ -40,11 +40,11 @@ public:
 	int ReloadCount;
 	int Status;
 	int Count;
+	int ammo;	//íeëqì‡écíe
 
 	double BulletSpeed;
 	double TurningPerformance;
 	double Range;
-	int ReloadTime;
 	Unit* BaseUnit;
 	int Type;
 };

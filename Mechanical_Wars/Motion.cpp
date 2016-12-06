@@ -53,29 +53,28 @@ bool Motion::setFromBullet(Bullet* bullet)
 	Enabled = true;
 	Count = 0;
 	Position = bullet->Position;
-	Type = bullet->Type;
-	switch (Type)
+	switch (bullet->Type)
 	{
 	case 0:
-		SoundAsset(L"explosive1").playMulti(getSoundVolume(Position));
+		Type = 0;
+		SoundAsset(L"explosive1").playMulti(getSoundVolume(Position)*0.5);
 		break;
 	case 1:
+		Type = 1;
 		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
 		break;
 	case 2:
 		Type = 0;
 		SoundAsset(L"explosive1").playMulti(getSoundVolume(Position));
 		break;
-	case 3:
-		Enabled = false;
-		break;
 	default:
+		Enabled = false;
 		break;
 	}
 	return true;
 }
 
-bool Motion::setFromBulletLine(Vec2 pos1, Vec2 pos2)
+bool Motion::setFromBulletLine(Vec2 pos1, Vec2 pos2,int type)
 {
 	if (Enabled) return false;
 	Enabled = true;
@@ -83,6 +82,17 @@ bool Motion::setFromBulletLine(Vec2 pos1, Vec2 pos2)
 	Position = pos1;
 	Position2 = pos2;
 	Type = 5;
+	switch (type)
+	{
+	case 3:
+		Count = 16;
+		break;
+	case 4:
+		Count = 16;
+		break;
+	default:
+		break;
+	}
 	return true;
 }
 
@@ -94,17 +104,19 @@ bool Motion::setFromUnit(Unit* unit)
 	Enabled = true;
 	Count = 0;
 	Position = unit->Position;
-	Type = unit->getMotionType();
-	switch (Type)
+	switch (unit->Type)
 	{
+	case 0:
+		Type = 1;
+		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 3);
+		break;
 	case 1:
-		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
+		Type = 3;
+		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 5);
 		break;
 	case 2:
-		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
-		break;
-	case 3:
-		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
+		Type = 1;
+		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 3);
 		break;
 	default:
 		Enabled = false;

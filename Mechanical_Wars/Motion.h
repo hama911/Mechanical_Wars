@@ -16,7 +16,7 @@ public:
 	Motion() { Enabled = false; }
 
 	bool setFromBullet(Bullet* bullet);
-	bool setFromBulletLine(Vec2 pos1, Vec2 pos2);
+	bool setFromBulletLine(Vec2 pos1, Vec2 pos2,int type);
 	bool setFromUnit(Unit* unit);
 
 public:

@@ -46,6 +46,8 @@ public:
 void Main()
 {
 	//リソース
+	TextureAsset::Register(L"fact0", L"l_054.png");
+	TextureAsset::Register(L"fact1", L"l_059.png");
 	TextureAsset::Register(L"T-34_Chassis", L"T-34 Chassis.png");
 	TextureAsset::Register(L"T-34_Turret", L"T-34 Turret.png");
 	TextureAsset::Register(L"Ratte_Chassis", L"Ratte Chassis.png");
@@ -61,9 +63,12 @@ void Main()
 	SoundAsset::Register(L"explosive1", L"sound_explosive1.mp3");
 	SoundAsset::Register(L"explosive2", L"sound_explosive2.mp3");
 	SoundAsset::Register(L"shot1", L"sound_shot1.mp3");
-
-
-	Window::Resize(1280, 768, true);
+	SoundAsset::Register(L"engine", L"engine.mp3");
+	SoundAsset::Register(L"engine2", L"engine2.mp3");
+	SoundAsset::Register(L"pom", L"pom.mp3");
+	Window::Resize(1280, 720);
+	//Window::SetFullscreen(true,Size(1920,1080));
+	Window::SetTitle(L"Mechanical Wars開発版 @LPC1768_");
 	MyApp manager;
 
 	//manager.add<Title>(L"Title");

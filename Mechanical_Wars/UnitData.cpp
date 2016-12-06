@@ -17,6 +17,7 @@ void Unit::setUnitData()
 		TurningPerformance = 0.03;
 		HealthPerformance = 10;
 		turrets[0].set(0, 4, 0);
+		turrets[1].set(4, 4, 0);
 		break;
 	case 1:
 		Supply = 0;
@@ -40,9 +41,9 @@ void Unit::setUnitData()
 		HealthPerformance = 5;
 		break;
 	case 3:	//ï‡ï∫
-		Supply = 100;
+		Supply = 0;
 		Fuel = 100;
-		SupplyMax = 100;
+		SupplyMax = 10;
 		FuelMax = 100;
 		SpeedPerformance = 0.3;
 		TurningPerformance = 0.1;
@@ -95,13 +96,10 @@ bool Unit::hitCheck(Vec2 pos)
 
 void Unit::drawUnit() const
 {
+	Circle(ConvertVec2ToVec2(Position), 15 * getZoom()).draw(Color(HSV(IFF), 64));
 	switch (Type)
 	{
 	case 0:
-		//ëœãvÉQÅ[ÉW
-		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
-		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
-
 		TextureAsset(L"T-34_Chassis")(0, 0, 30, 20).resize(30 * getZoom(), 20 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(15.0, 10.0)));
 		break;
 	case 1:
@@ -112,10 +110,6 @@ void Unit::drawUnit() const
 		TextureAsset(L"Ratte_Chassis")(0, 0, 60, 30).resize(60 * getZoom(), 30 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(30.0, 15.0)));
 		break;
 	case 2:
-		//ëœãvÉQÅ[ÉW
-		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
-		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
-
 		//îRóøÉQÅ[ÉW
 		Line(ConvertVec2ToVec2(Position - Vec2(10, 26)), ConvertVec2ToVec2(Position - Vec2(-10, 26))).draw(3 * getZoom(), Palette::Black);
 		Line(ConvertVec2ToVec2(Position - Vec2(10, 26)), ConvertVec2ToVec2(Position - Vec2(10 - (Fuel / FuelMax) * 20, 26))).draw(3 * getZoom(), Palette::Purple);

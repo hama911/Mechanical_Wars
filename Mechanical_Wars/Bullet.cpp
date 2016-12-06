@@ -11,7 +11,7 @@ void Bullet::update()
 	if (!Enabled) return;
 	--Count;
 	for (auto& motion : motions)
-		if (motion.setFromBulletLine(Position, Position + Angle*(SpeedPerformance - 1))) break;
+		if (motion.setFromBulletLine(Position, Position + Angle*(SpeedPerformance - 1), Type)) break;
 	Position.moveBy(Angle*SpeedPerformance);
 	if (Count < 0)
 	{
@@ -36,23 +36,7 @@ Unit* Bullet::hitCheck()
 		if (unit.Enabled && IFF != unit.IFF && unit.hitCheck(Position))
 		{
 			target = &unit;
-			switch (Type)
-			{
-			case 0:
-				unit.addDamege(0.5);
-				break;
-			case 1:
-				unit.addDamege(10.0);
-				break;
-			case 2:
-				unit.addDamege(0.5);
-				break;
-			case 3:
-				unit.addDamege(0.1);
-				break;
-			default:
-				break;
-			}
+			unit.addDamege(this);
 		}
 	}
 	return target;

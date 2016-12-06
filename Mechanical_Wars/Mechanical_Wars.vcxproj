@@ -165,6 +165,8 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\l_054.png" />
+    <Image Include="..\..\l_059.png" />
     <Image Include="Effect1.png" />
     <Image Include="Effect2.png" />
     <Image Include="Engine\Splash.png" />
@@ -278,8 +280,11 @@
     <Text Include="Example\素材について.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="engine.mp3" />
+    <Media Include="engine2.mp3" />
     <Media Include="Example\Sound.mp3" />
     <Media Include="Example\風の丘.mp3" />
+    <Media Include="pom.mp3" />
     <Media Include="sound_cannon2.mp3" />
     <Media Include="sound_cannon1.mp3" />
     <Media Include="sound_explosive1.mp3" />

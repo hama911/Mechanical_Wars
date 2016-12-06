@@ -16,6 +16,7 @@ extern Array<Platoon> platoons;
 void Unit::update()
 {
 	if (!Enabled) return;
+
 	updatePlatoon();
 	for (auto& turret : turrets)
 		turret.BaseUnit = this;
@@ -40,17 +41,12 @@ void Unit::update()
 	if (Supply < 0) Supply = 0;
 	if (Fuel < 0) Fuel = 0;
 
-	if (Health < 0)
+	if (Health <= 0)
 	{
 		for (auto& motion : motions)
 			if (motion.setFromUnit(this)) break;
 		reset();
 	}
-	//ターレット制御
-	for (auto& turret : turrets)
-		turret.update();
-
-
 	switch (Type)
 	{
 	case 2:
@@ -60,7 +56,7 @@ void Unit::update()
 			Facility *supplyFacility = NULL;
 			for (auto& facility : facilities)
 			{
-				if (facility.Enabled && facility.LocatedMission->IFF == IFF && facility.Type == 1 && facility.LocatedMission->Position.distanceFrom(Position) < distance)
+				if (facility.Enabled && facility.LocatedMission->IFF == IFF && facility.LocatedMission->BAL != 0 && facility.Type == 1 && facility.LocatedMission->Position.distanceFrom(Position) < distance)
 				{
 					distance = facility.LocatedMission->Position.distanceFrom(Position);
 					supplyFacility = &facility;
@@ -73,10 +69,26 @@ void Unit::update()
 			}
 			else
 			{
-				supplyFacility->Fuel -= FuelMax - Fuel;
-				supplyFacility->Supply -= SupplyMax - Supply;
-				Fuel = FuelMax;
-				Supply = SupplyMax;
+				if (supplyFacility->Fuel > FuelMax - Fuel)
+				{
+					supplyFacility->Fuel -= FuelMax - Fuel;
+					Fuel = FuelMax;
+				}
+				else
+				{
+					Fuel = supplyFacility->Fuel;
+					supplyFacility->Fuel = 0;
+				}
+				if (supplyFacility->Supply > SupplyMax - Supply)
+				{
+					supplyFacility->Supply -= SupplyMax - Supply;
+					Supply = SupplyMax;
+				}
+				else
+				{
+					Supply = supplyFacility->Supply;
+					supplyFacility->Supply = 0;
+				}
 			}
 		}
 		break;
@@ -89,18 +101,24 @@ void Unit::update()
 
 	turnUpdate();
 
+	//ターレット制御
+	for (auto& turret : turrets)
+		turret.update();
+
 	//速度制御
 	Position.moveBy(getSpeedVec2());
-	Fuel -= getSpeedDouble()*0.01;
-
+	if (Type != 3 && Type != 2)
+	{
+		Fuel -= getSpeedDouble()*0.05;
+	}
 }
 
-Vec2 Unit::getSpeedVec2() const
+Vec2 Unit::getSpeedVec2()
 {
 	return Angle*getSpeedDouble();
 }
 
-double Unit::getSpeedDouble() const
+double Unit::getSpeedDouble()
 {
 	if (TargetPosition.distanceFrom(Position) < 1) return 0;
 	if ((TargetPosition - Position).normalized() == Angle)
@@ -230,9 +248,36 @@ void Unit::draw() const
 	}
 }
 
-void Unit::addDamege(double value)
+void Unit::addDamege(Bullet* bullet)
 {
-	Health -= value;
+	/*
+	相性
+
+	*/
+	switch (bullet->Type)
+	{
+	case 0:	//76mm
+		if (Type == 0) Health = RandomBool(0.5)*Health;
+		if (Type == 2) Health = 0;
+		if (Type == 3) Health -= 0.1;
+		break;
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3: //7.6mm
+		if (Type == 0) Health -= 0;
+		if (Type == 2) Health -= 1.0;
+		if (Type == 3) Health -= 1.0;
+		break;
+	case 4: //7.6mm
+		if (Type == 0) Health -= 0;
+		if (Type == 2) Health -= 1.0;
+		if (Type == 3) Health -= 1.0;
+		break;
+	default:
+		break;
+	}
 }
 
 void Unit::limitMoving()
@@ -256,20 +301,4 @@ bool Unit::setUnit(int IFF_p, int type, Vec2 position)
 	MyPlatoon = NULL;
 	setUnitData();
 	return true;
-}
-
-int Unit::getMotionType() const
-{
-	switch (Type)
-	{
-	case 0:
-		return 2;
-		break;
-	case 1:
-		return 3;
-		break;
-	default:
-		break;
-	}
-	return 0;
 }

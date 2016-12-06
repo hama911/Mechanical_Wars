@@ -6,6 +6,7 @@
 #define MAX_TURRET 10
 
 class Platoon;
+class Bullet;
 
 class Unit : public Calculation
 {
@@ -16,7 +17,7 @@ public:
 	void update();	//初期化
 	void draw() const;	//描画
 
-	void addDamege(double value);
+	void addDamege(Bullet* bullet);
 
 	//初期化
 	void mountTurret();
@@ -31,14 +32,12 @@ public:
 
 
 public:	//内部データにアクセス
-	int getMotionType() const;
 
-	Vec2 getSpeedVec2() const;	//現在のスピードをVec2型で返す
-	double getSpeedDouble() const;	//現在のスピードをdouble型で返す
+	Vec2 getSpeedVec2() ;	//現在のスピードをVec2型で返す
+	double getSpeedDouble();	//現在のスピードをdouble型で返す
 
 public:
 	//個別データ
-	void updateUnit();
 	void setUnitData();
 	void drawUnit() const;
 
@@ -63,7 +62,6 @@ public:
 	double Health;	//耐久
 	Unit* Target;	
 	Platoon* MyPlatoon;
-
 	//固定数値
 	double SpeedPerformance;	//速度性能
 	double TurningPerformance;	//旋回性能

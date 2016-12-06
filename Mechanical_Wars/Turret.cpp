@@ -9,20 +9,27 @@ extern Array<Bullet> bullets;
 void Turret::update()
 {
 	if (!Enabled) return;
-	Unit* target = searchEnemyUnit();
-	if (target != NULL)
+	--ReloadCount;
+	if (Type == 3 && BaseUnit->getSpeedDouble() > 0)
 	{
-		TargetAngle = calculateDeviation(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2());
-		if (Type == 3)	BaseUnit->Target = target;
+		TargetAngle = BaseUnit->Angle;
 	}
 	else
 	{
-		if (Type == 3)	BaseUnit->Target = NULL;
-		TargetAngle = BaseUnit->Angle;
+		Unit* target = searchEnemyUnit();
+		if (target != NULL)
+		{
+			TargetAngle = calculateDeviation(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2());
+			if (Type == 3)	BaseUnit->Target = target;
+		}
+		else
+		{
+			if (Type == 3)	BaseUnit->Target = NULL;
+			TargetAngle = BaseUnit->Angle;
+		}
+		shot();
 	}
-
 	updateAngle();
-	shot();
 }
 
 void Turret::draw() const
@@ -65,10 +72,24 @@ void Turret::updateAngle()
 
 void Turret::shot()
 {
-	if (BaseUnit->Supply < 0.5) return;
-	--ReloadCount;
 	if (ReloadCount < 0)
 	{
+		if (ammo <= 0)
+		{
+			double needSupply = 0;
+			if (Type == 0) needSupply -= 3;
+			if (Type == 1) needSupply -= 10;
+			if (Type == 2) needSupply -= 3;
+			if (Type == 3) needSupply -= 0.5;
+			if (Type == 4) needSupply -= 5;
+			if (needSupply > BaseUnit->Supply) return;
+			BaseUnit->Supply -= needSupply;
+			if (Type == 0) ammo = 1;
+			if (Type == 1) ammo = 1;
+			if (Type == 2) ammo = 1;
+			if (Type == 3) ammo = 5;
+			if (Type == 4) ammo = 20;
+		}
 		Unit* target = searchEnemyUnit();
 		if (target != NULL)
 		{
@@ -78,14 +99,17 @@ void Turret::shot()
 				Count = int(calculateCollisionTime(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2()));
 				switch (Type)
 				{
-				case 1:
-					SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 5);
+				case 0:
+					SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 2);
 					break;
-				case 2:
+				case 1:
 					SoundAsset(L"cannon2").playMulti(getSoundVolume(getRealPosition()));
 					break;
 				case 3:
 					SoundAsset(L"shot1").playMulti(getSoundVolume(getRealPosition()));
+					break;
+				case 4:
+					SoundAsset(L"pom").playMulti(getSoundVolume(getRealPosition()));
 					break;
 				default:
 					break;
@@ -93,8 +117,26 @@ void Turret::shot()
 
 				for (auto& bullet : bullets)
 					if (bullet.set(this)) break;
-				ReloadCount = ReloadTime;
-				BaseUnit->Supply -= 0.5;
+				{
+					double reloadTime = 0;
+					--ammo;
+					if (ammo <= 0)
+					{
+						if (Type == 0) reloadTime = 300;
+						if (Type == 1) reloadTime = 600;
+						if (Type == 2) reloadTime = 300;
+						if (Type == 3) reloadTime = 300;
+						if (Type == 4) reloadTime = 600;
+					}
+					else {
+						if (Type == 0) reloadTime = 300;
+						if (Type == 1) reloadTime = 600;
+						if (Type == 2) reloadTime = 300;
+						if (Type == 3) reloadTime = 40;
+						if (Type == 4) reloadTime = 10;
+					}
+					ReloadCount = int(reloadTime*Random(0.8, 1.2));
+				}
 			}
 		}
 	}
@@ -107,6 +149,9 @@ Unit* Turret::searchEnemyUnit()
 	Vec2 realPosition = getRealPosition();
 	for (auto& unit : units)
 	{
+		if (Type == 0 && (unit.Type != 0 && unit.Type != 2)) continue;
+		if (Type == 3 && (unit.Type != 3)) continue;
+		if (Type == 4 && (unit.Type != 3)) continue;
 		if (unit.Enabled && BaseUnit->IFF != unit.IFF && realPosition.distanceFrom(unit.Position) < distance)
 		{
 			distance = realPosition.distanceFrom(unit.Position);

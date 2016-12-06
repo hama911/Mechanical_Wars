@@ -7,6 +7,7 @@
 #include"Platoon.h"
 #include"Mission.h"
 #include"Power.h"
+
 Array<Bullet> bullets;
 Array<Unit> units;
 Array<Motion> motions;
@@ -28,17 +29,11 @@ void Game::update()
 			++m_data->counter;
 			changeScene(L"Result");
 		}
-		StopwatchMicrosec c;
-		c.restart();
 		for (auto& power : powers)
 			power.update();
-		Println(c.us());
-		c.restart();
 		for (auto& facility : facilities)
 			facility.update();
-		Println(c.us());
-		c.restart();
-		
+
 		for (auto& mission : missions)
 			mission.update();
 		//ミッションのセット
@@ -47,27 +42,18 @@ void Game::update()
 		for (int j = 0; j < 5; j++)
 			for (auto& mission : missions)
 				mission.setBAL();
-		Println(c.us());
 
-		c.restart();
 		for (auto& unit : units)
 			unit.update();
-		Println(c.us());
 
-		c.restart();
 		for (auto& platoon : platoons)
 			platoon.update();
-		Println(c.us());
 
-		c.restart();
 		for (auto& bullet : bullets)
 			bullet.update();
-		Println(c.us());
 
-		c.restart();
 		for (auto& motion : motions)
 			motion.update();
-		Println(c.us());
 	}
 	drawUpdate();
 	if (Input::MouseL.clicked)
@@ -105,18 +91,21 @@ void Game::update()
 
 void Game::draw() const
 {
+	Println(L"ダウンロードしていただき、ありがとうございます。");
+	Println(L"F1キーとF2キーで倍速の調整、マウスで視点移動が可能です。");
 
-	Window::ClientRect().draw(Palette::Darkorange);
+	Window::ClientRect().draw(Palette::Darkgreen);
 	Rect(ConvertVec2ToPoint(Vec2(GROUND_LIMIT_MIN_X, GROUND_LIMIT_MIN_Y)), Point((GROUND_LIMIT_MAX_X - GROUND_LIMIT_MIN_X) * getZoom(), (GROUND_LIMIT_MAX_Y - GROUND_LIMIT_MIN_Y) * getZoom())).drawFrame(0, 5 * getZoom(), Palette::White);
 	for (auto& power : powers)
 		power.draw();
 	for (auto& facility : facilities)
 		facility.draw();
-
+	/*
 	for (auto& mission : missions)
 		mission.draw();
 	for (auto& platoon : platoons)
 		platoon.draw();
+		*/
 	for (auto& unit : units)
 		unit.draw();
 	for (auto& bullet : bullets)
@@ -151,6 +140,7 @@ void Game::init()
 		powers.push_back(Power(i));
 	powers[0].Enabled = true;
 	powers[240].Enabled = true;
+	powers[120].Enabled = true;
 
 	/*
 	for (int i = 0; i < 7; i++)
@@ -181,18 +171,22 @@ void Game::init()
 	for (int x = 0; x < 10; x++)
 		for (int y = 0; y < 8; y++)
 			for (auto& mission : missions)
-				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), (240 * (x >= 9) + 120 * (x > 0 && x < 9)), NULL, 3)) break;
+				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), (240 * (x >= 8) + 120 * (x > 1 && x < 8)), NULL, 3)) break;
 
 
 	//工場のセット
 	for (auto& facility : facilities)
 		if (facility.set(&missions[5], 1)) break;
 	for (auto& facility : facilities)
-		if (facility.set(&missions[1], 0)) break;
+		if (facility.set(&missions[4], 0)) break;
 	for (auto& facility : facilities)
 		if (facility.set(&missions[73], 0)) break;
 	for (auto& facility : facilities)
-		if (facility.set(&missions[69], 1)) break;
+		if (facility.set(&missions[72], 1)) break;
+	for (auto& facility : facilities)
+		if (facility.set(&missions[30], 0)) break;
+	for (auto& facility : facilities)
+		if (facility.set(&missions[31], 1)) break;
 }
 
 void Game::updateFadeIn(double)

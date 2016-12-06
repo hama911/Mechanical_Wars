@@ -10,6 +10,7 @@ void Turret::set(int type, double x, double y) {
 	TargetAngle = Vec2(1, 0);
 	ReloadCount = 0;
 	setTurretData();
+	ammo = 0;
 }
 
 void Turret::setTurretData()
@@ -17,28 +18,30 @@ void Turret::setTurretData()
 	switch (Type)
 	{
 	case 0:
-		Range = 192.0;
-		ReloadTime = 60;
-		TurningPerformance = 0.09;
-		BulletSpeed = 2.0;
+		Range = 512.0;
+		TurningPerformance = 0.05;
+		BulletSpeed = 5.0;
 		break;
 	case 1:
 		Range = 500.0;
-		ReloadTime = 180;
 		TurningPerformance = 0.02;
 		BulletSpeed = 3.0;
 		break;
 	case 2:
 		Range = 200.0;
-		ReloadTime = 60;
 		TurningPerformance = 0.04;
 		BulletSpeed = 3.0;
 		break;
 	case 3:	//•à•ºe
 		Range = 192.0;
-		ReloadTime = 120;
 		TurningPerformance = 0.1;
 		BulletSpeed = 4.0;
+		break;
+	case 4:	//ŽÔÚ‹@ŠÖe
+		Range = 192.0;
+		TurningPerformance = 0.1;
+		BulletSpeed = 4.0;
+		break;
 	default:
 		break;
 	}
@@ -46,6 +49,10 @@ void Turret::setTurretData()
 
 void Turret::drawTurret() const
 {
+	/*
+	if(ReloadCount>0)
+		Circle(ConvertVec2ToPoint(getRealPosition()), ReloadCount*0.1 * getZoom()).drawFrame(1*getZoom(), 0, Palette::Yellowgreen);
+		*/
 	switch (Type)
 	{
 	case 0:
@@ -59,6 +66,9 @@ void Turret::drawTurret() const
 		break;
 	case 3:
 		TextureAsset(L"Rifle").resize(15 * getZoom(), 5 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(7.5, 2.5)));
+		break;
+	case 4:
+		//TextureAsset(L"Rifle").resize(15 * getZoom(), 5 * getZoom()).rotate(Vec2ToRadian(GlobalAngle)).draw(ConvertVec2ToPoint(getRealPosition() - Vec2(7.5, 2.5)));
 		break;
 	default:
 		break;
