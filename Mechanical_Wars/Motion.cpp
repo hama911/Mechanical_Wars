@@ -12,9 +12,13 @@ void Motion::update()
 		--Count;
 		if (Count < 0) Enabled = false;
 		break;
-	default:
+	case 0:
 		++Count;
 		Enabled = Count < 60;
+		break;
+	default:
+		++Count;
+		Enabled = Count < 180;
 		break;
 	}
 }
@@ -29,13 +33,13 @@ void Motion::draw() const
 			TextureAsset(L"Effect2")((Count) * 32, 0, 32, 32).resize(16 * getZoom(), 16 * getZoom()).draw(ConvertVec2ToPoint(Position - Vec2(8.0, 8.0)));
 			break;
 		case 1:
-			TextureAsset(L"Effect1")((Count) * 64, 0, 64, 64).resize(32 * getZoom(), 32 * getZoom()).draw(ConvertVec2ToPoint(Position - Vec2(16.0, 16.0)));
+			TextureAsset(L"Effect1")((Count%15) * 128, Count / 15 * 128, 128, 128).resize(64 * getZoom(), 64 * getZoom()).draw(ConvertVec2ToPoint(Position - Vec2(32.0, 32.0)));
 			break;
 		case 3:
-			TextureAsset(L"Effect1")((Count) * 64, 0, 64, 64).resize(64 * getZoom(), 64 * getZoom()).draw(ConvertVec2ToPoint(Position - Vec2(32.0, 32.0)));
+			TextureAsset(L"Effect1")((Count%15) * 128, Count / 15 * 128, 128, 128).resize(64 * getZoom(), 64 * getZoom()).draw(ConvertVec2ToPoint(Position - Vec2(32.0, 32.0)));
 			break;
 		case 4:
-			TextureAsset(L"Effect1")((Count) * 64, 0, 64, 64).resize(128 * getZoom(), 128 * getZoom()).draw(ConvertVec2ToPoint(Position - Vec2(64.0, 64.0)));
+			TextureAsset(L"Effect1")((Count%15) * 128, Count / 15 * 128, 128, 128).resize(128 * getZoom(), 128 * getZoom()).draw(ConvertVec2ToPoint(Position - Vec2(64.0, 64.0)));
 			break;
 		case 5:
 			Line(ConvertVec2ToVec2(Position), ConvertVec2ToVec2(Position2)).draw(1 * getZoom(), Color(255, 255, 255, Count));

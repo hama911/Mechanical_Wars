@@ -77,11 +77,11 @@ void Turret::shot()
 		if (ammo <= 0)
 		{
 			double needSupply = 0;
-			if (Type == 0) needSupply -= 3;
-			if (Type == 1) needSupply -= 10;
-			if (Type == 2) needSupply -= 3;
-			if (Type == 3) needSupply -= 0.5;
-			if (Type == 4) needSupply -= 5;
+			if (Type == 0) needSupply = 3;
+			if (Type == 1) needSupply = 1;
+			if (Type == 2) needSupply = 3;
+			if (Type == 3) needSupply = 0.5;
+			if (Type == 4) needSupply = 1;
 			if (needSupply > BaseUnit->Supply) return;
 			BaseUnit->Supply -= needSupply;
 			if (Type == 0) ammo = 1;
@@ -116,7 +116,7 @@ void Turret::shot()
 				}
 
 				for (auto& bullet : bullets)
-					if (bullet.set(this)) break;
+					if (bullet.set(this, target)) break;
 				{
 					double reloadTime = 0;
 					--ammo;
@@ -125,14 +125,14 @@ void Turret::shot()
 						if (Type == 0) reloadTime = 300;
 						if (Type == 1) reloadTime = 600;
 						if (Type == 2) reloadTime = 300;
-						if (Type == 3) reloadTime = 300;
-						if (Type == 4) reloadTime = 600;
+						if (Type == 3) reloadTime = 180;
+						if (Type == 4) reloadTime = 240;
 					}
 					else {
 						if (Type == 0) reloadTime = 300;
 						if (Type == 1) reloadTime = 600;
 						if (Type == 2) reloadTime = 300;
-						if (Type == 3) reloadTime = 40;
+						if (Type == 3) reloadTime = 30;
 						if (Type == 4) reloadTime = 10;
 					}
 					ReloadCount = int(reloadTime*Random(0.8, 1.2));

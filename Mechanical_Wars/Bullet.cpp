@@ -19,12 +19,24 @@ void Bullet::update()
 			if (motion.setFromBullet(this)) break;
 		reset();
 	}
-
-	if (hitCheck())
+	if(Target!=NULL)
 	{
-		for (auto& motion : motions)
-			if (motion.setFromBullet(this)) break;
-		reset();
+		if (Target->hitCheck(Position))
+		{
+			Target->addDamege(this);
+			for (auto& motion : motions)
+				if (motion.setFromBullet(this)) break;
+			reset();
+		}
+	}
+	else
+	{
+		if (hitCheck())
+		{
+			for (auto& motion : motions)
+				if (motion.setFromBullet(this)) break;
+			reset();
+		}
 	}
 }
 
@@ -59,15 +71,16 @@ void Bullet::reset()
 	SpeedPerformance = 0;
 }
 
-bool Bullet::set(Turret* turret)
+bool Bullet::set(Turret* turret, Unit* target = NULL)
 {
 	if (Enabled) return false;
 	Enabled = true;
-	Count = int(turret->Count);
+	Count = int(turret->Count)*1.1;
 	IFF = turret->BaseUnit->IFF;
 	Position = turret->getRealPosition();
 	Angle = turret->TargetAngle;
 	Type = turret->Type;
+	Target = target;
 	setBulletData();
 	//’ÇÕƒVƒXƒeƒ€
 	//serchEnemyUnit();

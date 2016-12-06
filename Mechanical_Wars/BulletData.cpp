@@ -14,10 +14,10 @@ void Bullet::setBulletData()
 		SpeedPerformance = 3.0;
 		break;
 	case 3:
-		SpeedPerformance = 4.0;
+		SpeedPerformance = 3.0;
 		break;
 	case 4:
-		SpeedPerformance = 4.0;
+		SpeedPerformance = 3.0;
 		break;
 	default:
 		break;

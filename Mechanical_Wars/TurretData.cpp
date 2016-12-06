@@ -35,12 +35,12 @@ void Turret::setTurretData()
 	case 3:	//ï‡ï∫èe
 		Range = 192.0;
 		TurningPerformance = 0.1;
-		BulletSpeed = 4.0;
+		BulletSpeed = 3.0;
 		break;
 	case 4:	//é‘ç⁄ã@ä÷èe
 		Range = 192.0;
 		TurningPerformance = 0.1;
-		BulletSpeed = 4.0;
+		BulletSpeed = 3.0;
 		break;
 	default:
 		break;

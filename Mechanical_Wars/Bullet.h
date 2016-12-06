@@ -17,7 +17,7 @@ public:
 
 	void reset();
 
-	bool set(Turret* turret);
+	bool set(Turret* turret, Unit* target);
 
 
 
@@ -31,8 +31,8 @@ public:
 	Unit* serchEnemyUnit();	//õ“G
 	Unit* hitCheck();	//”»’è
 
-
 	//•Ï”
+	Unit* Target;
 	bool Enabled;
 	int IFF;
 	Vec2 Position;

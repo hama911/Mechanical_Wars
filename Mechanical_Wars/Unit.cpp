@@ -31,10 +31,10 @@ void Unit::update()
 			Supply += 0.1;
 			MyPlatoon->SupplyUnit->Supply -= 0.1;
 		}
-		if (FuelMax - Fuel > 0.1 && MyPlatoon->SupplyUnit->Fuel > 0.1)
+		if (FuelMax - Fuel > 0.3 && MyPlatoon->SupplyUnit->Fuel > 0.3)
 		{
-			Fuel += 0.1;
-			MyPlatoon->SupplyUnit->Fuel -= 0.1;
+			Fuel += 0.3;
+			MyPlatoon->SupplyUnit->Fuel -= 0.3;
 		}
 	}
 
@@ -79,6 +79,7 @@ void Unit::update()
 					Fuel += supplyFacility->Fuel;
 					supplyFacility->Fuel = 0;
 				}
+
 				if (supplyFacility->Supply > SupplyMax - Supply)
 				{
 					supplyFacility->Supply -= SupplyMax - Supply;
@@ -109,7 +110,7 @@ void Unit::update()
 	Position.moveBy(getSpeedVec2());
 	if (Type != 3 && Type != 2)
 	{
-		Fuel -= getSpeedDouble()*0.05;
+		Fuel -= getSpeedDouble()*10;
 	}
 }
 

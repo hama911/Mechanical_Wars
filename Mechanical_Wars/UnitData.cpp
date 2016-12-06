@@ -10,7 +10,7 @@ void Unit::setUnitData()
 	{
 	case 0:
 		Supply = 0;
-		Fuel = 10;
+		Fuel = 0;
 		SupplyMax = 10;
 		FuelMax = 10;
 		SpeedPerformance = 1.0;
@@ -42,9 +42,9 @@ void Unit::setUnitData()
 		break;
 	case 3:	//•à•º
 		Supply = 0;
-		Fuel = 100;
+		Fuel = 0;
 		SupplyMax = 10;
-		FuelMax = 100;
+		FuelMax = 0;
 		SpeedPerformance = 0.3;
 		TurningPerformance = 0.1;
 		HealthPerformance = 50;
