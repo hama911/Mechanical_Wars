@@ -431,6 +431,9 @@
     <Media Include="sound_cannon2.mp3">
       <Filter>リソース ファイル</Filter>
     </Media>
+    <Media Include="sound_shot1.mp3">
+      <Filter>リソース ファイル</Filter>
+    </Media>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Example\YomogiFont.ttf">

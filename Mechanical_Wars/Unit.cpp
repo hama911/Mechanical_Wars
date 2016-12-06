@@ -4,7 +4,10 @@
 #include"Motion.h"
 #include"Platoon.h"
 #include"Game.h"
+#include"Facility.h"
+#include"Mission.h"
 
+extern Array<Facility> facilities;
 extern Array<Bullet> bullets;
 extern Array<Unit> units;
 extern Array<Motion> motions;
@@ -48,7 +51,41 @@ void Unit::update()
 		turret.update();
 
 
-	updateUnit();
+	switch (Type)
+	{
+	case 2:
+		if (Fuel <= 50 || Supply <= 1)
+		{
+			double distance = 10000;
+			Facility *supplyFacility = NULL;
+			for (auto& facility : facilities)
+			{
+				if (facility.Enabled && facility.LocatedMission->IFF == IFF && facility.Type == 1 && facility.LocatedMission->Position.distanceFrom(Position) < distance)
+				{
+					distance = facility.LocatedMission->Position.distanceFrom(Position);
+					supplyFacility = &facility;
+				}
+			}
+			if (supplyFacility == NULL) return;
+			if (supplyFacility->LocatedMission->Position.distanceFrom(Position) > 16)
+			{
+				TargetPosition = supplyFacility->LocatedMission->Position;
+			}
+			else
+			{
+				supplyFacility->Fuel -= FuelMax - Fuel;
+				supplyFacility->Supply -= SupplyMax - Supply;
+				Fuel = FuelMax;
+				Supply = SupplyMax;
+			}
+		}
+		break;
+	case 3:	//•à•º
+
+		break;
+	default:
+		break;
+	}
 
 	turnUpdate();
 
@@ -78,7 +115,18 @@ void Unit::turnUpdate()
 {
 	Vec2 targetAngle = (TargetPosition - Position).normalized();
 	if (TargetPosition.distanceFrom(Position) < 1 && MyPlatoon != NULL)
-		targetAngle = MyPlatoon->TargetAngle;
+	{
+		switch (Type)
+		{
+		case 3:
+			if (Target != NULL) targetAngle = (Target->Position - Position).normalized();
+			else targetAngle = MyPlatoon->TargetAngle;
+			break;
+		default:
+			targetAngle = MyPlatoon->TargetAngle;
+			break;
+		}
+	}
 
 	if (abs(targetAngle.cross(Angle)) < Sin(TurningPerformance) && targetAngle.dot(Angle) > 0)
 	{
@@ -101,6 +149,7 @@ void Unit::turnUpdate()
 
 void Unit::reset()
 {
+	Target = NULL;
 	Supply = 0;
 	Fuel = 0;
 	Enabled = false;
@@ -200,6 +249,7 @@ void Unit::limitMoving()
 bool Unit::setUnit(int IFF_p, int type, Vec2 position)
 {
 	if (Enabled) return false;
+	reset();
 	IFF = IFF_p;
 	Type = type;
 	Position = position;

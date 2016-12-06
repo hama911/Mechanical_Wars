@@ -54,7 +54,6 @@ void Unit::setUnitData()
 	Enabled = true;
 	TargetPosition = Position;
 	Health = HealthPerformance;
-	Angle = Vec2(1, 0);
 }
 
 bool Unit::hitCheck(Vec2 pos)
@@ -133,42 +132,6 @@ void Unit::drawUnit() const
 		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
 
 		TextureAsset(L"Soldier").resize(10 * getZoom(), 15 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(5.0, 7.5)));
-		break;
-	default:
-		break;
-	}
-}
-
-void Unit::updateUnit()
-{
-	switch (Type)
-	{
-	case 2:
-		if (Fuel <= 50 || Supply <= 1)
-		{
-			double distance = 10000;
-			Facility *supplyFacility = NULL;
-			for (auto& facility : facilities)
-			{
-				if (facility.Enabled && facility.LocatedMission->IFF == IFF && facility.Type == 1 && facility.LocatedMission->Position.distanceFrom(Position) < distance)
-				{
-					distance = facility.LocatedMission->Position.distanceFrom(Position);
-					supplyFacility = &facility;
-				}
-			}
-			if (supplyFacility == NULL) return;
-			if (supplyFacility->LocatedMission->Position.distanceFrom(Position) > 16)
-			{
-				TargetPosition = supplyFacility->LocatedMission->Position;
-			}
-			else
-			{
-				supplyFacility->Fuel -= FuelMax - Fuel;
-				supplyFacility->Supply -= SupplyMax - Supply;
-				Fuel = FuelMax;
-				Supply = SupplyMax;
-			}
-		}
 		break;
 	default:
 		break;

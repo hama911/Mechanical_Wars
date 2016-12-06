@@ -13,9 +13,11 @@ void Turret::update()
 	if (target != NULL)
 	{
 		TargetAngle = calculateDeviation(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2());
+		if (Type == 3)	BaseUnit->Target = target;
 	}
 	else
 	{
+		if (Type == 3)	BaseUnit->Target = NULL;
 		TargetAngle = BaseUnit->Angle;
 	}
 
@@ -74,11 +76,21 @@ void Turret::shot()
 			if (abs(TargetAngle.cross(GlobalAngle)) < Sin(TurningPerformance) && TargetAngle.dot(GlobalAngle) > 0)
 			{
 				Count = int(calculateCollisionTime(getRealPosition(), target->Position, BulletSpeed, target->getSpeedVec2()));
-				/*
-				
-				if (Type == 1) SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 5);
-				else SoundAsset(L"cannon2").playMulti(getSoundVolume(getRealPosition()));
-				*/
+				switch (Type)
+				{
+				case 1:
+					SoundAsset(L"cannon1").playMulti(getSoundVolume(getRealPosition()) * 5);
+					break;
+				case 2:
+					SoundAsset(L"cannon2").playMulti(getSoundVolume(getRealPosition()));
+					break;
+				case 3:
+					SoundAsset(L"shot1").playMulti(getSoundVolume(getRealPosition()));
+					break;
+				default:
+					break;
+				}
+
 				for (auto& bullet : bullets)
 					if (bullet.set(this)) break;
 				ReloadCount = ReloadTime;

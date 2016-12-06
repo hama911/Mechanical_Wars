@@ -284,6 +284,7 @@
     <Media Include="sound_cannon1.mp3" />
     <Media Include="sound_explosive1.mp3" />
     <Media Include="sound_explosive2.mp3" />
+    <Media Include="sound_shot1.mp3" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Example\YomogiFont.ttf" />

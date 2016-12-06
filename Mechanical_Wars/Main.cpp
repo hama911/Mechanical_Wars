@@ -60,6 +60,7 @@ void Main()
 	SoundAsset::Register(L"cannon2", L"sound_cannon2.mp3");
 	SoundAsset::Register(L"explosive1", L"sound_explosive1.mp3");
 	SoundAsset::Register(L"explosive2", L"sound_explosive2.mp3");
+	SoundAsset::Register(L"shot1", L"sound_shot1.mp3");
 
 
 	Window::Resize(1280, 768, true);

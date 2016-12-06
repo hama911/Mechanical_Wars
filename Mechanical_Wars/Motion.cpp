@@ -39,7 +39,7 @@ void Motion::draw() const
 			break;
 		case 5:
 			Line(ConvertVec2ToVec2(Position), ConvertVec2ToVec2(Position2)).draw(1 * getZoom(), Color(255, 255, 255, Count));
-				break;
+			break;
 		default:
 			break;
 		}
@@ -95,9 +95,21 @@ bool Motion::setFromUnit(Unit* unit)
 	Count = 0;
 	Position = unit->Position;
 	Type = unit->getMotionType();
-	if (Type == 2) Type = 0;
-	if (Type == 1 || Type == 3 || Type == 4) SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
-	else SoundAsset(L"explosive1").playMulti(getSoundVolume(Position));
+	switch (Type)
+	{
+	case 1:
+		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
+		break;
+	case 2:
+		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
+		break;
+	case 3:
+		SoundAsset(L"explosive2").playMulti(getSoundVolume(Position) * 10);
+		break;
+	default:
+		Enabled = false;
+		break;
+	}
 	return true;
 }
 

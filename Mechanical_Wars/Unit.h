@@ -61,7 +61,7 @@ public:
 	Vec2 TargetPosition;
 	int IFF;	//識別コード
 	double Health;	//耐久
-
+	Unit* Target;	
 	Platoon* MyPlatoon;
 
 	//固定数値
