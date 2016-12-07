@@ -3,6 +3,7 @@
 #include"Unit.h"
 #include"Mission.h"
 #include"Power.h"
+extern Array<Unit> units;
 extern Array<Power> powers;
 extern Array<Mission> missions;
 extern Platoon* SelectedPlatoon;
@@ -18,10 +19,12 @@ void Platoon::setFromUnit(Unit* leader)
 	TargetPosition = leader->Position;
 	SupplyUnit = NULL;
 	RunningMission = NULL;
+	if (leader->Type == 2) SupplyUnit = leader;
+	searchNewMission();
 }
 
 
-double Platoon::getJoinDistance(Unit* unit)
+double Platoon::getJoinDistance(Unit* unit) const
 {
 	if (!Enabled) return 10000;
 	if (!Enabled || getTotalMember() == MAX_MEMBER || LeaderUnit == NULL || LeaderUnit == SupplyUnit || unit->IFF != LeaderUnit->IFF) return 20000;
@@ -36,7 +39,7 @@ double Platoon::getJoinDistance(Unit* unit)
 	return unit->Position.distanceFrom(LeaderUnit->Position);
 }
 
-int Platoon::getTotalMember()
+int Platoon::getTotalMember() const
 {
 	int count = 0;
 	for (auto& unit : MemberUnits)
@@ -48,15 +51,13 @@ bool Platoon::joinPlatoon(Unit* member)
 	if (LeaderUnit != NULL && member->IFF != LeaderUnit->IFF) return false;
 	if (!Enabled)
 	{
+		/*
 		if (powers[member->IFF].FreeMission)
 		{
 			setFromUnit(member);
-			if (member->Type == 2)
-			{
-				SupplyUnit = member;
-			}
 		}
 		return powers[member->IFF].FreeMission;
+		*/
 	}
 	else
 	{
@@ -97,6 +98,27 @@ void Platoon::reset()
 
 void Platoon::update()
 {
+	if (!Enabled)
+	{
+		//platoonの新規生成
+		for (auto& power : powers)
+		{
+			if (power.Enabled)
+			{
+				if (power.NumberOfBAL[0] - power.NumberOfPlatoonBAL[0] > 0)
+				{
+					for (auto& unit : units)
+					{
+						if (unit.Enabled && power.IFF == unit.IFF && unit.MyPlatoon == NULL)
+						{
+							setFromUnit(&unit);
+							++power.NumberOfPlatoonBAL[0];
+						}
+					}
+				}
+			}
+		}
+	}
 	if (!Enabled) return;
 	//メンバーの欠損に対する対処
 	for (auto& unit1 : MemberUnits)
@@ -126,10 +148,27 @@ void Platoon::update()
 			{
 				unit1 = NULL;
 			}
-			//relocation();	//再配置
 		}
 	}
 
+	//ユニットの勧誘
+	if (powers[LeaderUnit->IFF].NumberOfBAL[0] - powers[LeaderUnit->IFF].NumberOfPlatoonBAL[0] <= 0)
+	{
+		for (auto& member : MemberUnits)
+		{
+			if (member != NULL) continue;
+			for (auto& unit : units)
+			{
+				if (unit.Enabled && unit.IFF == LeaderUnit->IFF && unit.MyPlatoon == NULL && !(unit.Type == 2 && SupplyUnit != NULL))
+				{
+					unit.MyPlatoon = this;
+					member = &unit;
+					if (unit.Type == 2) SupplyUnit = &unit;
+				}
+			}
+		}
+	}
+		
 
 	//リーダーを先頭に
 	Unit* frontUnit = MemberUnits[0];
@@ -147,7 +186,7 @@ void Platoon::update()
 	}
 	else
 	{
-		Enabled = false;
+		reset();
 	}
 }
 

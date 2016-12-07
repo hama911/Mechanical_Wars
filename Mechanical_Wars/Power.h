@@ -14,6 +14,8 @@ public:
 	void FindNeedUnits();
 public:
 	bool FreeMission;
+	int NumberOfBAL[5];
+	int NumberOfPlatoonBAL[5];
 	int NeedUnits[3];
 	int IFF;
 	bool Enabled = true;

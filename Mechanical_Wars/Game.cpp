@@ -55,6 +55,10 @@ void Game::update()
 		for (auto& motion : motions)
 			motion.update();
 	}
+	int count = 0;
+	for (auto& unit : units)
+		if (unit.Enabled) ++count;
+	Println(count);
 	drawUpdate();
 	if (Input::MouseL.clicked)
 	{
@@ -100,12 +104,10 @@ void Game::draw() const
 		power.draw();
 	for (auto& facility : facilities)
 		facility.draw();
-	/*
 	for (auto& mission : missions)
 		mission.draw();
 	for (auto& platoon : platoons)
 		platoon.draw();
-		*/
 	for (auto& unit : units)
 		unit.draw();
 	for (auto& bullet : bullets)
@@ -126,7 +128,7 @@ void Game::init()
 
 	for (int i = 0; i < 10; i++)
 		facilities.push_back(Facility());
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 1000; i++)
 		units.push_back(Unit());
 	for (int i = 0; i < 2000; i++)
 		motions.push_back(Motion());
@@ -139,8 +141,8 @@ void Game::init()
 	for (int i = 0; i < 360; i++)
 		powers.push_back(Power(i));
 	powers[0].Enabled = true;
-	powers[240].Enabled = true;
 	powers[120].Enabled = true;
+	powers[240].Enabled = true;
 
 	/*
 	for (int i = 0; i < 7; i++)

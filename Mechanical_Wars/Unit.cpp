@@ -17,7 +17,10 @@ void Unit::update()
 {
 	if (!Enabled) return;
 
-	updatePlatoon();
+	//updatePlatoon();	//加入を行う処理
+		//ターゲットアングルの変更
+	if (MyPlatoon != NULL && (!MyPlatoon->Enabled)) MyPlatoon = NULL;
+	if(MyPlatoon!=NULL) TargetPosition = MyPlatoon->getUnitTargetPosition(this);
 	for (auto& turret : turrets)
 		turret.BaseUnit = this;
 
@@ -121,6 +124,7 @@ Vec2 Unit::getSpeedVec2()
 
 double Unit::getSpeedDouble()
 {
+	if (MyPlatoon == NULL) return 0;
 	if (TargetPosition.distanceFrom(Position) < 1) return 0;
 	if ((TargetPosition - Position).normalized() == Angle)
 	{
@@ -132,6 +136,7 @@ double Unit::getSpeedDouble()
 
 void Unit::turnUpdate()
 {
+	if (MyPlatoon == NULL) return;
 	Vec2 targetAngle = (TargetPosition - Position).normalized();
 	if (TargetPosition.distanceFrom(Position) < 1 && MyPlatoon != NULL)
 	{
@@ -212,13 +217,6 @@ void Unit::updatePlatoon()
 	}
 	else
 	{
-		if (!MyPlatoon->Enabled)
-		{
-			MyPlatoon = NULL;
-			return;
-		}
-		//ターゲットアングルの変更
-		TargetPosition = MyPlatoon->getUnitTargetPosition(this);
 		//より多いところに加入
 		if (MyPlatoon->getTotalMember() <= 2)
 		{

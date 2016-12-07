@@ -9,8 +9,8 @@ void Unit::setUnitData()
 	switch (Type)
 	{
 	case 0:
-		Supply = 0;
-		Fuel = 0;
+		Supply = 10;
+		Fuel = 10;
 		SupplyMax = 10;
 		FuelMax = 10;
 		SpeedPerformance = 1.0;

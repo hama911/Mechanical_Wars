@@ -23,9 +23,9 @@ public:
 	void update();
 	void draw() const;
 
-	double getJoinDistance(Unit* unit);	//‚à‚µæ“¾‚Å‚«‚È‚¢ó‹µ‚Ìê‡‚Í10000‚ğ•Ô‚·
+	double getJoinDistance(Unit* unit) const;	//‚à‚µæ“¾‚Å‚«‚È‚¢ó‹µ‚Ìê‡‚Í10000‚ğ•Ô‚·
 	Vec2 getUnitTargetPosition(Unit* unit);
-	int getTotalMember();
+	int getTotalMember() const;
 
 	void setFromUnit(Unit* leader);
 	void reset();
