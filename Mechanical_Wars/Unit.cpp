@@ -17,8 +17,6 @@ void Unit::update()
 {
 	if (!Enabled) return;
 
-	Health += 1;
-	if (Health > HealthPerformance) Health = HealthPerformance;
 
 	for (auto& turret : turrets)
 		turret.BaseUnit = this;
@@ -197,6 +195,7 @@ void Unit::reset()
 	HealthPerformance = 0.0;
 	Type = 0;
 	if (AssignedDivision != NULL) AssignedDivision->leaveDivision(this);
+	AssignedDivision = NULL;
 	for (auto& turret : turrets)
 		turret.Enabled = false;
 }

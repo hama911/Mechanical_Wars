@@ -191,7 +191,7 @@ double Division::getJoinPriority(Unit* unit) const
 	}
 	if (unit->isSupplyUnit() && getNumSupplyUnit() == 0) priority *= 0.01;	//補給ユニットがない場合
 	priority *= Pow(getNumMemberUnit(), 2);
-	return priority*0.01;
+	return priority;
 }
 
 void Division::findMission()
@@ -284,7 +284,7 @@ void Division::relocate()
 			MemberUnits[0] = target;
 		}
 	}
-
+	/*
 	//間の空いているユニットを前に入れ替え
 	for (int i = 0; i < DIVISION_MAX_MEMBER; i++)
 	{
@@ -294,10 +294,11 @@ void Division::relocate()
 			{
 				if (MemberUnits[j] == NULL) continue;
 				MemberUnits[i] = MemberUnits[j];
+				MemberUnits[j] = NULL;
 				break;
 			}
 		}
-	}
+	}*/
 
 	//先頭のユニットが補給ユニットなら交代
 	if (MemberUnits[0] != NULL && MemberUnits[0]->isSupplyUnit())
@@ -354,7 +355,7 @@ Vec2 Division::getTargetPosition(Unit* unit) const
 	{
 		if (unit->isSupplyUnit() && MemberUnits[0]!=unit)
 		{
-			return MemberUnits[0]->Position - getTargetAngle() * 32;
+			return getLeader()->Position - getTargetAngle() * 32;
 		}
 		for (int i = 0; i < DIVISION_MAX_MEMBER; i++)
 		{
@@ -467,4 +468,5 @@ void Division::draw() const
 
 	//目標の方向
 	Line(ConvertVec2ToVec2(getPosition()), ConvertVec2ToVec2(getPosition() + getTargetAngle() * 128)).drawArrow(32, Vec2(64, 64)*getZoom(), Color(HSV(IFF), 64));
+	
 }

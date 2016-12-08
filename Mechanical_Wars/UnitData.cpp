@@ -45,7 +45,7 @@ void Unit::setUnitData()
 		Fuel = 5;
 		SupplyMax = 5;
 		FuelMax = 0;
-		SpeedPerformance = 0.3;
+		SpeedPerformance = 1;
 		TurningPerformance = 0.1;
 		HealthPerformance = 50;
 		turrets[0].set(3, 0, 3);
@@ -96,7 +96,7 @@ bool Unit::hitCheck(Vec2 pos)
 
 void Unit::drawUnit() const
 {
-	Circle(ConvertVec2ToVec2(Position), 15 * getZoom()).draw(Color(HSV(IFF), 64));
+	//Circle(ConvertVec2ToVec2(Position), 15 * getZoom()).draw(Color(HSV(IFF), 64));
 	switch (Type)
 	{
 	case 0:
