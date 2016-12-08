@@ -75,7 +75,7 @@ bool Bullet::set(Turret* turret, Unit* target = NULL)
 {
 	if (Enabled) return false;
 	Enabled = true;
-	Count = int(turret->Count)*1.1;
+	Count = int(turret->Count*1.1);
 	IFF = turret->BaseUnit->IFF;
 	Position = turret->getRealPosition();
 	Angle = turret->TargetAngle;

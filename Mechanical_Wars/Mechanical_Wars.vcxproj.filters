@@ -76,9 +76,6 @@
     <Filter Include="リソース ファイル\Example\Well">
       <UniqueIdentifier>{eb86b9be-05b8-45c6-89c8-f91a5437157c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\ユニット関連">
-      <UniqueIdentifier>{c18860dd-89e6-4389-85fd-b008d354c8b1}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
@@ -417,6 +414,9 @@
     <Text Include="Example\Shaders\Wave2DPointSprites.hlsl">
       <Filter>リソース ファイル\Example\Shaders</Filter>
     </Text>
+    <Text Include="仕様ファイル.txt">
+      <Filter>リソース ファイル</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Example\Sound.mp3">
@@ -483,13 +483,13 @@
     <ClInclude Include="Facility.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Platoon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Mission.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Power.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Division.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -503,43 +503,43 @@
     <ClCompile Include="Graphcis.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Calculation.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Facility.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>ソース ファイル\ユニット関連</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletData.cpp">
-      <Filter>ソース ファイル\ユニット関連</Filter>
-    </ClCompile>
-    <ClCompile Include="Platton.cpp">
-      <Filter>ソース ファイル\ユニット関連</Filter>
-    </ClCompile>
-    <ClCompile Include="Turret.cpp">
-      <Filter>ソース ファイル\ユニット関連</Filter>
-    </ClCompile>
-    <ClCompile Include="TurretData.cpp">
-      <Filter>ソース ファイル\ユニット関連</Filter>
-    </ClCompile>
-    <ClCompile Include="Unit.cpp">
-      <Filter>ソース ファイル\ユニット関連</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitData.cpp">
-      <Filter>ソース ファイル\ユニット関連</Filter>
-    </ClCompile>
-    <ClCompile Include="Motion.cpp">
-      <Filter>ソース ファイル\ユニット関連</Filter>
     </ClCompile>
     <ClCompile Include="FacilityData.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Mission.cpp">
-      <Filter>ソース ファイル\ユニット関連</Filter>
-    </ClCompile>
     <ClCompile Include="Power.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculation.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Mission.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Motion.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Division.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

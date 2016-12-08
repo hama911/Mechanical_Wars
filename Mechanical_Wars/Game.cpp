@@ -4,24 +4,21 @@
 #include "Motion.h"
 #include "Graphics.h"
 #include"Facility.h"
-#include"Platoon.h"
 #include"Mission.h"
 #include"Power.h"
-
+#include"Division.h"
 Array<Bullet> bullets;
 Array<Unit> units;
 Array<Motion> motions;
 Array<Facility> facilities;
-Array<Platoon> platoons;
 Array<Mission> missions;
 Array<Power> powers;
+Array<Division> divisions;
 Mission* SelectedMission = NULL;
-Platoon* SelectedPlatoon = NULL;
 
 int FriendIFF = 0;
 void Game::update()
 {
-	ClearPrint();
 	for (int i = 0; i < Speed; i++)
 	{
 		if (Input::MouseL.clicked)
@@ -31,23 +28,17 @@ void Game::update()
 		}
 		for (auto& power : powers)
 			power.update();
+
+		updateMissions();
+
 		for (auto& facility : facilities)
 			facility.update();
-
-		for (auto& mission : missions)
-			mission.update();
-		//ミッションのセット
-		for (auto& mission : missions)
-			mission.BAL = 5;
-		for (int j = 0; j < 5; j++)
-			for (auto& mission : missions)
-				mission.setBAL();
 
 		for (auto& unit : units)
 			unit.update();
 
-		for (auto& platoon : platoons)
-			platoon.update();
+		for (auto& division : divisions)
+			division.update();
 
 		for (auto& bullet : bullets)
 			bullet.update();
@@ -56,26 +47,6 @@ void Game::update()
 			motion.update();
 	}
 	drawUpdate();
-	if (Input::MouseL.clicked)
-	{
-		SelectedPlatoon = NULL;
-		for (auto& platoon : platoons)
-			if (platoon.Enabled && platoon.LeaderUnit->IFF == 0 && platoon.LeaderUnit->Position.distanceFrom(DisConvertVec2ToVec2(Mouse::Pos())) < 16) SelectedPlatoon = &platoon;
-	}
-	if (Input::MouseR.clicked)
-	{
-		if (SelectedPlatoon != NULL)
-		{
-			SelectedPlatoon->TargetPosition = DisConvertVec2ToVec2(Mouse::Pos());
-		}
-	}
-	if (Input::MouseR.pressed)
-	{
-		if (SelectedPlatoon != NULL)
-		{
-			SelectedPlatoon->TargetAngle = (DisConvertVec2ToVec2(Mouse::Pos()) - SelectedPlatoon->TargetPosition).normalized();
-		}
-	}
 	if (Input::KeyF1.clicked)
 	{
 		if (Speed <= 1) Speed = 0;
@@ -91,8 +62,8 @@ void Game::update()
 
 void Game::draw() const
 {
-	Println(L"ダウンロードしていただき、ありがとうございます。");
-	Println(L"F1キーとF2キーで倍速の調整、マウスで視点移動が可能です。");
+	//Println(L"ダウンロードしていただき、ありがとうございます。");
+	//Println(L"F1キーとF2キーで倍速の調整、マウスで視点移動が可能です。");
 
 	Window::ClientRect().draw(Palette::Darkgreen);
 	Rect(ConvertVec2ToPoint(Vec2(GROUND_LIMIT_MIN_X, GROUND_LIMIT_MIN_Y)), Point((GROUND_LIMIT_MAX_X - GROUND_LIMIT_MIN_X) * getZoom(), (GROUND_LIMIT_MAX_Y - GROUND_LIMIT_MIN_Y) * getZoom())).drawFrame(0, 5 * getZoom(), Palette::White);
@@ -100,12 +71,11 @@ void Game::draw() const
 		power.draw();
 	for (auto& facility : facilities)
 		facility.draw();
-	/*
 	for (auto& mission : missions)
 		mission.draw();
-	for (auto& platoon : platoons)
-		platoon.draw();
-		*/
+	for (auto& division : divisions)
+		division.draw();
+
 	for (auto& unit : units)
 		unit.draw();
 	for (auto& bullet : bullets)
@@ -132,12 +102,12 @@ void Game::init()
 		motions.push_back(Motion());
 	for (int i = 0; i < 1000; i++)
 		bullets.push_back(Bullet());
-	for (int i = 0; i < 100; i++)
-		platoons.push_back(Platoon());
 	for (int i = 0; i < 80; i++)
 		missions.push_back(Mission());
 	for (int i = 0; i < 360; i++)
 		powers.push_back(Power(i));
+	for (int i = 0; i < 100; i++)
+		divisions.push_back(Division());
 	powers[0].Enabled = true;
 	powers[240].Enabled = true;
 	powers[120].Enabled = true;
@@ -171,7 +141,7 @@ void Game::init()
 	for (int x = 0; x < 10; x++)
 		for (int y = 0; y < 8; y++)
 			for (auto& mission : missions)
-				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), (240 * (x >= 8) + 120 * (x > 1 && x < 8)), NULL, 3)) break;
+				if ((x % 2) + y != 8 && mission.set(Vec2(x * 110 + 64, y * 128 + 64 + (x % 2) * 64), (240 * (x >= 8) + 120 * (x > 1 && x < 8)))) break;
 
 
 	//工場のセット

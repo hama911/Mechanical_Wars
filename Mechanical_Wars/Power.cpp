@@ -1,13 +1,12 @@
 #include"Power.h"
 #include"Mission.h"
-#include"Platoon.h"
 #include"Unit.h"
+#include"Division.h"
+extern Array<Division> divisions;
 extern Array<Mission> missions;
-extern Array<Platoon> platoons;
 void Power::update()
 {
 	if (!Enabled) return;
-	FindFreeMission();
 	FindNeedUnits();
 }
 
@@ -16,37 +15,25 @@ void Power::draw() const
 
 }
 
-void Power::FindFreeMission()
-{
-	FreeMission = false;
-	for (auto mission : missions)
-	{
-		if (!mission.Enabled || mission.IFF != IFF || mission.Prosecutor != NULL) continue;
-		for (auto connect : mission.Connects)
-		{
-			if (connect != NULL && connect->IFF != IFF)
-			{
-				FreeMission = true;
-				return;
-			}
-		}
-	}
-	return;
-}
 
 void Power::FindNeedUnits()
 {
 	for (auto& unit : NeedUnits)
 		unit = 0;
-	for (auto& platoon : platoons)
+
+	int count = 0;
+	for (auto& division : divisions)
 	{
-		if (!platoon.Enabled || platoon.LeaderUnit->IFF != IFF) continue;
-		if (platoon.SupplyUnit == NULL) ++NeedUnits[2];	//ï‚ããÉgÉâÉbÉN
-		NeedUnits[0] += MAX_MEMBER - platoon.getTotalMember() - (platoon.SupplyUnit == NULL);
+		if (division.Enabled && division.IFF == IFF)
+		{
+			int need = division.getNumMemberUnit() / 10 + 1 - division.getNumSupplyUnit();
+			if (need > 0) NeedUnits[2] += need;	//10ëÃÇ…ÇPÇ¬íçï∂
+			++count;
+		}
 	}
-	if (FreeMission)
-	{
-		NeedUnits[0] += 5;
-		NeedUnits[1] += 1;
+
+	if (count == 0) {
+		for (auto& division : divisions)
+			if (division.set(IFF)) break;
 	}
 }

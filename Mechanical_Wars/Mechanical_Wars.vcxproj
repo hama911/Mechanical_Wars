@@ -278,6 +278,7 @@
     <Text Include="Example\Shaders\Wave2DPointSprites.hlsl" />
     <Text Include="Example\Test.txt" />
     <Text Include="Example\素材について.txt" />
+    <Text Include="仕様ファイル.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="engine.mp3" />
@@ -297,13 +298,13 @@
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Calculation.h" />
+    <ClInclude Include="Division.h" />
     <ClInclude Include="Facility.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Mission.h" />
     <ClInclude Include="Motion.h" />
-    <ClInclude Include="Platoon.h" />
     <ClInclude Include="Power.h" />
     <ClInclude Include="Turret.h" />
     <ClInclude Include="Unit.h" />
@@ -312,6 +313,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletData.cpp" />
     <ClCompile Include="Calculation.cpp" />
+    <ClCompile Include="Division.cpp" />
     <ClCompile Include="Facility.cpp" />
     <ClCompile Include="FacilityData.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -319,7 +321,6 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mission.cpp" />
     <ClCompile Include="Motion.cpp" />
-    <ClCompile Include="Platton.cpp" />
     <ClCompile Include="Power.cpp" />
     <ClCompile Include="Turret.cpp" />
     <ClCompile Include="TurretData.cpp" />

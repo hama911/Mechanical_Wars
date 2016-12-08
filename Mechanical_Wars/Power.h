@@ -10,7 +10,6 @@ public:
 	Power(int iff) { IFF = iff; Enabled = false; }
 	void update();
 	void draw() const;
-	void FindFreeMission();
 	void FindNeedUnits();
 public:
 	bool FreeMission;

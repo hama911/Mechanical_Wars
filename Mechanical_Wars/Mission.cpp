@@ -1,82 +1,67 @@
 #include"Mission.h"
 #include"Graphics.h"
-#include"Platoon.h"
 #include"Unit.h"
 extern Array<Mission> missions;
 extern Mission* SelectedMission;
 extern Array<Unit> units;
+
+void updateMissions()
+{
+	for (auto& mission : missions)
+		mission.BAL = 4;
+	for (int i = 0; i < 5; i++)
+	{
+		for (auto& mission : missions)
+			mission.setBAL();
+	}
+	for (auto& mission : missions)
+		mission.update();
+}
+
+void Mission::setBAL()
+{
+	if (!Enabled) return;
+	for (auto& connect : Connects)
+	{
+		if (connect != NULL) {
+
+			//隣が異なるIFFの場合
+			if (connect->IFF != IFF) 
+			{
+				BAL = 0;
+				return;
+			}
+
+			//隣のBALによって決まる場合
+			if (connect->BAL < BAL) BAL = connect->BAL + 1;	//違うIFFなら必ずBAL=0となるため、記述しない
+		}
+	}
+}
+
 void Mission::update()
 {
 	if (!Enabled) return;
-	if (Prosecutor != NULL && Prosecutor->RunningMission != this) Prosecutor = NULL;
-	if (Priority <= 0) Enabled = false;
-	//敵による占領判定
-	Mission *target = NULL;
-	int occupier = 0;
-	if (Prosecutor != NULL)
-	{
-		for (auto& unit : Prosecutor->MemberUnits)
-		{
-			if (unit != NULL && unit->Position.distanceFrom(Position) < 192) ++occupier;
-		}
-	}
-	else
-	{
-		occupier = 0;
-	}
 
-	int enemyOccupier = 0;
+
+}
+
+Vec2 Mission::getAngle() const
+{
+	if (!Enabled) LOG_ERROR(L"Mission::getAngle() Enabled is false");
+
+	int count = 0;
+	Vec2 position = Vec2(0, 0);
 	for (auto& connect : Connects)
 	{
-		if (connect != NULL && connect->IFF != IFF && connect->Prosecutor != NULL)
+		if (connect != NULL && connect->IFF!=IFF)
 		{
-			int count = 0;
-			for (auto& unit : connect->Prosecutor->MemberUnits)
-			{
-				if (unit != NULL && unit->Position.distanceFrom(Position) < 256) ++count;
-			}
-			if (count > enemyOccupier && count > occupier + 2) {
-				enemyOccupier = count;
-				target = connect;
-			}
+			++count;
+			position += connect->Position;
 		}
 	}
-	if (target != NULL)
-	{
-		//味方、敵の優劣判定
-		int count = 0;
-		for (auto& unit : units)
-		{
-			if (unit.Enabled && unit.Position.distanceFrom(Position) < 192)
-			{
-				if (unit.IFF == IFF) --count;
-				if (unit.IFF != IFF) ++count;
-			}
-		}
-		if (count > 0)
-		{
-			if (Prosecutor != NULL) Prosecutor->RunningMission = target->Prosecutor->RunningMission;
-			Prosecutor = target->Prosecutor;
-			target->Prosecutor = NULL;
-			IFF = target->IFF;
-		}
 
-	}
-
-
-	//角度の設定
-	if (Prosecutor != NULL)
-	{
-		Vec2 enemyAngle = Vec2(0, 0);
-		for (auto& connect : Connects)
-		{
-			if (connect != NULL && connect->IFF != IFF)
-			{
-				enemyAngle += (connect->Position - Position).normalized();
-			}
-		}
-		Angle = Vec2(1, 0).rotated(Vec2ToRadian(enemyAngle));
-	}
+	if (count == 0) return Vec2(1, 0);	//もし隣接するすべてが友好的ミッションの場合
+	return (position / count - Position).normalized();
 }
 
 void Mission::draw() const
@@ -95,15 +80,13 @@ void Mission::draw() const
 
 }
 
-bool Mission::set(Vec2 position, int iff, Platoon* platoon, int priority)
+bool Mission::set(Vec2 position, int iff)
 {
 	if (Enabled) return false;
+	ActiveDivision = NULL;
 	Enabled = true;
 	Position = position;
-	Angle = Vec2(1, 0);
 	IFF = iff;
-	Prosecutor = platoon;
-	Priority = priority;
 	for (auto& connect : Connects)
 		connect = NULL;
 	//接続先を作成
@@ -131,20 +114,4 @@ bool Mission::set(Vec2 position, int iff, Platoon* platoon, int priority)
 		}
 	}
 	return true;
-}
-
-bool Mission::getBattleFlag()
-{
-	if (!Enabled) return false;
-	for (auto& connect : Connects)
-		if (connect != NULL && connect->IFF != IFF) return true;
-	return false;
-}
-
-void Mission::setBAL()
-{
-	if (!Enabled) return;
-	if (getBattleFlag()) BAL = 0;
-	for (auto& connect : Connects)
-		if (connect != NULL && connect->IFF == IFF && connect->BAL < BAL) BAL = connect->BAL + 1;
 }
