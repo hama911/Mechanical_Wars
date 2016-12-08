@@ -1,5 +1,8 @@
 #include"Facility.h"
+#include"Power.h"
+#include"Mission.h"
 
+extern Array<Power> powers;
 
 void Facility::reset()
 {
@@ -38,7 +41,7 @@ bool Facility::set(Mission *mission, int type)
 
 void Facility::update()
 {
-	if (!Enabled) return;
+	if (!Enabled || !powers[LocatedMission->IFF].Enabled) return;
 	updateFacility();
 }
 void Facility::draw() const

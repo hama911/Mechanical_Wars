@@ -17,6 +17,9 @@ void Unit::update()
 {
 	if (!Enabled) return;
 
+	Health += 1;
+	if (Health > HealthPerformance) Health = HealthPerformance;
+
 	for (auto& turret : turrets)
 		turret.BaseUnit = this;
 
@@ -38,13 +41,15 @@ void Unit::update()
 	{
 		//•ûŒü‚ðŒˆ‚ß‚é
 		TargetPosition = AssignedDivision->getTargetPosition(this);
+
+		//•â‹‹ˆ—
+		if(!isSupplyUnit())	AssignedDivision->receiveSupply(this);
 	}
 	
 
 	limitMoving();
 
-	if (Supply < 0) Supply = 0;
-	if (Fuel < 0) Fuel = 0;
+
 
 	if (Health <= 0)
 	{
@@ -112,11 +117,16 @@ void Unit::update()
 		turret.update();
 
 	//‘¬“x§Œä
-	Position.moveBy(getSpeedVec2());
-	if (Type != 3 && Type != 2)
+	if (Fuel >= 0)
 	{
-		Fuel -= getSpeedDouble() * 10;
+		Position.moveBy(getSpeedVec2());
+		if (Type != 3 && Type != 2)
+		{
+		//	Fuel -= getSpeedDouble();
+		}
 	}
+	if (Fuel < -1) Fuel = -1;
+	if (Supply < -1) Supply = -1;
 }
 
 Vec2 Unit::getSpeedVec2()
@@ -186,7 +196,7 @@ void Unit::reset()
 	TurningPerformance = 0.0;
 	HealthPerformance = 0.0;
 	Type = 0;
-	AssignedDivision = NULL;
+	if (AssignedDivision != NULL) AssignedDivision->leaveDivision(this);
 	for (auto& turret : turrets)
 		turret.Enabled = false;
 }

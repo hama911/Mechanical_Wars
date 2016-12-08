@@ -38,7 +38,7 @@ void Facility::updateFacility()
 	{
 	case 0:		//•ºŠí»‘¢‹Ç
 		++Progress;
-		while (Progress > 0 && powers[LocatedMission->IFF].NeedUnits[2] > 0)
+		while (Progress > 0 && powers[LocatedMission->IFF].NeedUnits[2] > 0 && powers[LocatedMission->IFF].NumFreeUnit[2]==0)
 		{
 			for (auto& unit : units)
 				if (unit.setUnit(LocatedMission->IFF, 2, LocatedMission->Position)) break;
@@ -52,10 +52,10 @@ void Facility::updateFacility()
 			Progress -= 200;
 			--powers[LocatedMission->IFF].NeedUnits[0];
 		}
-		if (Progress > 100)
+		if (Progress > 100 && powers[LocatedMission->IFF].NumFreeUnit[3] == 0)
 		{
 			for (auto& unit : units)
-				if (unit.setUnit(LocatedMission->IFF, 3 * (RandomBool(0.7)), LocatedMission->Position)) break;
+				if (unit.setUnit(LocatedMission->IFF, 3 * (RandomBool(1)), LocatedMission->Position)) break;
 			Progress -= 200;
 			--powers[LocatedMission->IFF].NeedUnits[0];
 		}

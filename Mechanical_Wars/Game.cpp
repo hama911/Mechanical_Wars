@@ -71,11 +71,12 @@ void Game::draw() const
 		power.draw();
 	for (auto& facility : facilities)
 		facility.draw();
-	for (auto& mission : missions)
+	/*for (auto& mission : missions)
 		mission.draw();
 	for (auto& division : divisions)
 		division.draw();
 
+		*/
 	for (auto& unit : units)
 		unit.draw();
 	for (auto& bullet : bullets)
@@ -96,7 +97,7 @@ void Game::init()
 
 	for (int i = 0; i < 10; i++)
 		facilities.push_back(Facility());
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 1000; i++)
 		units.push_back(Unit());
 	for (int i = 0; i < 2000; i++)
 		motions.push_back(Motion());
@@ -110,7 +111,7 @@ void Game::init()
 		divisions.push_back(Division());
 	powers[0].Enabled = true;
 	powers[240].Enabled = true;
-	powers[120].Enabled = true;
+	//powers[120].Enabled = true;
 
 	/*
 	for (int i = 0; i < 7; i++)

@@ -14,6 +14,9 @@ public:
 public:
 	bool FreeMission;
 	int NeedUnits[3];
+	int NumDivision;
+	int NumMission[5];
 	int IFF;
 	bool Enabled = true;
+	int NumFreeUnit[4];	//Division‚É‚¢‚È‚¢‘å‘à‚Ì”
 };

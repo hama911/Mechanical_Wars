@@ -150,7 +150,7 @@ Unit* Turret::searchEnemyUnit()
 	for (auto& unit : units)
 	{
 		if (Type == 0 && (unit.Type != 0 && unit.Type != 2)) continue;
-		if (Type == 3 && (unit.Type != 3)) continue;
+		if (Type == 3 && !(unit.Type == 3 || unit.Type == 2)) continue;
 		if (Type == 4 && (unit.Type != 3)) continue;
 		if (unit.Enabled && BaseUnit->IFF != unit.IFF && realPosition.distanceFrom(unit.Position) < distance)
 		{

@@ -67,6 +67,7 @@ Vec2 Mission::getAngle() const
 void Mission::draw() const
 {
 	if (!Enabled) return;
+
 	if (SelectedMission == this) Circle(ConvertVec2ToVec2(Position), 35 * getZoom()).drawFrame(1 * getZoom(), 0, Palette::Yellow);
 	for (auto& connect : Connects)
 		if (connect != NULL) Line(ConvertVec2ToVec2(Position), ConvertVec2ToVec2(connect->Position)).draw(20 * getZoom(), Color(255, 255, 255, 64));
@@ -77,7 +78,7 @@ void Mission::draw() const
 	}
 	Circle(ConvertVec2ToVec2(Position), 64 * getZoom()).drawFrame(1 * getZoom(), 0, HSV(IFF));
 	Circle(ConvertVec2ToVec2(Position), ((5 - BAL) * 5) * getZoom()).draw(HSV(IFF));
-
+	if(ActiveDivision!=NULL) Circle(ConvertVec2ToVec2(Position), 32 * getZoom()).draw(Color(HSV(IFF),128));
 }
 
 bool Mission::set(Vec2 position, int iff)

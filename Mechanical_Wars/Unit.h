@@ -21,7 +21,7 @@ public:
 	bool setUnit(int IFF_p, int type, Vec2 position = Vec2(Random(1024), Random(1024)));
 	void reset();
 	bool hitCheck(Vec2 pos);
-	Vec2 getSpeedVec2() ;	//現在のスピードをVec2型で返す
+	Vec2 getSpeedVec2();	//現在のスピードをVec2型で返す
 	double getSpeedDouble();	//現在のスピードをdouble型で返す
 	void setUnitData();
 	void drawUnit() const;
@@ -32,14 +32,14 @@ public:
 
 public:
 	//変数
-	Division* AssignedDivision;
+	Division* AssignedDivision = NULL;
 	bool Enabled;
 	Vec2 Position;
 	Vec2 Angle;
 	Vec2 TargetPosition;
 	int IFF;	//識別コード
 	double Health;	//耐久
-	Unit* Target;	
+	Unit* Target;
 	//固定数値
 	double SpeedPerformance;	//速度性能
 	double TurningPerformance;	//旋回性能

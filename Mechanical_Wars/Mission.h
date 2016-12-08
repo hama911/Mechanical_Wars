@@ -21,7 +21,7 @@ public:
 
 public:
 
-	int BAL;		//戦闘地域レベル
+	int BAL = 0;		//戦闘地域レベル
 	bool Enabled;
 	Vec2 Position;	//ミッションの位置
 	int IFF;		//制圧しているIFF(-で無所属を示す)

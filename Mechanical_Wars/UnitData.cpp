@@ -9,8 +9,8 @@ void Unit::setUnitData()
 	switch (Type)
 	{
 	case 0:
-		Supply = 0;
-		Fuel = 0;
+		Supply = 10;
+		Fuel = 10;
 		SupplyMax = 10;
 		FuelMax = 10;
 		SpeedPerformance = 1.0;
@@ -21,7 +21,7 @@ void Unit::setUnitData()
 		break;
 	case 1:
 		Supply = 0;
-		Fuel = 10;
+		Fuel = 0;
 		SupplyMax = 10;
 		FuelMax = 10;
 		SpeedPerformance = 0.3;
@@ -42,8 +42,8 @@ void Unit::setUnitData()
 		break;
 	case 3:	//ï‡ï∫
 		Supply = 0;
-		Fuel = 0;
-		SupplyMax = 10;
+		Fuel = 5;
+		SupplyMax = 5;
 		FuelMax = 0;
 		SpeedPerformance = 0.3;
 		TurningPerformance = 0.1;
@@ -122,8 +122,8 @@ void Unit::drawUnit() const
 		break;
 	case 3:		//ï‡ï∫
 		//ëœãvÉQÅ[ÉW
-		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
-		Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
+		//Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(-HealthPerformance / 2, 20))).draw(3 * getZoom(), Palette::Red);
+		//Line(ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2, 20)), ConvertVec2ToVec2(Position - Vec2(HealthPerformance / 2 - Health, 20))).draw(3 * getZoom(), Palette::Green);
 
 		TextureAsset(L"Soldier").resize(10 * getZoom(), 15 * getZoom()).rotate(Vec2ToRadian(Angle)).draw(ConvertVec2ToPoint(Position - Vec2(5.0, 7.5)));
 		break;
